@@ -10,7 +10,6 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "rmsramos/activitylog": "^1.0",
-        "solution-forest/filament-access-management": "^2.2",
         "stephenjude/filament-debugger": "^3.1"
     },
     "require-dev": {
