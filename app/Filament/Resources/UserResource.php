@@ -51,9 +51,9 @@ class UserResource extends Resource
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                         ->afterStateUpdated(fn (callable $set) => $set('password_confirmation', null))
                         ->dehydrated(fn ($state) => filled($state)),
-                    Select::make('permissions')
+                    Select::make('roles')
                         ->multiple()
-                        ->relationship('permissions', 'name')->preload(),
+                        ->relationship('roles', 'name')->preload(),
                 ])
             ]);
     }
