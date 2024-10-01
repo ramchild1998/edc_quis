@@ -3,13 +3,36 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use App\Models\User;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\Hash;
 
 class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
+        $superadmin = User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@abacusts.id',
+            'password' => Hash::make('12345678'),
+        ]);
+        $adminats = User::factory()->create([
+            'name' => 'Admin ATS',
+            'email' => 'adminats@abacusts.id',
+            'password' => Hash::make('12345678'),
+        ]);
+        $adminbank = User::factory()->create([
+            'name' => 'Admin Bank',
+            'email' => 'adminbank@abacusts.id',
+            'password' => Hash::make('12345678'),
+        ]);
+        $teknisi = User::factory()->create([
+            'name' => 'Teknisi',
+            'email' => 'teknisi@abacusts.id',
+            'password' => Hash::make('12345678'),
+        ]);
+
         // Buat permissions
         $permissions = [
             'User Create', 'User Edit', 'User View',
@@ -46,7 +69,7 @@ class RolePermissionSeeder extends Seeder
             'Poscode Create', 'Poscode Edit', 'Poscode View']));
 
         $admbankRole = Role::create(['name' => 'ADMBANK']);
-        $admbankRole->givePermissionTo(['Reports View']);
+        $admbankRole->givePermissionTo(['Report View']);
 
     }
 }
