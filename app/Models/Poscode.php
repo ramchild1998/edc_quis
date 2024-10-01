@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Poscode extends Model
 {
     use HasFactory;
+
+    protected $table = 'poscode';
+
     protected $fillable = [
             'poscode',
             'subdistrict_id',
