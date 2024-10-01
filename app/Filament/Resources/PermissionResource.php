@@ -11,7 +11,7 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Validation\Rules\Unique;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 
 class PermissionResource extends Resource
 {

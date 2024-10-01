@@ -12,7 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 
 

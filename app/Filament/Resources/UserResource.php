@@ -41,11 +41,10 @@ class UserResource extends Resource
                         ->email()
                         ->required()
                         ->maxLength(255),
-                    DateTimePicker::make('email_verified_at'),
                     TextInput::make('password')
                         ->password()
                         ->revealable()
-                        ->dehydrateStateUsing(fn (string $state, User $record): string => $record->password ? $record->password : Hash::make($state))
+                        ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                         ->dehydrated(fn (?string $state): bool => filled($state))
                         ->required(fn (string $operation): bool => $operation === 'create')
                         ->maxLength(255),
@@ -65,9 +64,6 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label('Role')
                     ->sortable(),
