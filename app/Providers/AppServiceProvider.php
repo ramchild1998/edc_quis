@@ -14,6 +14,11 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
+    protected $policies = [
+
+        'App\Models\User' => 'App\Policies\UserPolicy',
+    ];
+
     /**
      * Bootstrap any application services.
      */

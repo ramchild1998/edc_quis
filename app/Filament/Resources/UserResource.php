@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
@@ -46,11 +44,11 @@ class UserResource extends Resource
                     DateTimePicker::make('email_verified_at'),
                     TextInput::make('password')
                         ->password()
-                        ->required()
-                        ->maxLength(255)
-                        ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                        ->afterStateUpdated(fn (callable $set) => $set('password_confirmation', null))
-                        ->dehydrated(fn ($state) => filled($state)),
+                        ->revealable()
+                        ->dehydrateStateUsing(fn (string $state, User $record): string => $record->password ? $record->password : Hash::make($state))
+                        ->dehydrated(fn (?string $state): bool => filled($state))
+                        ->required(fn (string $operation): bool => $operation === 'create')
+                        ->maxLength(255),
                     Select::make('roles')
                         ->multiple()
                         ->relationship('roles', 'name')->preload(),
@@ -62,6 +60,7 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
