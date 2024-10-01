@@ -171,31 +171,31 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_struk_transaksi')
                         ->required()
                         ->maxSize(2 * 1024 * 1024) // 2MB
-                        ->acceptedFileTypes(['.jpg', '.jpeg']),
+                        ->image(),
                     Forms\Components\FileUpload::make('foto_tampak_depan')
                         ->required()
                         ->maxSize(2 * 1024 * 1024) // 2MB
-                        ->acceptedFileTypes(['.jpg', '.jpeg']),
+                        ->image(),
                     Forms\Components\FileUpload::make('foto_meja_kasir')
                         ->required()
                         ->maxSize(2 * 1024 * 1024) // 2MB
-                        ->acceptedFileTypes(['.jpg', '.jpeg']),
+                        ->image(),
                     Forms\Components\FileUpload::make('foto_qris_statis')
                         ->required()
                         ->maxSize(2 * 1024 * 1024) // 2MB
-                        ->acceptedFileTypes(['jpg', '.jpeg']),
+                        ->image(),
                     Forms\Components\FileUpload::make('foto_selfie_dengan_pemilik')
                         ->required()
                         ->maxSize(2 * 1024 * 1024) // 2MB
-                        ->acceptedFileTypes(['.jpg', '.jpeg']),
+                        ->image(),
                     Forms\Components\FileUpload::make('foto_produk')
                         ->required()
                         ->maxSize(2 * 1024 * 1024) // 2MB
-                        ->acceptedFileTypes(['.jpg', '.jpeg']),
+                        ->image(),
                     Forms\Components\FileUpload::make('screen_capture')
                         ->required()
                         ->maxSize(2 * 1024 * 1024) // 2MB
-                        ->acceptedFileTypes(['.jpg', '.jpeg']),
+                        ->image(),
                     Forms\Components\DatePicker::make('tanggal_submit')
                         ->required(),
                     Forms\Components\TimePicker::make('time_submit')
