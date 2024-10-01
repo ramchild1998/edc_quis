@@ -11,24 +11,42 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         // Buat permissions
-        $permissions = ['view jobs', 'edit jobs', 'delete jobs', 'view jobs', 'manage jobs'];
+        $permissions = [
+            'User Create', 'User Edit', 'User View',
+            'Role Create', 'Role Edit', 'Role View',
+            'Permission Create', 'Permission Edit', 'Permission View',
+            'Qustion Create', 'Question Edit', 'Question View', 'Question Jobs',
+            'Vendor Create', 'Vendor Edit', 'Vendor View',
+            'Office Create', 'Office Edit', 'Office View',
+            'MappingArea Create', 'MappingArea Edit', 'MappingArea View',
+            'Provice Create', 'Provice Edit', 'Provice View',
+            'City Create', 'City Edit', 'City View',
+            'District Create', 'District Edit', 'District View',
+            'Subdistrict Create', 'Subdistrict Edit', 'Subdistrict View',
+            'Poscode Create', 'Poscode Edit', 'Poscode View',
+            'Report View'];
 
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
 
         // Buat role dan assign permissions
-        $vredyRole = Role::create(['name' => 'vredy']);
-        $vredyRole->givePermissionTo($permissions);
+        $suRole = Role::create(['name' => 'SUPERADMIN']);
+        $suRole->givePermissionTo($permissions);
 
-        $jkt001Role = Role::create(['name' => 'JKT001']);
-        $jkt001Role->givePermissionTo(['view jobs']);
+        $teknisiRole = Role::create(['name' => 'TEKNISI']);
+        $teknisiRole->givePermissionTo(['Question Jobs']);
 
-        $admats1Role = Role::create(['name' => 'ADMATS1']);
-        $admats1Role->givePermissionTo($permissions);
+        $admatsRole = Role::create(['name' => 'ADMATS']);
+        $admatsRole->givePermissionTo(array_diff($permissions, [
+            'Provice Create', 'Provice Edit', 'Provice View',
+            'City Create', 'City Edit', 'City View',
+            'District Create', 'District Edit', 'District View',
+            'Subdistrict Create', 'Subdistrict Edit', 'Subdistrict View',
+            'Poscode Create', 'Poscode Edit', 'Poscode View']));
 
-        $admbank1Role = Role::create(['name' => 'ADMBANK1']);
-        $admbank1Role->givePermissionTo(['view jobs', 'edit jobs']);
+        $admbankRole = Role::create(['name' => 'ADMBANK']);
+        $admbankRole->givePermissionTo(['Reports View']);
 
     }
 }
