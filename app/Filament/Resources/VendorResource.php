@@ -6,6 +6,7 @@ use App\Filament\Resources\VendorResource\Pages;
 use App\Filament\Resources\VendorResource\RelationManagers;
 use App\Models\Vendor;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,22 +24,25 @@ class VendorResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('vendor_name')
-                    ->required()
-                    ->maxLength(45),
-                Forms\Components\TextInput::make('pic_name')
-                    ->required()
-                    ->maxLength(45),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(45),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(20),
-                Forms\Components\Toggle::make('status')
-                    ->required(),
+                Card::make()->schema([
+
+                    Forms\Components\TextInput::make('vendor_name')
+                        ->required()
+                        ->maxLength(45),
+                    Forms\Components\TextInput::make('pic_name')
+                        ->required()
+                        ->maxLength(45),
+                    Forms\Components\TextInput::make('email')
+                        ->email()
+                        ->required()
+                        ->maxLength(45),
+                    Forms\Components\TextInput::make('phone')
+                        ->tel()
+                        ->required()
+                        ->maxLength(20),
+                    Forms\Components\Toggle::make('status')
+                        ->required(),
+                ])
             ]);
     }
 

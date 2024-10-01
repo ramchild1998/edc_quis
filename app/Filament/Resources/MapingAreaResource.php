@@ -6,6 +6,7 @@ use App\Filament\Resources\MapingAreaResource\Pages;
 use App\Filament\Resources\MapingAreaResource\RelationManagers;
 use App\Models\MapingArea;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,14 +24,17 @@ class MapingAreaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('area_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('subdistrict_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Toggle::make('status')
-                    ->required(),
+                Card::make() ->schema([
+
+                    Forms\Components\TextInput::make('area_id')
+                        ->required()
+                        ->numeric(),
+                    Forms\Components\TextInput::make('subdistrict_id')
+                        ->required()
+                        ->numeric(),
+                    Forms\Components\Toggle::make('status')
+                        ->required(),
+                ])
             ]);
     }
 
