@@ -10,9 +10,14 @@ class Subdistrict extends Model
     use HasFactory;
 
     protected $fillable = [
-            'subdistrict_name',
-            'district_id',
-        ];
+        'subdistrict_name',
+        'district_id',
+    ];
 
     public $timestamps = false;
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
 }

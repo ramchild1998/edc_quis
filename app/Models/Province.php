@@ -10,9 +10,14 @@ class Province extends Model
     use HasFactory;
 
     protected $fillable = [
-            'province_name',
-            'status',
-        ];
+        'province_name',
+        'status',
+    ];
 
     public $timestamps = false;
+
+    public function cities()
+    {
+        return $this->hasMany(City::class);
+    }
 }
