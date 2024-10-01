@@ -154,46 +154,59 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('fdm_id')
                         ->required()
                         ->maxLength(45),
-                    Forms\Components\TextInput::make('alasan_tidak_bersedia')
+                    Forms\Components\Select::make('alasan_tidak_bersedia')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('mempunyai_edc_bca')
+                        ->options([
+                            'option1' => 'Bersedia',
+                            'option2' => 'Tidak Bersedia',
+                        ]),
+                    Forms\Components\Select::make('mempunyai_edc_bca')
                         ->required()
-                        ->maxLength(255),
+                        ->options([
+                            'option1' => 'Punya',
+                            'option2' => 'Tidak Punya',
+                        ]),
                     Forms\Components\TextInput::make('keterangan_lain')
+                        ->required(),
+                    Forms\Components\FileUpload::make('foto_struk_transaksi')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('foto_struk_transaksi')
+                        ->maxSize(2 * 1024 * 1024) // 2MB
+                        ->acceptedFileTypes(['jpg', 'jpeg']),
+                    Forms\Components\FileUpload::make('foto_tampak_depan')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('foto_tampak_depan')
+                        ->maxSize(2 * 1024 * 1024) // 2MB
+                        ->acceptedFileTypes(['jpg', 'jpeg']),
+                    Forms\Components\FileUpload::make('foto_meja_kasir')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('foto_meja_kasir')
+                        ->maxSize(2 * 1024 * 1024) // 2MB
+                        ->acceptedFileTypes(['jpg', 'jpeg']),
+                    Forms\Components\FileUpload::make('foto_qris_statis')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('foto_qris_statis')
+                        ->maxSize(2 * 1024 * 1024) // 2MB
+                        ->acceptedFileTypes(['jpg', 'jpeg']),
+                    Forms\Components\FileUpload::make('foto_selfie_dengan_pemilik')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('foto_selfie_dengan_pemilik')
+                        ->maxSize(2 * 1024 * 1024) // 2MB
+                        ->acceptedFileTypes(['jpg', 'jpeg']),
+                    Forms\Components\FileUpload::make('foto_produk')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('foto_produk')
+                        ->maxSize(2 * 1024 * 1024) // 2MB
+                        ->acceptedFileTypes(['jpg', 'jpeg']),
+                    Forms\Components\FileUpload::make('screen_capture')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('screen_capture')
-                        ->required()
-                        ->maxLength(255),
+                        ->maxSize(2 * 1024 * 1024) // 2MB
+                        ->acceptedFileTypes(['jpg', 'jpeg']),
                     Forms\Components\DatePicker::make('tanggal_submit')
                         ->required(),
-                    Forms\Components\TextInput::make('time_submit')
+                    Forms\Components\TimePicker::make('time_submit')
                         ->required(),
                     Forms\Components\TextInput::make('nama_surveyor')
                         ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('username')
                         ->required()
-                        ->maxLength(45),
+                        ->default(auth()->user()->name)
+                        ->disabled(),
                     Forms\Components\TextInput::make('upline1')
                         ->required()
                         ->maxLength(45),
