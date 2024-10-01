@@ -27,6 +27,7 @@ class RoleResource extends Resource
 
     protected static ?string $navigationGroup = 'Administrator Only';
 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -84,6 +85,6 @@ class RoleResource extends Resource
     // public static function getEloquentQuery(): Builder
     // {
     //     return parent::getEloquentQuery()
-    //         ->where('name', '!=', 'SuperAdmin');
+    //         ->where('name', '=', 'SUPERADMIN'); // Hanya menampilkan role SuperAdmin
     // }
 }

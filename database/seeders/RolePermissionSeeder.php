@@ -12,6 +12,7 @@ class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
+        // Buat akun
         $superadmin = User::factory()->create([
             'name' => 'Super Admin',
             'email' => 'superadmin@abacusts.id',
@@ -70,6 +71,12 @@ class RolePermissionSeeder extends Seeder
 
         $admbankRole = Role::create(['name' => 'ADMBANK']);
         $admbankRole->givePermissionTo(['Report View']);
+
+        // Assign role
+        $superadmin->assignRole('SUPERADMIN');
+        $adminats->assignRole('ADMATS');
+        $adminbank->assignRole('ADMBANK');
+        $teknisi->assignRole('TEKNISI');
 
     }
 }

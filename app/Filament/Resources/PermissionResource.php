@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Validation\Rules\Unique;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Permission;
 
 class PermissionResource extends Resource
@@ -73,4 +74,10 @@ class PermissionResource extends Resource
             'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
     }
+
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     return parent::getEloquentQuery()
+    //         ->where('name', '=', 'SUPERADMIN'); // Hanya menampilkan role SuperAdmin
+    // }
 }
