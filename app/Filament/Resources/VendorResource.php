@@ -50,6 +50,7 @@ class VendorResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('vendor_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('pic_name')
@@ -60,12 +61,10 @@ class VendorResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('created_by')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('updated_by')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
