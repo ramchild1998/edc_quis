@@ -18,6 +18,7 @@ class Office extends Model
             'pic_name',
             'email',
             'phone',
+            'status',
             'vendor_id',
             'province_id',
             'city_id',

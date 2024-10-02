@@ -18,13 +18,13 @@ class OfficeResource extends Resource
 {
     protected static ?string $model = Office::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-building-office';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Card::make()->schema([
+                Card::make() ->schema([
 
                     Forms\Components\TextInput::make('code_office')
                         ->required()
@@ -47,7 +47,8 @@ class OfficeResource extends Resource
                         ->required()
                         ->maxLength(20),
                     Forms\Components\Toggle::make('status')
-                        ->required(),
+                        ->onColor('success')
+                        ->offColor('danger'),
                     Forms\Components\TextInput::make('vendor_id')
                         ->required()
                         ->numeric(),
@@ -66,6 +67,10 @@ class OfficeResource extends Resource
                     Forms\Components\TextInput::make('poscode_id')
                         ->required()
                         ->numeric(),
+                    Forms\Components\TextInput::make('created_by')
+                        ->hidden(),
+                    Forms\Components\TextInput::make('updated_by')
+                        ->hidden()
                 ])
             ]);
     }
