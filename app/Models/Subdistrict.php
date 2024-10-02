@@ -22,4 +22,9 @@ class Subdistrict extends Model
     {
         return $this->belongsTo(District::class);
     }
+
+    public function poscodes()
+    {
+        return $this->hasMany(Poscode::class);
+    }
 }
