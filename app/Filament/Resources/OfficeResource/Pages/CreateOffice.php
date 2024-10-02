@@ -20,6 +20,7 @@ class CreateOffice extends CreateRecord
         return $data;
     }
 
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['updated_by'] = auth()->id();

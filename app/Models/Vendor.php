@@ -17,6 +17,8 @@ class Vendor extends Model
             'email',
             'phone',
             'status',
+            'created_by',
+            'updated_by',
         ];
 
     public $timestamps = true;

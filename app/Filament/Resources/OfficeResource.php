@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OfficeResource\Pages;
-use App\Filament\Resources\OfficeResource\RelationManagers;
 use App\Models\Office;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
@@ -11,8 +10,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Pages\Actions\CreateAction;
+use Filament\Pages\Actions\EditAction;
+
 
 class OfficeResource extends Resource
 {
@@ -49,28 +49,33 @@ class OfficeResource extends Resource
                     Forms\Components\Toggle::make('status')
                         ->onColor('success')
                         ->offColor('danger'),
-                    Forms\Components\TextInput::make('vendor_id')
-                        ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('province_id')
-                        ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('city_id')
-                        ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('district_id')
-                        ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('subdistrict_id')
-                        ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('poscode_id')
-                        ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('created_by')
-                        ->hidden(),
-                    Forms\Components\TextInput::make('updated_by')
-                        ->hidden()
+                    Forms\Components\Select::make('vendor_id')
+                        ->relationship('vendor', 'vendor_name') // Pastikan 'vendor' adalah nama metode relasi
+                        ->preload()
+                        ->required(),
+                    Forms\Components\Select::make('province_id')
+                        ->relationship('province', 'province_name')->preload()
+                        ->required(),
+                    Forms\Components\Select::make('city_id')
+                        ->relationship('city', 'city_name')->preload()
+                        ->required(),
+                    Forms\Components\Select::make('district_id')
+                        ->relationship('district', 'district_name')->preload()
+                        ->required(),
+                    Forms\Components\Select::make('subdistrict_id')
+                        ->relationship('subdistrict', 'subdistrict_name')->preload()
+                        ->required(),
+                    Forms\Components\Select::make('poscode_id')
+                        ->relationship('poscode', 'poscode')->preload()
+                        ->required(),
+                    // Forms\Components\TextInput::make('created_by')
+                    //     ->required()
+                    //     ->numeric()
+                    //     ->hidden(),
+                    // Forms\Components\TextInput::make('updated_by')
+                    //     ->required()
+                    //     ->numeric()
+                    //     ->hidden(),
                 ])
             ]);
     }

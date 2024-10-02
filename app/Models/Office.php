@@ -25,7 +25,39 @@ class Office extends Model
             'district_id',
             'subdistrict_id',
             'poscode_id',
+            'created_by',
+            'updated_by',
         ];
 
     public $timestamps = true;
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(Province::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function subdistrict()
+    {
+        return $this->belongsTo(Subdistrict::class);
+    }
+
+    public function poscode()
+    {
+        return $this->belongsTo(Poscode::class);
+    }
 }
