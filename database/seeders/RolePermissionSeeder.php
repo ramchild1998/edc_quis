@@ -59,7 +59,7 @@ class RolePermissionSeeder extends Seeder
         $suRole->givePermissionTo($permissions);
 
         $teknisiRole = Role::create(['name' => 'TEKNISI']);
-        $teknisiRole->givePermissionTo(['Visit Create, Visit View']);
+        $teknisiRole->givePermissionTo(['Visit Create', 'Visit View']);
 
         $admatsRole = Role::create(['name' => 'ADMATS']);
         $admatsRole->givePermissionTo(array_diff($permissions, [
