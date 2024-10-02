@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\VisitResource\Pages;
+namespace App\Filament\Teknisi\Resources\VisitResource\Pages;
 
-use App\Filament\Resources\VisitResource;
+use App\Filament\Teknisi\Resources\VisitResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
