@@ -16,7 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Pages\Actions\CreateAction;
 use Filament\Pages\Actions\EditAction;
-
+use Illuminate\Database\Eloquent\Builder;
 
 class OfficeResource extends Resource
 {
@@ -58,7 +58,7 @@ class OfficeResource extends Resource
                         ->preload()
                         ->required(),
                     Forms\Components\Select::make('province_id')
-                        ->relationship('province', 'province_name')
+                        ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
                         ->preload()
                         ->required()
                         ->reactive() // Menambahkan reactive
@@ -69,7 +69,11 @@ class OfficeResource extends Resource
                             $set('poscode_id', null); // Reset poscode_id
                         }),
                     Forms\Components\Select::make('city_id')
-                        ->relationship('city', 'city_name')
+                        ->relationship('city', 'city_name', function (Builder $query, $get) {
+                            $id = $get('province_id');
+                            $query->where('province_id', $id);
+                            $query->orderBy('city_name');
+                        })
                         ->preload()
                         ->required()
                         ->reactive() // Menambahkan reactive
@@ -77,32 +81,40 @@ class OfficeResource extends Resource
                             $set('district_id', null); // Reset district_id
                             $set('subdistrict_id', null); // Reset subdistrict_id
                             $set('poscode_id', null); // Reset poscode_id
-                        })
-                        ->options(fn ($get) => City::where('province_id', $get('province_id'))->pluck('city_name', 'id')),
+                        }),
                     Forms\Components\Select::make('district_id')
-                        ->relationship('district', 'district_name')
+                        ->relationship('district', 'district_name', function (Builder $query, $get) {
+                            $id = $get('city_id');
+                            $query->where('city_id', $id);
+                            $query->orderBy('district_name');
+                        })
                         ->preload()
                         ->required()
                         ->reactive() // Menambahkan reactive
                         ->afterStateUpdated(function (callable $set, $state) {
                             $set('subdistrict_id', null); // Reset subdistrict_id
                             $set('poscode_id', null); // Reset poscode_id
-                        })
-                        ->options(fn ($get) => District::where('city_id', $get('city_id'))->pluck('district_name', 'id')),
+                        }),
                     Forms\Components\Select::make('subdistrict_id')
-                        ->relationship('subdistrict', 'subdistrict_name')
+                        ->relationship('subdistrict', 'subdistrict_name', function(Builder $query, $get) {
+                            $id = $get('district_id');
+                            $query->where('district_id', $id);
+                            $query->orderBy('subdistrict_name');
+                        })
                         ->preload()
                         ->required()
                         ->reactive() // Menambahkan reactive
                         ->afterStateUpdated(function (callable $set, $state) {
                             $set('poscode_id', null); // Reset poscode_id
-                        })
-                        ->options(fn ($get) => Subdistrict::where('district_id', $get('district_id'))->pluck('subdistrict_name', 'id')),
+                        }),
                     Forms\Components\Select::make('poscode_id')
-                        ->relationship('poscodes', 'poscode')
+                        ->relationship('poscode', 'poscode', function(Builder $query, $get) {
+                            $id = $get('subdistrict_id');
+                            $query->where('subdistrict_id', $id);
+                            $query->orderBy('poscode');
+                        })
                         ->preload()
                         ->required()
-                        ->options(fn ($get) => Poscode::where('subdistrict_id', $get('subdistrict_id'))->pluck('poscode', 'id')),
                 ])
             ]);
     }
