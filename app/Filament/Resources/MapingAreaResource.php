@@ -33,6 +33,7 @@ class MapingAreaResource extends Resource
                         ->required()
                         ->numeric(),
                     Forms\Components\Toggle::make('status')
+                        ->default(true)
                         ->required(),
                 ])
             ]);

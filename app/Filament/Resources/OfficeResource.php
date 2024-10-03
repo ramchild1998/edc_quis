@@ -51,6 +51,7 @@ class OfficeResource extends Resource
                         ->required()
                         ->maxLength(20),
                     Forms\Components\Toggle::make('status')
+                        ->default(true)
                         ->onColor('success')
                         ->offColor('danger'),
                     Forms\Components\Select::make('vendor_id')

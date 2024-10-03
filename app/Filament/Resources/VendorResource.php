@@ -41,6 +41,7 @@ class VendorResource extends Resource
                         ->required()
                         ->maxLength(20),
                     Forms\Components\Toggle::make('status')
+                        ->default(true)
                         ->required(),
                 ])
             ]);
