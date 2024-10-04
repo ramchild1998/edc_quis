@@ -88,4 +88,34 @@ class Visit extends Model
     ];
 
     public $timestamps = true;
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(Province::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function subdistrict()
+    {
+        return $this->belongsTo(Subdistrict::class);
+    }
+
+    public function poscode()
+    {
+        return $this->belongsTo(Poscode::class);
+    }
 }

@@ -14,7 +14,19 @@ class Area extends Model
     protected $fillable = [
         'area_name',
         'status',
+        'created_by',
+        'updated_by',
     ];
 
     public $timestamps = true;
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }

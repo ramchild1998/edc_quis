@@ -233,27 +233,71 @@ class VisitResource extends Resource
                         ->maxLength(45),
                     Forms\Components\Toggle::make('status')
                         ->required(),
-                    Forms\Components\TextInput::make('area_id')
+                    Forms\Components\Select::make('area_id')
+                        ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
                         ->required()
-                        ->numeric(),
+                        ->preload(),
                     Forms\Components\TextInput::make('maping_area_id')
                         ->required()
                         ->numeric(),
-                    Forms\Components\TextInput::make('province_id')
+                    Forms\Components\Select::make('province_id')
+                        ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
+                        ->preload()
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('city_id')
+                        ->reactive() // Menambahkan reactive
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $set('city_id', null); // Reset city_id
+                            $set('district_id', null); // Reset district_id
+                            $set('subdistrict_id', null); // Reset subdistrict_id
+                            $set('poscode_id', null); // Reset poscode_id
+                        }),
+                    Forms\Components\Select::make('city_id')
+                        ->relationship('city', 'city_name', function (Builder $query, $get) {
+                            $id = $get('province_id');
+                            $query->where('province_id', $id);
+                            $query->orderBy('city_name');
+                        })
+                        ->preload()
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('district_id')
+                        ->reactive() // Menambahkan reactive
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $set('district_id', null); // Reset district_id
+                            $set('subdistrict_id', null); // Reset subdistrict_id
+                            $set('poscode_id', null); // Reset poscode_id
+                        }),
+                    Forms\Components\Select::make('district_id')
+                        ->relationship('district', 'district_name', function (Builder $query, $get) {
+                            $id = $get('city_id');
+                            $query->where('city_id', $id);
+                            $query->orderBy('district_name');
+                        })
+                        ->preload()
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('subdistrict_id')
+                        ->reactive() // Menambahkan reactive
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $set('subdistrict_id', null); // Reset subdistrict_id
+                            $set('poscode_id', null); // Reset poscode_id
+                        }),
+                    Forms\Components\Select::make('subdistrict_id')
+                        ->relationship('subdistrict', 'subdistrict_name', function(Builder $query, $get) {
+                            $id = $get('district_id');
+                            $query->where('district_id', $id);
+                            $query->orderBy('subdistrict_name');
+                        })
+                        ->preload()
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('poscode_id')
+                        ->reactive() // Menambahkan reactive
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $set('poscode_id', null); // Reset poscode_id
+                        }),
+                    Forms\Components\Select::make('poscode_id')
+                        ->relationship('poscode', 'poscode', function(Builder $query, $get) {
+                            $id = $get('subdistrict_id');
+                            $query->where('subdistrict_id', $id);
+                            $query->orderBy('poscode');
+                        })
+                        ->preload()
                         ->required()
-                        ->numeric(),
                 ])
             ]);
     }
