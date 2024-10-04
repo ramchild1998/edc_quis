@@ -52,16 +52,18 @@ class MapingAreaResource extends Resource
                         })
                         ->reactive()
                         ->afterStateUpdated(function (callable $set, $state) {
-                            // Fetch the selected subdistrict and related province, city, district
+                            // Fetch the selected subdistrict and related province, city, district, and poscode
                             $subdistrict = Subdistrict::find($state);
                             if ($subdistrict) {
                                 $set('province_name', $subdistrict->district->city->province->province_name);
                                 $set('city_name', $subdistrict->district->city->city_name);
                                 $set('district_name', $subdistrict->district->district_name);
+                                $set('poscode', $subdistrict->poscodes()->pluck('poscode')->first());
                             } else {
                                 $set('province_name', null);
                                 $set('city_name', null);
                                 $set('district_name', null);
+                                $set('poscode', null);
                             }
                         }),
 
@@ -86,10 +88,18 @@ class MapingAreaResource extends Resource
                                 ->disabled()
                                 ->dehydrated(false)
                                 ->hint('This field will not be sent to the backend'),
+
+                            Forms\Components\TextInput::make('poscode')
+                                ->label('Postal Code')
+                                ->disabled()
+                                ->dehydrated(false)
+                                ->hint('This field will not be sent to the backend'),
                         ]),
 
-                    Forms\Components\Toggle::make('status')
+                        Forms\Components\Toggle::make('status')
                         ->default(true)
+                        ->onColor('success')
+                        ->offColor('danger')
                         ->required(),
                 ])
             ]);

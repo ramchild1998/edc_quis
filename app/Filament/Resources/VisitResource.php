@@ -232,6 +232,9 @@ class VisitResource extends Resource
                         ->required()
                         ->maxLength(45),
                     Forms\Components\Toggle::make('status')
+                        ->default(true)
+                        ->onColor('success')
+                        ->offColor('danger')
                         ->required(),
                     Forms\Components\Select::make('area_id')
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))

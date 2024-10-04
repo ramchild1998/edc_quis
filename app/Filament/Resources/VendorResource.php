@@ -42,6 +42,8 @@ class VendorResource extends Resource
                         ->maxLength(20),
                     Forms\Components\Toggle::make('status')
                         ->default(true)
+                        ->onColor('success')
+                        ->offColor('danger')
                         ->required(),
                 ])
             ]);

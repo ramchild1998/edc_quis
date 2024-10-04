@@ -31,7 +31,8 @@ class AreaResource extends Resource
                     Forms\Components\Toggle::make('status')
                         ->default(true)
                         ->onColor('success')
-                        ->offColor('danger'),
+                        ->offColor('danger')
+                        ->required(),
                 ])
             ]);
     }
