@@ -43,6 +43,7 @@ class RolePermissionSeeder extends Seeder
             'Vendor Create', 'Vendor Edit', 'Vendor View',
             'Office Create', 'Office Edit', 'Office View',
             'MappingArea Create', 'MappingArea Edit', 'MappingArea View',
+            'Area Create', 'Area Edit', 'Area View',
             'Provice Create', 'Provice Edit', 'Provice View',
             'City Create', 'City Edit', 'City View',
             'District Create', 'District Edit', 'District View',
