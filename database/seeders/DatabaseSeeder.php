@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PoscodeSeeder::class);
         // User::factory(10)->create();
         $this->call(RolePermissionSeeder::class);
+        $this->call(AreaSeeder::class);
     }
 }

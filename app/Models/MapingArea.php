@@ -18,4 +18,14 @@ class MapingArea extends Model
     ];
 
     public $timestamps = false;
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
+    public function subdistrict()
+    {
+        return $this->belongsTo(Subdistrict::class);
+    }
 }
