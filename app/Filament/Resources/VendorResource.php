@@ -64,10 +64,14 @@ class VendorResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
-                // Tables\Columns\TextColumn::make('created_by')
-                //     ->searchable(),
-                // Tables\Columns\TextColumn::make('updated_by')
-                //     ->searchable(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updatedBy.name')
+                    ->label('Updated By')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

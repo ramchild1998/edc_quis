@@ -156,12 +156,14 @@ class OfficeResource extends Resource
                 Tables\Columns\TextColumn::make('poscode_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updatedBy.name')
+                    ->label('Updated By')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

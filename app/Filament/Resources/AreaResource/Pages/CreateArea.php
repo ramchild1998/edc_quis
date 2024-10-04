@@ -19,12 +19,6 @@ class CreateArea extends CreateRecord
         return $data;
     }
 
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        $data['updated_by'] = auth()->id();
-        return $data;
-    }
-
     protected function getCreatedNotification(): ?Notification
     {
         return Notification::make()
