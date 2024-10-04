@@ -20,18 +20,16 @@ class CreateOffice extends CreateRecord
         return $data;
     }
 
-
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        $data['updated_by'] = auth()->id();
-        return $data;
-    }
-
     protected function getCreatedNotification(): ?Notification
     {
         return Notification::make()
             ->success()
             ->title('Office added')
             ->body('The office has been created successfully.');
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }
