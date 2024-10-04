@@ -18,7 +18,7 @@ class AreaSeeder extends Seeder
              ['area_name' => 'Tangerang', 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
              ['area_name' => 'Surabaya', 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()], 
              ['area_name' => 'Bali', 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['area_name' => 'Phoenix', 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['area_name' => 'Bandung', 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
