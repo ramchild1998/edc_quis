@@ -9,7 +9,7 @@ use App\Models\Office;
 use App\Models\Poscode;
 use App\Models\Subdistrict;
 use Filament\Forms;
-use Filament\Infolists\Components\Card;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
