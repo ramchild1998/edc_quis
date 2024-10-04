@@ -32,4 +32,9 @@ class CreateArea extends CreateRecord
             ->title('Area added')
             ->body('The area has been created successfully.');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
