@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -22,6 +23,7 @@ class User extends Authenticatable implements FilamentUser
     protected $fillable = [
         'name',
         'email',
+        'office_id',
         'password',
     ];
 
@@ -65,6 +67,10 @@ class User extends Authenticatable implements FilamentUser
         }
 
         return true;
+    }
+
+    public function office(): BelongsTo{
+        return $this->belongsTo(Office::class);
     }
 
 }

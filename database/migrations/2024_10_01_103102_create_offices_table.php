@@ -32,10 +32,6 @@ return new class extends Migration
             $table->foreign('subdistrict_id')->references('id')->on('subdistrict');
             $table->unsignedInteger('poscode_id');
             $table->foreign('poscode_id')->references('id')->on('poscode');
-            $table->unsignedBigInteger('created_by');
-            $table->foreign('created_by')->references('id')->on('users');
-            $table->unsignedBigInteger('updated_by');
-            $table->foreign('updated_by')->references('id')->on('users');
             $table->timestamps();
         });
     }

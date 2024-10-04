@@ -13,26 +13,10 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         // Buat akun
-        $superadmin = User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@abacusts.id',
-            'password' => Hash::make('12345678'),
-        ]);
-        $adminats = User::factory()->create([
-            'name' => 'Admin ATS',
-            'email' => 'adminats@abacusts.id',
-            'password' => Hash::make('12345678'),
-        ]);
-        $adminbank = User::factory()->create([
-            'name' => 'Admin Bank',
-            'email' => 'adminbank@abacusts.id',
-            'password' => Hash::make('12345678'),
-        ]);
-        $teknisi = User::factory()->create([
-            'name' => 'Teknisi',
-            'email' => 'teknisi@abacusts.id',
-            'password' => Hash::make('12345678'),
-        ]);
+        $superadmin = User::where('name', 'Super Admin')->first();
+        $adminats = User::where('name', 'Admin ATS')->first();
+        $adminbank = User::where('name', 'Admin Bank')->first();
+        $teknisi = User::where('name', 'Teknisi')->first();
 
         // Buat permissions
         $permissions = [

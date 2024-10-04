@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
         $this->call(DistrictSeeder::class);
         $this->call(SubdistrictSeeder::class);
         $this->call(PoscodeSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(VendorSeeder::class);
+        $this->call(OfficeSeeder::class);
         // User::factory(10)->create();
         $this->call(RolePermissionSeeder::class);
         $this->call(AreaSeeder::class);

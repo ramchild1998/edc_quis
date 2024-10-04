@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->unsignedInteger('office_id')->nullable();
+            $table->foreign('office_id')->references('id')->on('office');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
