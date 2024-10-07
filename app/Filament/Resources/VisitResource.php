@@ -154,12 +154,9 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('fdm_id')
                         ->required()
                         ->maxLength(45),
-                    Forms\Components\Select::make('alasan_tidak_bersedia')
+                    Forms\Components\TextInput::make('alasan_tidak_bersedia')
                         ->required()
-                        ->options([
-                            'option1' => 'Bersedia',
-                            'option2' => 'Tidak Bersedia',
-                        ]),
+                        ->maxLength(255),
                     Forms\Components\Select::make('mempunyai_edc_bca')
                         ->required()
                         ->options([
@@ -240,9 +237,16 @@ class VisitResource extends Resource
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
                         ->required()
                         ->preload(),
-                    Forms\Components\TextInput::make('maping_area_id')
+                    Forms\Components\Select::make('maping_area_id')
+                        ->relationship('mapingArea', 'maping_area.id', function (Builder $query, $get) {
+                            $query->select('maping_area.id', 'area_id', 'subdistrict_id')
+                                  ->leftJoin('area', 'maping_area.area_id', '=', 'area.id')
+                                  ->leftJoin('subdistrict', 'maping_area.subdistrict_id', '=', 'subdistrict.id')
+                                  ->addSelect('area.area_name', 'subdistrict.subdistrict_name')
+                                  ->orderBy('subdistrict.subdistrict_name');
+                        })
                         ->required()
-                        ->numeric(),
+                        ->preload(),
                     Forms\Components\Select::make('province_id')
                         ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
                         ->preload()
@@ -403,20 +407,20 @@ class VisitResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('keterangan_lain')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_struk_transaksi')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_tampak_depan')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_meja_kasir')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_qris_statis')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_selfie_dengan_pemilik')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_produk')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('screen_capture')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('foto_struk_transaksi')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_tampak_depan')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_meja_kasir')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_qris_statis')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_selfie_dengan_pemilik')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_produk')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('screen_capture')
+                    ->square(),
                 Tables\Columns\TextColumn::make('tanggal_submit')
                     ->date()
                     ->sortable(),
