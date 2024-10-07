@@ -11,12 +11,12 @@ class EditMapingArea extends EditRecord
 {
     protected static string $resource = MapingAreaResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\DeleteAction::make(),
+    //     ];
+    // }
 
     protected function getRedirectUrl(): string
     {
@@ -29,11 +29,5 @@ class EditMapingArea extends EditRecord
             ->success()
             ->title('Maping Area Edited')
             ->body('The maping area has been edited successfully.');
-    }
-
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        $data['updated_by'] = auth()->id();
-        return $data;
     }
 }

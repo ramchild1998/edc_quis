@@ -10,12 +10,12 @@ class EditArea extends EditRecord
 {
     protected static string $resource = AreaResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\DeleteAction::make(),
+    //     ];
+    // }
 
     protected function mutateFormDataBeforeSave(array $data): array
     {

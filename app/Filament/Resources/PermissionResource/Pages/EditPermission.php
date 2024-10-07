@@ -11,12 +11,12 @@ class EditPermission extends EditRecord
 {
     protected static string $resource = PermissionResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\DeleteAction::make(),
+    //     ];
+    // }
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()
