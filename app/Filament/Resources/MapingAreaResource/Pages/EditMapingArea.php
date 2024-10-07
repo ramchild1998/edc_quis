@@ -30,4 +30,10 @@ class EditMapingArea extends EditRecord
             ->title('Maping Area Edited')
             ->body('The maping area has been edited successfully.');
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['updated_by'] = auth()->id();
+        return $data;
+    }
 }
