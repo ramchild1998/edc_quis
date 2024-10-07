@@ -138,24 +138,24 @@ class OfficeResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('vendor_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('province_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('city_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('district_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('subdistrict_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('poscode_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('vendor.vendor_name')
+                    ->label('Vendor')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('province.province_name')
+                    ->label('Province')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('city.city_name')
+                    ->label('City')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('district.district_name')
+                    ->label('District')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('subdistrict.subdistrict_name')
+                    ->label('Subdistrict')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('poscode.poscode')
+                    ->label('Poscode')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('createdBy.name')
                     ->label('Created By')
                     ->searchable()
