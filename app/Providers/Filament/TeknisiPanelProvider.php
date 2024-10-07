@@ -37,7 +37,7 @@ class TeknisiPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Teknisi/Widgets'), for: 'App\\Filament\\Teknisi\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
