@@ -206,7 +206,7 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('username')
                         ->required()
                         ->default(auth()->user()->name)
-                        ->disabled(),
+                        ->readOnly(),
                     Forms\Components\TextInput::make('upline1')
                         ->required()
                         ->maxLength(45),
