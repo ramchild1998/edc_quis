@@ -59,7 +59,9 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('index')
+                ->label('#')
+                ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')

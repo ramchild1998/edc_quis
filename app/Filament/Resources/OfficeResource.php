@@ -124,6 +124,9 @@ class OfficeResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('index')
+                    ->label('#')
+                    ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                 Tables\Columns\TextColumn::make('code_office')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('office_name')

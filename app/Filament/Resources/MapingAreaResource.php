@@ -112,6 +112,9 @@ class MapingAreaResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('index')
+                    ->label('#')
+                    ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                 Tables\Columns\TextColumn::make('area.area_name')
                     ->label('Area')
                     ->searchable(),
@@ -122,12 +125,12 @@ class MapingAreaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
+            // ->bulkActions([
+            //     Tables\Actions\BulkActionGroup::make([
+            //         Tables\Actions\DeleteBulkAction::make(),
+            //     ]),
+            // ]);
     }
 
     public static function getPages(): array
