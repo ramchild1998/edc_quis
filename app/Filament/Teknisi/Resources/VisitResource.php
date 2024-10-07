@@ -154,12 +154,9 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('fdm_id')
                         ->required()
                         ->maxLength(45),
-                    Forms\Components\Select::make('alasan_tidak_bersedia')
+                    Forms\Components\TextInput::make('alasan_tidak_bersedia')
                         ->required()
-                        ->options([
-                            'option1' => 'Bersedia',
-                            'option2' => 'Tidak Bersedia',
-                        ]),
+                        ->maxLength(255),
                     Forms\Components\Select::make('mempunyai_edc_bca')
                         ->required()
                         ->options([
@@ -206,7 +203,7 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('username')
                         ->required()
                         ->default(auth()->user()->name)
-                        ->disabled(),
+                        ->readOnly(),
                     Forms\Components\TextInput::make('upline1')
                         ->required()
                         ->maxLength(45),
@@ -232,28 +229,82 @@ class VisitResource extends Resource
                         ->required()
                         ->maxLength(45),
                     Forms\Components\Toggle::make('status')
+                        ->default(true)
+                        ->onColor('success')
+                        ->offColor('danger')
                         ->required(),
-                    Forms\Components\TextInput::make('area_id')
+                    Forms\Components\Select::make('area_id')
+                        ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('maping_area_id')
+                        ->preload(),
+                    Forms\Components\Select::make('maping_area_id')
+                        ->relationship('mapingArea', 'maping_area.id', function (Builder $query, $get) {
+                            $query->select('maping_area.id', 'area_id', 'subdistrict_id')
+                                  ->leftJoin('area', 'maping_area.area_id', '=', 'area.id')
+                                  ->leftJoin('subdistrict', 'maping_area.subdistrict_id', '=', 'subdistrict.id')
+                                  ->addSelect('area.area_name', 'subdistrict.subdistrict_name')
+                                  ->orderBy('subdistrict.subdistrict_name');
+                        })
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('province_id')
+                        ->preload(),
+                    Forms\Components\Select::make('province_id')
+                        ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
+                        ->preload()
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('city_id')
+                        ->reactive() // Menambahkan reactive
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $set('city_id', null); // Reset city_id
+                            $set('district_id', null); // Reset district_id
+                            $set('subdistrict_id', null); // Reset subdistrict_id
+                            $set('poscode_id', null); // Reset poscode_id
+                        }),
+                    Forms\Components\Select::make('city_id')
+                        ->relationship('city', 'city_name', function (Builder $query, $get) {
+                            $id = $get('province_id');
+                            $query->where('province_id', $id);
+                            $query->orderBy('city_name');
+                        })
+                        ->preload()
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('district_id')
+                        ->reactive() // Menambahkan reactive
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $set('district_id', null); // Reset district_id
+                            $set('subdistrict_id', null); // Reset subdistrict_id
+                            $set('poscode_id', null); // Reset poscode_id
+                        }),
+                    Forms\Components\Select::make('district_id')
+                        ->relationship('district', 'district_name', function (Builder $query, $get) {
+                            $id = $get('city_id');
+                            $query->where('city_id', $id);
+                            $query->orderBy('district_name');
+                        })
+                        ->preload()
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('subdistrict_id')
+                        ->reactive() // Menambahkan reactive
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $set('subdistrict_id', null); // Reset subdistrict_id
+                            $set('poscode_id', null); // Reset poscode_id
+                        }),
+                    Forms\Components\Select::make('subdistrict_id')
+                        ->relationship('subdistrict', 'subdistrict_name', function(Builder $query, $get) {
+                            $id = $get('district_id');
+                            $query->where('district_id', $id);
+                            $query->orderBy('subdistrict_name');
+                        })
+                        ->preload()
                         ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('poscode_id')
+                        ->reactive() // Menambahkan reactive
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $set('poscode_id', null); // Reset poscode_id
+                        }),
+                    Forms\Components\Select::make('poscode_id')
+                        ->relationship('poscode', 'poscode', function(Builder $query, $get) {
+                            $id = $get('subdistrict_id');
+                            $query->where('subdistrict_id', $id);
+                            $query->orderBy('poscode');
+                        })
+                        ->preload()
                         ->required()
-                        ->numeric(),
                 ])
             ]);
     }
@@ -356,20 +407,20 @@ class VisitResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('keterangan_lain')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_struk_transaksi')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_tampak_depan')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_meja_kasir')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_qris_statis')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_selfie_dengan_pemilik')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto_produk')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('screen_capture')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('foto_struk_transaksi')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_tampak_depan')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_meja_kasir')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_qris_statis')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_selfie_dengan_pemilik')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('foto_produk')
+                    ->square(),
+                Tables\Columns\ImageColumn::make('screen_capture')
+                    ->square(),
                 Tables\Columns\TextColumn::make('tanggal_submit')
                     ->date()
                     ->sortable(),
@@ -396,33 +447,35 @@ class VisitResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('area_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('area.area_name')
+                    ->label('Area')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('maping_area_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('province_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('city_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('district_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('subdistrict_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('poscode_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('province.province_name')
+                    ->label('Province')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('city.city_name')
+                    ->label('City')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('district.district_name')
+                    ->label('District')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('subdistrict.subdistrict_name')
+                    ->label('Subdistrict')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('poscode.poscode')
+                    ->label('Poscode')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updatedBy.name')
+                    ->label('Updated By')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

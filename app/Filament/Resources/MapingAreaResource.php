@@ -25,7 +25,8 @@ class MapingAreaResource extends Resource
             ->schema([
                 Card::make()->schema([
                     Forms\Components\Select::make('area_id')
-                        ->relationship('area', 'area_name') // Pastikan 'vendor' adalah nama metode relasi
+                        ->relationship('area', 'area_name')
+                        ->searchable()
                         ->preload()
                         ->required(),
                     // Select for subdistrict with postal code included
