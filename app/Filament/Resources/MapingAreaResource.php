@@ -24,11 +24,10 @@ class MapingAreaResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-
-                    Forms\Components\TextInput::make('area_id')
-                        ->required()
-                        ->numeric(),
-
+                    Forms\Components\Select::make('area_id')
+                        ->relationship('area', 'area_name') // Pastikan 'vendor' adalah nama metode relasi
+                        ->preload()
+                        ->required(),
                     // Select for subdistrict with postal code included
                     Select::make('subdistrict_id')
                         ->label('Subdistrict')
@@ -109,9 +108,9 @@ class MapingAreaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('area_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('area.area_name')
+                    ->label('Area')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('subdistrict.subdistrict_name')
                     ->sortable(),
                 Tables\Columns\IconColumn::make('status')
