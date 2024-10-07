@@ -13,7 +13,7 @@ class MapingArea extends Model
 
     protected $fillable = [
         'area_id',
-        'subdistrict_id',
+        'sub_area',
         'status',
     ];
 

@@ -15,8 +15,7 @@ return new class extends Migration
             $table->integerIncrements('id')->primary();
             $table->unsignedInteger('area_id');
             $table->foreign('area_id')->references('id')->on('area');
-            $table->unsignedInteger('subdistrict_id');
-            $table->foreign('subdistrict_id')->references('id')->on('subdistrict');
+            $table->string('sub_area');
             $table->boolean('status');
         });
     }
