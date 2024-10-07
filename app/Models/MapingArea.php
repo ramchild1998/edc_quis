@@ -15,9 +15,11 @@ class MapingArea extends Model
         'area_id',
         'sub_area',
         'status',
+        'created_by',
+        'updated_by',
     ];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function area()
     {
