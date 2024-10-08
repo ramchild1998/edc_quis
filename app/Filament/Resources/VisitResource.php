@@ -269,17 +269,36 @@ class VisitResource extends Resource
                         ->onColor('success')
                         ->offColor('danger')
                         ->required(),
-                    Forms\Components\Select::make('area_id')
+                        Forms\Components\Select::make('area_id')
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
-                        ->searchable()
                         ->required()
-                        ->preload(),
+                        ->reactive()  // Tambahkan reactive agar bisa memicu perubahan di Maping Area
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            // Reset pilihan Maping Area saat Area berubah
+                            $set('maping_area_id', null);
+                        }),
+
                     Forms\Components\Select::make('maping_area_id')
-                        ->label('Maping area')
-                        ->options(MapingArea::with('area')->get()->mapWithKeys(function($mapingArea){
-                            return [$mapingArea->id => "{$mapingArea->area->area_name} -> {$mapingArea->sub_area}"];
-                        }))
-                        ->searchable()
+                        ->label('Maping Area')
+                        ->options(function (callable $get) {
+                            // Ambil ID Area yang dipilih
+                            $areaId = $get('area_id');
+
+                            // Pastikan area_id sudah dipilih
+                            if (!$areaId) {
+                                return [];
+                            }
+
+                            // Ambil data maping area yang sesuai dengan area_id
+                            return MapingArea::where('area_id', $areaId)  // Filter berdasarkan area_id yang dipilih
+                                ->get()
+                                ->mapWithKeys(function ($mapingArea) {
+                                    // Gabungkan area_name dengan sub_area sebagai label
+                                    return [
+                                        $mapingArea->id => "{$mapingArea->area->area_name} -> {$mapingArea->sub_area}",
+                                    ];
+                                });
+                        })
                         ->required()
                         ->preload(),
                     Forms\Components\Select::make('province_id')
