@@ -81,6 +81,8 @@ class Visit extends Model
         'status',
         'area_id',
         'maping_area_id',
+        'created_by',
+        'updated_by',
         // 'province_id',
         // 'city_id',
         // 'district_id',
