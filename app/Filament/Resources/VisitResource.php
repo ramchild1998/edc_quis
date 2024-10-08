@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\VisitResource\Pages;
 use App\Filament\Resources\VisitResource\RelationManagers;
+use App\Models\MapingArea;
 use App\Models\Visit;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
@@ -274,11 +275,10 @@ class VisitResource extends Resource
                         ->preload(),
                     Forms\Components\Select::make('maping_area_id')
                         ->relationship('mapingArea', 'maping_area.id', function (Builder $query, $get) {
-                            $query->select('maping_area.id', 'area_id', 'subdistrict_id')
+                            $query->select('maping_area.id', 'area_id', 'sub_area')
                                   ->leftJoin('area', 'maping_area.area_id', '=', 'area.id')
-                                  ->leftJoin('subdistrict', 'maping_area.subdistrict_id', '=', 'subdistrict.id')
-                                  ->addSelect('area.area_name', 'subdistrict.subdistrict_name')
-                                  ->orderBy('subdistrict.subdistrict_name');
+                                  ->addSelect('area.area_name', 'sub_area')
+                                  ->orderBy('sub_area');
                         })
                         ->required()
                         ->preload(),
