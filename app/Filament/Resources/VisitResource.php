@@ -271,15 +271,15 @@ class VisitResource extends Resource
                         ->required(),
                     Forms\Components\Select::make('area_id')
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
+                        ->searchable()
                         ->required()
                         ->preload(),
                     Forms\Components\Select::make('maping_area_id')
-                        ->relationship('mapingArea', 'maping_area.id', function (Builder $query, $get) {
-                            $query->select('maping_area.id', 'area_id', 'sub_area')
-                                  ->leftJoin('area', 'maping_area.area_id', '=', 'area.id')
-                                  ->addSelect('area.area_name', 'sub_area')
-                                  ->orderBy('sub_area');
-                        })
+                        ->label('Maping area')
+                        ->options(MapingArea::with('area')->get()->mapWithKeys(function($mapingArea){
+                            return [$mapingArea->id => "{$mapingArea->area->area_name} -> {$mapingArea->sub_area}"];
+                        }))
+                        ->searchable()
                         ->required()
                         ->preload(),
                     Forms\Components\Select::make('province_id')
