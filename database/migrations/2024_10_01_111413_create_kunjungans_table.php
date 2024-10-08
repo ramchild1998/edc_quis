@@ -83,16 +83,6 @@ return new class extends Migration
             $table->foreign('area_id')->references('id')->on('area');
             $table->unsignedInteger('maping_area_id');
             $table->foreign('maping_area_id')->references('id')->on('maping_area');
-            $table->unsignedInteger('province_id');
-            $table->foreign('province_id')->references('id')->on('province');
-            $table->unsignedInteger('city_id');
-            $table->foreign('city_id')->references('id')->on('city');
-            $table->unsignedInteger('district_id');
-            $table->foreign('district_id')->references('id')->on('district');
-            $table->unsignedInteger('subdistrict_id');
-            $table->foreign('subdistrict_id')->references('id')->on('subdistrict');
-            $table->unsignedInteger('poscode_id');
-            $table->foreign('poscode_id')->references('id')->on('poscode');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by');
