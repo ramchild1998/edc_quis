@@ -47,6 +47,7 @@ class PermissionResource extends Resource
                 TextColumn::make('name')
                 //
             ])
+            ->recordUrl(null)
             ->filters([
                 //
             ])

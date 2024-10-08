@@ -123,6 +123,7 @@ class MapingAreaResource extends Resource
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
             ])
+            ->recordUrl(null)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

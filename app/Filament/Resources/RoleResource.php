@@ -53,6 +53,7 @@ class RoleResource extends Resource
                 TextColumn::make('name')
                 //
             ])
+            ->recordUrl(null)
             ->filters([
                 //
             ])

@@ -61,6 +61,7 @@ class AreaResource extends Resource
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
             ])
+            ->recordUrl(null)
             ->filters([
                 //
             ])
