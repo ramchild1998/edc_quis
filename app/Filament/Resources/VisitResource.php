@@ -269,7 +269,7 @@ class VisitResource extends Resource
                         ->onColor('success')
                         ->offColor('danger')
                         ->required(),
-                        Forms\Components\Select::make('area_id')
+                    Forms\Components\Select::make('area_id')
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
                         ->required()
                         ->reactive()  // Tambahkan reactive agar bisa memicu perubahan di Maping Area
@@ -300,6 +300,7 @@ class VisitResource extends Resource
                                 });
                         })
                         ->required()
+                        ->searchable()
                         ->preload(),
                     Forms\Components\Select::make('province_id')
                         ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))

@@ -4,6 +4,7 @@ namespace App\Filament\Teknisi\Resources;
 
 use App\Filament\Teknisi\Resources\VisitResource\Pages;
 use App\Filament\Teknisi\Resources\VisitResource\RelationManagers;
+use App\Models\MapingArea;
 use App\Models\Visit;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
@@ -271,16 +272,35 @@ class VisitResource extends Resource
                     Forms\Components\Select::make('area_id')
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
                         ->required()
-                        ->preload(),
+                        ->reactive()  // Tambahkan reactive agar bisa memicu perubahan di Maping Area
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            // Reset pilihan Maping Area saat Area berubah
+                            $set('maping_area_id', null);
+                        }),
+
                     Forms\Components\Select::make('maping_area_id')
-                        ->relationship('mapingArea', 'maping_area.id', function (Builder $query, $get) {
-                            $query->select('maping_area.id', 'area_id', 'subdistrict_id')
-                                  ->leftJoin('area', 'maping_area.area_id', '=', 'area.id')
-                                  ->leftJoin('subdistrict', 'maping_area.subdistrict_id', '=', 'subdistrict.id')
-                                  ->addSelect('area.area_name', 'subdistrict.subdistrict_name')
-                                  ->orderBy('subdistrict.subdistrict_name');
+                        ->label('Maping Area')
+                        ->options(function (callable $get) {
+                            // Ambil ID Area yang dipilih
+                            $areaId = $get('area_id');
+
+                            // Pastikan area_id sudah dipilih
+                            if (!$areaId) {
+                                return [];
+                            }
+
+                            // Ambil data maping area yang sesuai dengan area_id
+                            return MapingArea::where('area_id', $areaId)  // Filter berdasarkan area_id yang dipilih
+                                ->get()
+                                ->mapWithKeys(function ($mapingArea) {
+                                    // Gabungkan area_name dengan sub_area sebagai label
+                                    return [
+                                        $mapingArea->id => "{$mapingArea->area->area_name} -> {$mapingArea->sub_area}",
+                                    ];
+                                });
                         })
                         ->required()
+                        ->searchable()
                         ->preload(),
                     Forms\Components\Select::make('province_id')
                         ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
