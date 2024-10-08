@@ -302,64 +302,64 @@ class VisitResource extends Resource
                         ->required()
                         ->searchable()
                         ->preload(),
-                    Forms\Components\Select::make('province_id')
-                        ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
-                        ->preload()
-                        ->required()
-                        ->reactive() // Menambahkan reactive
-                        ->afterStateUpdated(function (callable $set, $state) {
-                            $set('city_id', null); // Reset city_id
-                            $set('district_id', null); // Reset district_id
-                            $set('subdistrict_id', null); // Reset subdistrict_id
-                            $set('poscode_id', null); // Reset poscode_id
-                        }),
-                    Forms\Components\Select::make('city_id')
-                        ->relationship('city', 'city_name', function (Builder $query, $get) {
-                            $id = $get('province_id');
-                            $query->where('province_id', $id);
-                            $query->orderBy('city_name');
-                        })
-                        ->preload()
-                        ->required()
-                        ->reactive() // Menambahkan reactive
-                        ->afterStateUpdated(function (callable $set, $state) {
-                            $set('district_id', null); // Reset district_id
-                            $set('subdistrict_id', null); // Reset subdistrict_id
-                            $set('poscode_id', null); // Reset poscode_id
-                        }),
-                    Forms\Components\Select::make('district_id')
-                        ->relationship('district', 'district_name', function (Builder $query, $get) {
-                            $id = $get('city_id');
-                            $query->where('city_id', $id);
-                            $query->orderBy('district_name');
-                        })
-                        ->preload()
-                        ->required()
-                        ->reactive() // Menambahkan reactive
-                        ->afterStateUpdated(function (callable $set, $state) {
-                            $set('subdistrict_id', null); // Reset subdistrict_id
-                            $set('poscode_id', null); // Reset poscode_id
-                        }),
-                    Forms\Components\Select::make('subdistrict_id')
-                        ->relationship('subdistrict', 'subdistrict_name', function(Builder $query, $get) {
-                            $id = $get('district_id');
-                            $query->where('district_id', $id);
-                            $query->orderBy('subdistrict_name');
-                        })
-                        ->preload()
-                        ->required()
-                        ->reactive() // Menambahkan reactive
-                        ->afterStateUpdated(function (callable $set, $state) {
-                            $set('poscode_id', null); // Reset poscode_id
-                        }),
-                    Forms\Components\Select::make('poscode_id')
-                        ->relationship('poscode', 'poscode', function(Builder $query, $get) {
-                            $id = $get('subdistrict_id');
-                            $query->where('subdistrict_id', $id);
-                            $query->orderBy('poscode');
-                        })
-                        ->preload()
-                        ->required()
+                    // Forms\Components\Select::make('province_id')
+                    //     ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
+                    //     ->preload()
+                    //     ->required()
+                    //     ->reactive() // Menambahkan reactive
+                    //     ->afterStateUpdated(function (callable $set, $state) {
+                    //         $set('city_id', null); // Reset city_id
+                    //         $set('district_id', null); // Reset district_id
+                    //         $set('subdistrict_id', null); // Reset subdistrict_id
+                    //         $set('poscode_id', null); // Reset poscode_id
+                    //     }),
+                    // Forms\Components\Select::make('city_id')
+                    //     ->relationship('city', 'city_name', function (Builder $query, $get) {
+                    //         $id = $get('province_id');
+                    //         $query->where('province_id', $id);
+                    //         $query->orderBy('city_name');
+                    //     })
+                    //     ->preload()
+                    //     ->required()
+                    //     ->reactive() // Menambahkan reactive
+                    //     ->afterStateUpdated(function (callable $set, $state) {
+                    //         $set('district_id', null); // Reset district_id
+                    //         $set('subdistrict_id', null); // Reset subdistrict_id
+                    //         $set('poscode_id', null); // Reset poscode_id
+                    //     }),
+                    // Forms\Components\Select::make('district_id')
+                    //     ->relationship('district', 'district_name', function (Builder $query, $get) {
+                    //         $id = $get('city_id');
+                    //         $query->where('city_id', $id);
+                    //         $query->orderBy('district_name');
+                    //     })
+                    //     ->preload()
+                    //     ->required()
+                    //     ->reactive() // Menambahkan reactive
+                    //     ->afterStateUpdated(function (callable $set, $state) {
+                    //         $set('subdistrict_id', null); // Reset subdistrict_id
+                    //         $set('poscode_id', null); // Reset poscode_id
+                    //     }),
+                    // Forms\Components\Select::make('subdistrict_id')
+                    //     ->relationship('subdistrict', 'subdistrict_name', function(Builder $query, $get) {
+                    //         $id = $get('district_id');
+                    //         $query->where('district_id', $id);
+                    //         $query->orderBy('subdistrict_name');
+                    //     })
+                    //     ->preload()
+                    //     ->required()
+                    //     ->reactive() // Menambahkan reactive
+                    //     ->afterStateUpdated(function (callable $set, $state) {
+                    //         $set('poscode_id', null); // Reset poscode_id
+                    //     }),
+                    // Forms\Components\Select::make('poscode_id')
+                    //     ->relationship('poscode', 'poscode', function(Builder $query, $get) {
+                    //         $id = $get('subdistrict_id');
+                    //         $query->where('subdistrict_id', $id);
+                    //         $query->orderBy('poscode');
+                    //     })
+                    //     ->preload()
+                    //     ->required()
                 ])
             ]);
     }
@@ -511,21 +511,21 @@ class VisitResource extends Resource
                 Tables\Columns\TextColumn::make('maping_area_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('province.province_name')
-                    ->label('Province')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('city.city_name')
-                    ->label('City')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('district.district_name')
-                    ->label('District')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('subdistrict.subdistrict_name')
-                    ->label('Subdistrict')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('poscode.poscode')
-                    ->label('Poscode')
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('province.province_name')
+                //     ->label('Province')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('city.city_name')
+                //     ->label('City')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('district.district_name')
+                //     ->label('District')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('subdistrict.subdistrict_name')
+                //     ->label('Subdistrict')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('poscode.poscode')
+                //     ->label('Poscode')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('createdBy.name')
                     ->label('Created By')
                     ->searchable()

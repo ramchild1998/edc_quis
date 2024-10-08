@@ -81,11 +81,11 @@ class Visit extends Model
         'status',
         'area_id',
         'maping_area_id',
-        'province_id',
-        'city_id',
-        'district_id',
-        'subdistrict_id',
-        'poscode_id',
+        // 'province_id',
+        // 'city_id',
+        // 'district_id',
+        // 'subdistrict_id',
+        // 'poscode_id',
     ];
 
     public $timestamps = true;
@@ -100,30 +100,30 @@ class Visit extends Model
         return $this->belongsTo(MapingArea::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
     }
 
-    public function province()
-    {
-        return $this->belongsTo(Province::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
-    }
+    // public function province()
+    // {
+    //     return $this->belongsTo(Province::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
+    // }
 
-    public function city()
-    {
-        return $this->belongsTo(City::class);
-    }
+    // public function city()
+    // {
+    //     return $this->belongsTo(City::class);
+    // }
 
-    public function district()
-    {
-        return $this->belongsTo(District::class);
-    }
+    // public function district()
+    // {
+    //     return $this->belongsTo(District::class);
+    // }
 
-    public function subdistrict()
-    {
-        return $this->belongsTo(Subdistrict::class);
-    }
+    // public function subdistrict()
+    // {
+    //     return $this->belongsTo(Subdistrict::class);
+    // }
 
-    public function poscode()
-    {
-        return $this->belongsTo(Poscode::class);
-    }
+    // public function poscode()
+    // {
+    //     return $this->belongsTo(Poscode::class);
+    // }
 
     public function createdBy(): BelongsTo
     {
