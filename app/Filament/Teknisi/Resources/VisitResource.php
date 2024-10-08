@@ -50,23 +50,28 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('mall')
                         ->required()
                         ->maxLength(45),
-                    Forms\Components\TextInput::make('apakah_ada_edc')
+                    Forms\Components\Select::make('apakah_ada_edc')
                         ->required()
-                        ->maxLength(10),
+                        ->options([
+                            'option1' => 'Ada',
+                            'option2' => 'Tidak Ada',
+                        ]),
                     Forms\Components\TextInput::make('jumlah_edc')
                         ->required()
                         ->numeric(),
                     Forms\Components\TextInput::make('mid')
                         ->required()
-                        ->maxLength(45),
+                        ->numeric()
+                        ->maxLength(9),
                     Forms\Components\TextInput::make('tid')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(8),
                     Forms\Components\TextInput::make('nama_pemilik')
                         ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('nomor_kontak_pemilik')
                         ->required()
+                        ->tel()
                         ->maxLength(20),
                     Forms\Components\TextInput::make('edc_bank_lain')
                         ->required()
@@ -153,8 +158,9 @@ class VisitResource extends Resource
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('fdm_id')
+                        ->numeric()
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(9),
                     Forms\Components\TextInput::make('alasan_tidak_bersedia')
                         ->required()
                         ->maxLength(255),
@@ -258,14 +264,20 @@ class VisitResource extends Resource
                         ->maxLength(45),
                     Forms\Components\TextInput::make('kota')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Kota Saat ini')
+                        ->hintColor('primary'),
                     Forms\Components\TextInput::make('nip')
                         ->required()
-                        ->maxLength(45),
+                        ->numeric()
+                        ->maxLength(45)
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Nomor Induk Pegawai')
+                        ->hintColor('primary'),
                     Forms\Components\TextInput::make('sales_code')
                         ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('verifikasi_mid')
+                        ->numeric()
                         ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('nomor_referensi')
@@ -398,8 +410,11 @@ class VisitResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mid')
+                    ->numeric()
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tid')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nama_pemilik')
                     ->searchable(),
