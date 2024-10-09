@@ -277,7 +277,6 @@ class VisitResource extends Resource
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Nomor Induk Pegawai')
                         ->hintColor('primary'),
                     Forms\Components\TextInput::make('sales_code')
-                        ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('verifikasi_mid')
                         ->numeric()

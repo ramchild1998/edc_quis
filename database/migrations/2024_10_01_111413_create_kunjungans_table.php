@@ -75,7 +75,7 @@ return new class extends Migration
             $table->string('upline3', 45);
             $table->string('kota', 45);
             $table->string('nip', 45);
-            $table->string('sales_code', 45);
+            $table->string('sales_code', 45)->nullable();
             $table->string('verifikasi_mid', 45);
             $table->string('nomor_referensi', 45);
             $table->boolean('status');

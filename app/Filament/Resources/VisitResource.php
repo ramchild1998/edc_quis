@@ -263,7 +263,6 @@ class VisitResource extends Resource
                         ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('sales_code')
-                        ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('verifikasi_mid')
                         ->required()
