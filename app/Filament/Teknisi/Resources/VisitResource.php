@@ -61,6 +61,7 @@ class VisitResource extends Resource
                         ->numeric(),
                     Forms\Components\TextInput::make('mid')
                         ->required()
+                        ->unique('kunjungan', 'mid')
                         ->numeric()
                         ->maxLength(9),
                     Forms\Components\TextInput::make('tid')

@@ -26,9 +26,9 @@ class VisitResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('order_id')
-                        ->required()
-                        ->maxLength(10),
+                    // Forms\Components\TextInput::make('order_id')
+                    //     ->required()
+                    //     ->maxLength(10),
                     Forms\Components\TextInput::make('nama_usaha')
                         ->required()
                         ->maxLength(45),
@@ -58,10 +58,14 @@ class VisitResource extends Resource
                         ->numeric(),
                     Forms\Components\TextInput::make('mid')
                         ->required()
-                        ->maxLength(45),
+                        ->unique('kunjungan', 'mid')
+                        ->maxLength(9)
+                        ->minLength(9)
+                        ->inputMode('number'),
                     Forms\Components\TextInput::make('tid')
                         ->required()
-                        ->maxLength(45),
+                        ->minLength(8)
+                        ->maxLength(8),
                     Forms\Components\TextInput::make('nama_pemilik')
                         ->required()
                         ->maxLength(45),
@@ -154,7 +158,10 @@ class VisitResource extends Resource
                         ->maxLength(255),
                     Forms\Components\TextInput::make('fdm_id')
                         ->required()
-                        ->maxLength(45),
+                        ->unique('kunjungan', 'fdm_id')
+                        ->maxLength(9)
+                        ->minLength(9)
+                        ->inputMode('number'),
                     Forms\Components\TextInput::make('alasan_tidak_bersedia')
                         ->required()
                         ->maxLength(255),
@@ -371,8 +378,8 @@ class VisitResource extends Resource
                 Tables\Columns\TextColumn::make('index')
                     ->label('#')
                     ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
-                Tables\Columns\TextColumn::make('order_id')
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('order_id')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('nama_usaha')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('key_search')
