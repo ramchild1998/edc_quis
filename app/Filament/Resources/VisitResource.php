@@ -175,8 +175,8 @@ class VisitResource extends Resource
                         ->required(),
                     Forms\Components\FileUpload::make('foto_struk_transaksi')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_struk_transaksi_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -184,8 +184,8 @@ class VisitResource extends Resource
                         ->hintColor('primary'),
                     Forms\Components\FileUpload::make('foto_tampak_depan')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_tampak_depan_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -193,8 +193,8 @@ class VisitResource extends Resource
                         ->hintColor('primary'),
                     Forms\Components\FileUpload::make('foto_meja_kasir')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_meja_kasir_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -202,8 +202,8 @@ class VisitResource extends Resource
                         ->hintColor('primary'),
                     Forms\Components\FileUpload::make('foto_qris_statis')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_qris_statis_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -211,8 +211,8 @@ class VisitResource extends Resource
                         ->hintColor('primary'),
                     Forms\Components\FileUpload::make('foto_selfie_dengan_pemilik')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_selfie_dengan_pemilik_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -220,8 +220,8 @@ class VisitResource extends Resource
                         ->hintColor('primary'),
                     Forms\Components\FileUpload::make('foto_produk')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_produk_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -229,8 +229,8 @@ class VisitResource extends Resource
                         ->hintColor('primary'),
                     Forms\Components\FileUpload::make('screen_capture')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'screen_capture_' . time() . '.' . $file->getClientOriginalExtension();
                         })

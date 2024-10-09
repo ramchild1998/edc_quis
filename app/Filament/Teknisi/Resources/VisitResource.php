@@ -26,9 +26,9 @@ class VisitResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('order_id')
-                        ->required()
-                        ->maxLength(10),
+                    // Forms\Components\TextInput::make('order_id')
+                    //     ->required()
+                    //     ->maxLength(10),
                     Forms\Components\TextInput::make('nama_usaha')
                         ->required()
                         ->maxLength(45),
@@ -62,10 +62,12 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('mid')
                         ->required()
                         ->unique('kunjungan', 'mid')
-                        ->numeric()
-                        ->maxLength(9),
+                        ->maxLength(9)
+                        ->minLength(9)
+                        ->inputMode('number'),
                     Forms\Components\TextInput::make('tid')
                         ->required()
+                        ->minLength(8)
                         ->maxLength(8),
                     Forms\Components\TextInput::make('nama_pemilik')
                         ->required()
@@ -389,8 +391,8 @@ class VisitResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_id')
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('order_id')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('nama_usaha')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('key_search')
