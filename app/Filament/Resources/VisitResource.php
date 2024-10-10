@@ -28,175 +28,244 @@ class VisitResource extends Resource
                 Card::make()->schema([
                     Forms\Components\TextInput::make('order_id')
                         ->required()
-                        ->maxLength(10),
+                        ->maxLength(10)
+                        ->readOnly()
+                        ->default(function () {
+                            // Ambil nilai terakhir dari order_id dan tambahkan 1
+                            $lastOrder = Visit::orderBy('id', 'desc')->first();
+                            $nextOrderNumber = $lastOrder ? intval(substr($lastOrder->order_id, 3)) + 1 : 1;
+                            return 'ORD' . str_pad($nextOrderNumber, 5, '0', STR_PAD_LEFT);
+                        })
+                        ->label('Order ID'),
                     Forms\Components\TextInput::make('nama_usaha')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Nama Usaha'),
                     Forms\Components\TextInput::make('key_search')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Key Search'),
                     Forms\Components\TextInput::make('alamat_usaha')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Alamat Usaha'),
                     Forms\Components\TextInput::make('keterangan_lokasi')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Keterangan Lokasi'),
                     Forms\Components\TextInput::make('nama_lokasi')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Nama Lokasi'),
                     Forms\Components\TextInput::make('alamat_edc_sesuai')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Alamat Edc Sesuai'),
                     Forms\Components\TextInput::make('mall')
                         ->required()
-                        ->maxLength(45),
-                    Forms\Components\TextInput::make('apakah_ada_edc')
+                        ->maxLength(45)
+                        ->label('Mall'),
+                    Forms\Components\Select::make('apakah_ada_edc')
                         ->required()
-                        ->maxLength(10),
+                        ->options([
+                            'option1' => 'Ada',
+                            'option2' => 'Tidak Ada',
+                        ])
+                        ->label('Apakah Ada Edc ?'),
                     Forms\Components\TextInput::make('jumlah_edc')
                         ->required()
-                        ->numeric(),
+                        ->numeric()
+                        ->label('Jumlah Edc'),
                     Forms\Components\TextInput::make('mid')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(9)
+                        ->inputMode('number')
+                        ->unique(Visit::class, 'mid')  // Validasi unik untuk field 'mid'
+                        ->rules(['unique:visits,mid' => 'Data yang anda input sudah ada!'])  // Menampilkan pesan kustom
+                        ->label('MID'),  // Label untuk field
                     Forms\Components\TextInput::make('tid')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(8)
+                        ->label('TID'),
                     Forms\Components\TextInput::make('nama_pemilik')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Nama Pemilik'),
                     Forms\Components\TextInput::make('nomor_kontak_pemilik')
                         ->required()
-                        ->maxLength(20),
+                        ->tel()
+                        ->maxLength(20)
+                        ->label('Nomor Kontak Pemilik'),
                     Forms\Components\TextInput::make('edc_bank_lain')
                         ->required()
-                        ->maxLength(10),
+                        ->maxLength(10)
+                        ->label('Edc Bank Lain'),
                     Forms\Components\TextInput::make('daftar_edc_bank_lain')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Daftar Edc Bank Lain'),
                     Forms\Components\TextInput::make('qris')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Qris'),
                     Forms\Components\TextInput::make('qris_bank')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Qris Bank'),
                     Forms\Components\TextInput::make('cat_edukasi_penggunaan_edc')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Cat Edukasi Penggunaan Edc'),
                     Forms\Components\TextInput::make('cat_sosialisasi_aplikasi')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Cat Sosialisasi Aplikasi'),
                     Forms\Components\TextInput::make('cat_informasi_brand')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Cat Informasi Brand'),
                     Forms\Components\TextInput::make('cat_tes_transaksi')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Cat Tes Transaksi'),
                     Forms\Components\TextInput::make('ken_jaringan')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Jaringan'),
                     Forms\Components\TextInput::make('ken_baterai')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Baterai'),
                     Forms\Components\TextInput::make('ken_adaptor')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Adaptor'),
                     Forms\Components\TextInput::make('ken_tombol')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Tombol'),
                     Forms\Components\TextInput::make('ken_others')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Others'),
                     Forms\Components\TextInput::make('ken_tidak_ada_kendala')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Tidak Ada Kendala'),
                     Forms\Components\TextInput::make('ken_hardware')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Hardware'),
                     Forms\Components\TextInput::make('ken_komunikasi')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Komunikasi'),
                     Forms\Components\TextInput::make('ken_lainnya')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Ken Lainnya'),
                     Forms\Components\TextInput::make('jumlah_kertas')
                         ->required()
-                        ->numeric(),
+                        ->numeric()
+                        ->label('Jumlah Kertas'),
                     Forms\Components\TextInput::make('id_lapor_halo')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Id Lapor Halo'),
                     Forms\Components\TextInput::make('request_tambahan_fasilitas')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Request Tambahan Fasilitas'),
                     Forms\Components\TextInput::make('request_ganti_ke_apos')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Request Ganti Ke Apos'),
                     Forms\Components\TextInput::make('request_tambah_cabang')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Request Tambah Cabang'),
                     Forms\Components\TextInput::make('request_tambah_terminal')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Request Tambah Terminal'),
                     Forms\Components\TextInput::make('request_permintaan_struk')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Request Permintaan Struk'),
                     Forms\Components\TextInput::make('request_others')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Request Others'),
                     Forms\Components\TextInput::make('pengajuan_existing')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Pengajuan Existing'),
                     Forms\Components\TextInput::make('pengajuan_merchant_bca')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Pengajuan Merchant Bca'),
                     Forms\Components\TextInput::make('aplikasi_pendaftaran')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Aplikasi Pendaftaran'),
                     Forms\Components\TextInput::make('fdm_id')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(9)
+                        ->inputMode('number')
+                        ->label('Fdm Id'),
                     Forms\Components\TextInput::make('alasan_tidak_bersedia')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->label('Alasan Tidak Bersedia'),
                     Forms\Components\Select::make('mempunyai_edc_bca')
                         ->required()
                         ->options([
                             'option1' => 'Punya',
                             'option2' => 'Tidak Punya',
-                        ]),
+                        ])
+                        ->label('Mempunyai Edc Bca'),
                     Forms\Components\TextInput::make('keterangan_lain')
-                        ->required(),
+                        ->required()
+                        ->maxLength(255)
+                        ->label('Keterangan Lain'),
                     Forms\Components\FileUpload::make('foto_struk_transaksi')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->optimize('jpg')
+                        ->resize(50)
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_struk_transaksi_' . time() . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary'),
+                        ->hintColor('primary')
+                        ->label('Struk Transaksi'),
                     Forms\Components\FileUpload::make('foto_tampak_depan')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->optimize('jpg')
+                        ->resize(50)
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_tampak_depan_' . time() . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary'),
+                        ->hintColor('primary')
+                        ->label('Tampak Depan'),
                     Forms\Components\FileUpload::make('foto_meja_kasir')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->optimize('jpg')
+                        ->resize(50)
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_meja_kasir_' . time() . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary'),
+                        ->hintColor('primary')
+                        ->label('Meja Kasir'),
                     Forms\Components\FileUpload::make('foto_qris_statis')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->optimize('jpg')
+                        ->resize(50)
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_qris_statis_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -204,71 +273,102 @@ class VisitResource extends Resource
                         ->hintColor('primary'),
                     Forms\Components\FileUpload::make('foto_selfie_dengan_pemilik')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->optimize('jpg')
+                        ->resize(50)
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_selfie_dengan_pemilik_' . time() . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary'),
+                        ->hintColor('primary')
+                        ->label('Selfie Dengan Pemilik'),
                     Forms\Components\FileUpload::make('foto_produk')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->optimize('jpg')
+                        ->resize(50)
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_produk_' . time() . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary'),
+                        ->hintColor('primary')
+                        ->label('Foto Produk'),
                     Forms\Components\FileUpload::make('screen_capture')
                         ->required()
-                        ->maxSize(2 * 1024 * 1024) // 2MB
                         ->image()
+                        ->optimize('jpg')
+                        ->resize(50)
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'screen_capture_' . time() . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary'),
+                        ->hintColor('primary')
+                        ->label('Screen Capture'),
                     Forms\Components\DatePicker::make('tanggal_submit')
-                        ->required(),
+                        ->required()
+                        ->label('Tanggal Submit'),
                     Forms\Components\TimePicker::make('time_submit')
-                        ->required(),
+                        ->required()
+                        ->label('Waktu Submit'),
                     Forms\Components\TextInput::make('nama_surveyor')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Nama Surveyor'),
                     Forms\Components\TextInput::make('username')
                         ->required()
                         ->default(auth()->user()->name)
-                        ->readOnly(),
+                        ->readOnly()
+                        ->label('Username'),
                     Forms\Components\TextInput::make('upline1')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Upline 1'),
                     Forms\Components\TextInput::make('upline2')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Upline 2'),
                     Forms\Components\TextInput::make('upline3')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->label('Upline 3'),
                     Forms\Components\TextInput::make('kota')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Kota Saat ini')
+                        ->hintColor('primary')
+                        ->label('Kota'),
                     Forms\Components\TextInput::make('nip')
                         ->required()
-                        ->maxLength(45),
+                        ->numeric()
+                        ->maxLength(45)
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Nomor Induk Pegawai')
+                        ->hintColor('primary')
+                        ->label('NIP'),
                     Forms\Components\TextInput::make('sales_code')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Sales Code')
+                        ->hintColor('primary')
+                        ->label('Sales Code'),
                     Forms\Components\TextInput::make('verifikasi_mid')
+                        ->numeric()
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Verifikasi Mid')
+                        ->hintColor('primary')
+                        ->label('Verifikasi Mid'),
                     Forms\Components\TextInput::make('nomor_referensi')
                         ->required()
-                        ->maxLength(45),
+                        ->maxLength(45)
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Nomor Referensi')
+                        ->hintColor('primary')
+                        ->label('Nomor Referensi'),
                     Forms\Components\Toggle::make('status')
                         ->default(true)
                         ->onColor('success')
                         ->offColor('danger')
-                        ->required(),
+                        ->required()
+                        ->label('Status'),
                     Forms\Components\Select::make('area_id')
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
                         ->required()
@@ -276,7 +376,9 @@ class VisitResource extends Resource
                         ->afterStateUpdated(function (callable $set, $state) {
                             // Reset pilihan Maping Area saat Area berubah
                             $set('maping_area_id', null);
-                        }),
+                        })
+                        ->label('Area')
+                        ->searchable(),
 
                     Forms\Components\Select::make('maping_area_id')
                         ->label('Maping Area')
@@ -301,7 +403,9 @@ class VisitResource extends Resource
                         })
                         ->required()
                         ->searchable()
-                        ->preload(),
+                        ->preload()
+                        ->label('Maping Area'),
+
                     // Forms\Components\Select::make('province_id')
                     //     ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
                     //     ->preload()
@@ -368,9 +472,6 @@ class VisitResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('index')
-                    ->label('#')
-                    ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                 Tables\Columns\TextColumn::make('order_id')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nama_usaha')
@@ -393,8 +494,11 @@ class VisitResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mid')
+                    ->numeric()
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tid')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nama_pemilik')
                     ->searchable(),
@@ -546,15 +650,15 @@ class VisitResource extends Resource
             ->recordUrl(null)
             ->filters([
                 //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    // Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
+            // ->actions([
+            //     Tables\Actions\EditAction::make(),
+            // ])
+            // ->bulkActions([
+            //     Tables\Actions\BulkActionGroup::make([
+            //         Tables\Actions\DeleteBulkAction::make(),
+            //     ]),
+            // ]);
     }
 
     public static function getRelations(): array
