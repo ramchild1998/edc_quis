@@ -74,7 +74,7 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('mid')
                         ->required()
                         ->maxLength(9)
-                        ->inputMode('numeric')
+                        ->inputMode('number')
                         ->unique(Visit::class, 'mid')  // Validasi unik untuk field 'mid'
                         ->label('MID')
                         ->validationAttribute('MID')  // Untuk menampilkan nama atribut yang benar di pesan error
