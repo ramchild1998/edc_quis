@@ -11,6 +11,13 @@ class CreateVisit extends CreateRecord
 {
     protected static string $resource = VisitResource::class;
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['created_by'] = auth()->id();
+        $data['updated_by'] = auth()->id();
+        return $data;
+    }
+
     protected function getCreatedNotification(): ?Notification
     {
         return Notification::make()

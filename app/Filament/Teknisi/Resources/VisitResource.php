@@ -472,8 +472,8 @@ class VisitResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_id')
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('order_id')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('nama_usaha')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('key_search')

@@ -26,6 +26,12 @@ class EditVisit extends EditRecord
             ->body('The visit has been edited successfully.');
     }
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['updated_by'] = auth()->id();
+        return $data;
+    }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

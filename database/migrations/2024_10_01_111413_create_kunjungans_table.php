@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kunjungan', function (Blueprint $table) {
             $table->integerIncrements('id')->primary();
-            $table->string('order_id', 10);
+            // $table->string('order_id', 10);
             $table->string('nama_usaha', 45);
             $table->string('key_search');
             $table->string('alamat_usaha');
@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('mall', 45);
             $table->string('apakah_ada_edc', 10);
             $table->unsignedInteger('jumlah_edc');
-            $table->string('mid', 45);
-            $table->string('tid', 45);
+            $table->char('mid', 9)->unique();
+            $table->char('tid', 8);
             $table->string('nama_pemilik', 45);
             $table->string('nomor_kontak_pemilik', 20);
             $table->string('edc_bank_lain', 10);
@@ -55,7 +55,7 @@ return new class extends Migration
             $table->string('pengajuan_existing');
             $table->string('pengajuan_merchant_bca');
             $table->string('aplikasi_pendaftaran');
-            $table->string('fdm_id', 45);
+            $table->char('fdm_id', 9);
             $table->string('alasan_tidak_bersedia');
             $table->string('mempunyai_edc_bca');
             $table->string('keterangan_lain');
@@ -75,7 +75,7 @@ return new class extends Migration
             $table->string('upline3', 45);
             $table->string('kota', 45);
             $table->string('nip', 45);
-            $table->string('sales_code', 45);
+            $table->string('sales_code', 45)->nullable();
             $table->string('verifikasi_mid', 45);
             $table->string('nomor_referensi', 45);
             $table->boolean('status');
