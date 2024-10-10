@@ -308,12 +308,6 @@ class VisitResource extends Resource
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary')
                         ->label('Screen Capture'),
-                    Forms\Components\DatePicker::make('tanggal_submit')
-                        ->required()
-                        ->label('Tanggal Submit'),
-                    Forms\Components\TimePicker::make('time_submit')
-                        ->required()
-                        ->label('Waktu Submit'),
                     Forms\Components\TextInput::make('nama_surveyor')
                         ->required()
                         ->maxLength(45)
