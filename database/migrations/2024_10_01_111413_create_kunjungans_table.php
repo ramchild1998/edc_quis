@@ -78,8 +78,8 @@ return new class extends Migration
             $table->string('sales_code', 45)->nullable();
             $table->string('verifikasi_mid', 45);
             $table->string('nomor_referensi', 45);
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
+            // $table->decimal('latitude', 10, 8)->nullable();
+            // $table->decimal('longitude', 11, 8)->nullable();
             $table->boolean('status');
             $table->unsignedInteger('area_id');
             $table->foreign('area_id')->references('id')->on('area');
