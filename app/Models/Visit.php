@@ -13,7 +13,7 @@ class Visit extends Model
     protected $table = 'kunjungan';
 
     protected $fillable = [
-        // 'order_id',
+        'order_id',
         'nama_usaha',
         'key_search',
         'alamat_usaha',

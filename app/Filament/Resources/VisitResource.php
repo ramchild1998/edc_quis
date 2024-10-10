@@ -26,17 +26,11 @@ class VisitResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('order_id')
-                        ->required()
-                        ->maxLength(10)
-                        ->readOnly()
-                        ->default(function () {
-                            // Ambil nilai terakhir dari order_id dan tambahkan 1
-                            $lastOrder = Visit::orderBy('id', 'desc')->first();
-                            $nextOrderNumber = $lastOrder ? intval(substr($lastOrder->order_id, 3)) + 1 : 1;
-                            return 'ORD' . str_pad($nextOrderNumber, 5, '0', STR_PAD_LEFT);
-                        })
-                        ->label('Order ID'),
+                    // Forms\Components\TextInput::make('order_id')
+                    //     ->required()
+                    //     ->maxLength(10)
+                    //     ->readonly()
+                    //     ->label('Order ID'),
                     Forms\Components\TextInput::make('nama_usaha')
                         ->required()
                         ->maxLength(45)
@@ -79,10 +73,13 @@ class VisitResource extends Resource
                     Forms\Components\TextInput::make('mid')
                         ->required()
                         ->maxLength(9)
-                        ->inputMode('number')
+                        ->inputMode('numeric')
                         ->unique(Visit::class, 'mid')  // Validasi unik untuk field 'mid'
-                        ->rules(['unique:visits,mid' => 'Data yang anda input sudah ada!'])  // Menampilkan pesan kustom
-                        ->label('MID'),  // Label untuk field
+                        ->label('MID')
+                        ->validationAttribute('MID')  // Untuk menampilkan nama atribut yang benar di pesan error
+                        ->rules([
+                            'unique:kunjungan,mid',  // Menentukan aturan validasi unik
+                        ]),
                     Forms\Components\TextInput::make('tid')
                         ->required()
                         ->maxLength(8)
@@ -93,7 +90,6 @@ class VisitResource extends Resource
                         ->label('Nama Pemilik'),
                     Forms\Components\TextInput::make('nomor_kontak_pemilik')
                         ->required()
-                        ->tel()
                         ->maxLength(20)
                         ->label('Nomor Kontak Pemilik'),
                     Forms\Components\TextInput::make('edc_bank_lain')
@@ -371,7 +367,8 @@ class VisitResource extends Resource
                             $set('maping_area_id', null);
                         })
                         ->label('Area')
-                        ->searchable(),
+                        ->searchable()
+                        ->preload(),
 
                     Forms\Components\Select::make('maping_area_id')
                         ->label('Maping Area')
