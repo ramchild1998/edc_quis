@@ -26,7 +26,6 @@ class VisitResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-<<<<<<< HEAD
                     Forms\Components\TextInput::make('order_id')
                         ->required()
                         ->maxLength(10)
@@ -38,11 +37,6 @@ class VisitResource extends Resource
                             return 'ORD' . str_pad($nextOrderNumber, 5, '0', STR_PAD_LEFT);
                         })
                         ->label('Order ID'),
-=======
-                    // Forms\Components\TextInput::make('order_id')
-                    //     ->required()
-                    //     ->maxLength(10),
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                     Forms\Components\TextInput::make('nama_usaha')
                         ->required()
                         ->maxLength(45)
@@ -84,7 +78,6 @@ class VisitResource extends Resource
                         ->label('Jumlah Edc'),
                     Forms\Components\TextInput::make('mid')
                         ->required()
-<<<<<<< HEAD
                         ->maxLength(9)
                         ->inputMode('number')
                         ->unique(Visit::class, 'mid')  // Validasi unik untuk field 'mid'
@@ -94,16 +87,6 @@ class VisitResource extends Resource
                         ->required()
                         ->maxLength(8)
                         ->label('TID'),
-=======
-                        ->unique('kunjungan', 'mid')
-                        ->maxLength(9)
-                        ->minLength(9)
-                        ->inputMode('number'),
-                    Forms\Components\TextInput::make('tid')
-                        ->required()
-                        ->minLength(8)
-                        ->maxLength(8),
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                     Forms\Components\TextInput::make('nama_pemilik')
                         ->required()
                         ->maxLength(45)
@@ -227,16 +210,9 @@ class VisitResource extends Resource
                         ->label('Aplikasi Pendaftaran'),
                     Forms\Components\TextInput::make('fdm_id')
                         ->required()
-<<<<<<< HEAD
                         ->maxLength(9)
                         ->inputMode('number')
                         ->label('Fdm Id'),
-=======
-                        ->unique('kunjungan', 'fdm_id')
-                        ->maxLength(9)
-                        ->minLength(9)
-                        ->inputMode('number'),
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                     Forms\Components\TextInput::make('alasan_tidak_bersedia')
                         ->required()
                         ->maxLength(255)
@@ -255,12 +231,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_struk_transaksi')
                         ->required()
                         ->image()
-<<<<<<< HEAD
-                        ->optimize('jpg')
-                        ->resize(50)
-=======
                         ->maxSize(2 * 1024) // 2MB
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_struk_transaksi_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -270,12 +241,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_tampak_depan')
                         ->required()
                         ->image()
-<<<<<<< HEAD
-                        ->optimize('jpg')
-                        ->resize(50)
-=======
                         ->maxSize(2 * 1024) // 2MB
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_tampak_depan_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -285,12 +251,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_meja_kasir')
                         ->required()
                         ->image()
-<<<<<<< HEAD
-                        ->optimize('jpg')
-                        ->resize(50)
-=======
                         ->maxSize(2 * 1024) // 2MB
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_meja_kasir_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -300,12 +261,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_qris_statis')
                         ->required()
                         ->image()
-<<<<<<< HEAD
-                        ->optimize('jpg')
-                        ->resize(50)
-=======
                         ->maxSize(2 * 1024) // 2MB
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_qris_statis_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -314,12 +270,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_selfie_dengan_pemilik')
                         ->required()
                         ->image()
-<<<<<<< HEAD
-                        ->optimize('jpg')
-                        ->resize(50)
-=======
                         ->maxSize(2 * 1024) // 2MB
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_selfie_dengan_pemilik_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -329,12 +280,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_produk')
                         ->required()
                         ->image()
-<<<<<<< HEAD
-                        ->optimize('jpg')
-                        ->resize(50)
-=======
                         ->maxSize(2 * 1024) // 2MB
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'foto_produk_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -344,12 +290,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('screen_capture')
                         ->required()
                         ->image()
-<<<<<<< HEAD
-                        ->optimize('jpg')
-                        ->resize(50)
-=======
                         ->maxSize(2 * 1024) // 2MB
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             return 'screen_capture_' . time() . '.' . $file->getClientOriginalExtension();
                         })
@@ -397,15 +338,11 @@ class VisitResource extends Resource
                         ->hintColor('primary')
                         ->label('NIP'),
                     Forms\Components\TextInput::make('sales_code')
-<<<<<<< HEAD
                         ->required()
                         ->maxLength(45)
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Sales Code')
                         ->hintColor('primary')
                         ->label('Sales Code'),
-=======
-                        ->maxLength(45),
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
                     Forms\Components\TextInput::make('verifikasi_mid')
                         ->numeric()
                         ->required()
@@ -528,16 +465,11 @@ class VisitResource extends Resource
     {
         return $table
             ->columns([
-<<<<<<< HEAD
-                Tables\Columns\TextColumn::make('order_id')
-                    ->searchable(),
-=======
                 Tables\Columns\TextColumn::make('index')
                     ->label('#')
                     ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
-                // Tables\Columns\TextColumn::make('order_id')
-                //     ->searchable(),
->>>>>>> cdea596f47a1327848f5914248d610f08a241c83
+                Tables\Columns\TextColumn::make('order_id')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('nama_usaha')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('key_search')
