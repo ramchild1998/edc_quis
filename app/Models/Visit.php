@@ -78,6 +78,8 @@ class Visit extends Model
         'sales_code',
         'verifikasi_mid',
         'nomor_referensi',
+        'latitude',
+        'longitude',
         'status',
         'area_id',
         'maping_area_id',
