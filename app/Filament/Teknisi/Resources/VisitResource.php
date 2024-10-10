@@ -76,8 +76,11 @@ class VisitResource extends Resource
                         ->maxLength(9)
                         ->inputMode('number')
                         ->unique(Visit::class, 'mid')  // Validasi unik untuk field 'mid'
-                        ->rules(['unique:visits,mid' => 'Data yang anda input sudah ada!'])  // Menampilkan pesan kustom
-                        ->label('MID'),  // Label untuk field
+                        ->label('MID')
+                        ->validationAttribute('MID')  // Untuk menampilkan nama atribut yang benar di pesan error
+                        ->rules([
+                            'unique:kunjungan,mid',  // Menentukan aturan validasi unik
+                        ]),
                     Forms\Components\TextInput::make('tid')
                         ->required()
                         ->maxLength(8)
@@ -305,6 +308,12 @@ class VisitResource extends Resource
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary')
                         ->label('Screen Capture'),
+                    Forms\Components\DatePicker::make('tanggal_submit')
+                        ->required()
+                        ->label('Tanggal Submit'),
+                    Forms\Components\TimePicker::make('time_submit')
+                        ->required()
+                        ->label('Waktu Submit'),
                     Forms\Components\TextInput::make('nama_surveyor')
                         ->required()
                         ->maxLength(45)
@@ -364,20 +373,20 @@ class VisitResource extends Resource
                         ->offColor('danger')
                         ->required()
                         ->label('Status'),
-                    Forms\Components\TextInput::make('latitude')
-                        ->required()
-                        ->label('Latitude')
-                        ->inputMode('decimal') // Mengatur mode input ke decimal
-                        ->numeric() // Memastikan bahwa hanya angka yang diizinkan
-                        ->rules(['numeric']) // Menambahkan validasi agar hanya menerima nilai numerik
-                        ->placeholder('Contoh: -6.200000'), // Menambahkan placeholder jika diperlukan
-                    Forms\Components\TextInput::make('longitude')
-                        ->required()
-                        ->label('Longitude')
-                        ->inputMode('decimal') // Mengatur mode input ke decimal
-                        ->numeric() // Memastikan bahwa hanya angka yang diizinkan
-                        ->rules(['numeric']) // Menambahkan validasi agar hanya menerima nilai numerik
-                        ->placeholder('Contoh: 106.816666'), // Menambahkan placeholder jika diperlukan
+                    // Forms\Components\TextInput::make('latitude')
+                    //     ->required()
+                    //     ->label('Latitude')
+                    //     ->inputMode('decimal') // Mengatur mode input ke decimal
+                    //     ->numeric() // Memastikan bahwa hanya angka yang diizinkan
+                    //     ->rules(['numeric']) // Menambahkan validasi agar hanya menerima nilai numerik
+                    //     ->placeholder('Contoh: -6.200000'), // Menambahkan placeholder jika diperlukan
+                    // Forms\Components\TextInput::make('longitude')
+                    //     ->required()
+                    //     ->label('Longitude')
+                    //     ->inputMode('decimal') // Mengatur mode input ke decimal
+                    //     ->numeric() // Memastikan bahwa hanya angka yang diizinkan
+                    //     ->rules(['numeric']) // Menambahkan validasi agar hanya menerima nilai numerik
+                    //     ->placeholder('Contoh: 106.816666'), // Menambahkan placeholder jika diperlukan
                     Forms\Components\Select::make('area_id')
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
                         ->required()
