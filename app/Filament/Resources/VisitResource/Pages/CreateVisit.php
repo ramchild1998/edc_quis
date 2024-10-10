@@ -4,6 +4,7 @@ namespace App\Filament\Resources\VisitResource\Pages;
 
 use App\Filament\Resources\VisitResource;
 use App\Models\Visit;
+use Carbon\Carbon;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Notifications\Notification;
@@ -30,6 +31,8 @@ class CreateVisit extends CreateRecord
         \Log::info('Generated Order ID: ' . $data['order_id']); // Log generated Order ID
         $data['created_by'] = auth()->id();
         $data['updated_by'] = auth()->id();
+        $data['tanggal_submit'] = Carbon::today();
+        $data['time_submit'] = Carbon::now()->format('H:i:s');
         $data['status'] = true;
         return $data;
     }
