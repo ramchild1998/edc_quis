@@ -372,6 +372,20 @@ class VisitResource extends Resource
                         ->offColor('danger')
                         ->required()
                         ->label('Status'),
+                    Forms\Components\TextInput::make('latitude')
+                        ->required()
+                        ->label('Latitude')
+                        ->inputMode('decimal') // Mengatur mode input ke decimal
+                        ->numeric() // Memastikan bahwa hanya angka yang diizinkan
+                        ->rules(['numeric']) // Menambahkan validasi agar hanya menerima nilai numerik
+                        ->placeholder('Contoh: -6.200000'), // Menambahkan placeholder jika diperlukan
+                    Forms\Components\TextInput::make('longitude')
+                        ->required()
+                        ->label('Longitude')
+                        ->inputMode('decimal') // Mengatur mode input ke decimal
+                        ->numeric() // Memastikan bahwa hanya angka yang diizinkan
+                        ->rules(['numeric']) // Menambahkan validasi agar hanya menerima nilai numerik
+                        ->placeholder('Contoh: 106.816666'), // Menambahkan placeholder jika diperlukan
                     Forms\Components\Select::make('area_id')
                         ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
                         ->required()
