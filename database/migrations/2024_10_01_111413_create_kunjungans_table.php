@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kunjungan', function (Blueprint $table) {
             $table->integerIncrements('id')->primary();
-            // $table->string('order_id', 10);
+            $table->string('order_id', 10);
             $table->string('nama_usaha', 45);
             $table->string('key_search');
             $table->string('alamat_usaha');
