@@ -63,8 +63,8 @@ class VisitResource extends Resource
                     Forms\Components\Select::make('apakah_ada_edc')
                         ->required()
                         ->options([
-                            'option1' => 'Ada',
-                            'option2' => 'Tidak Ada',
+                            'Ada' => 'Ada',
+                            'Tidak Ada' => 'Tidak Ada',
                         ])
                         ->label('Apakah Ada Edc ?'),
                     Forms\Components\TextInput::make('jumlah_edc')
@@ -217,8 +217,8 @@ class VisitResource extends Resource
                     Forms\Components\Select::make('mempunyai_edc_bca')
                         ->required()
                         ->options([
-                            'option1' => 'Punya',
-                            'option2' => 'Tidak Punya',
+                            'Punya' => 'Punya',
+                            'Tidak Punya' => 'Tidak Punya',
                         ])
                         ->label('Mempunyai Edc Bca'),
                     Forms\Components\TextInput::make('keterangan_lain')
