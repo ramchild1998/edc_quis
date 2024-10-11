@@ -226,13 +226,18 @@ class VisitResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->label('Keterangan Lain'),
-                        Forms\Components\FileUpload::make('foto_struk_transaksi')
+                    Forms\Components\FileUpload::make('foto_struk_transaksi')
                         ->required()
                         ->image()
                         // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                        ->getUploadedFileNameForStorageUsing(function ($file, $record) {
+                            static $fileCounter = 0; // Counter untuk mengatur urutan file
+                            $fileCounter++; // Increment counter setiap kali file di-upload
+
                             $userName = str_replace(' ', '_', Auth::user()->name); // Ganti spasi dengan underscore
-                            return 'foto_struk_transaksi_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            $orderId = $record->order_id; // Mengambil order_id dari model (record)
+
+                            return 'foto_struk_transaksi_' . $orderId . '_' . $userName . '_' . $fileCounter . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary')
@@ -241,10 +246,12 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_tampak_depan')
                         ->required()
                         ->image()
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_tampak_depan_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        ->getUploadedFileNameForStorageUsing(function ($file, $record) {
+                            static $fileCounter = 0; // Counter untuk urutan file
+                            $fileCounter++; // Increment counter untuk setiap file
+                            $userName = str_replace(' ', '_', Auth::user()->name); // Ganti spasi dengan underscore
+                            $orderId = $record->order_id; // Mengambil order_id dari model (record)
+                            return 'foto_tampak_depan_' . $orderId . '_' . $userName . '_' . $fileCounter . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary')
@@ -253,10 +260,12 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_meja_kasir')
                         ->required()
                         ->image()
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                        ->getUploadedFileNameForStorageUsing(function ($file, $record) {
+                            static $fileCounter = 0;
+                            $fileCounter++;
                             $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_meja_kasir_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            $orderId = $record->order_id;
+                            return 'foto_meja_kasir_' . $orderId . '_' . $userName . '_' . $fileCounter . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary')
@@ -265,10 +274,12 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_qris_statis')
                         ->required()
                         ->image()
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                        ->getUploadedFileNameForStorageUsing(function ($file, $record) {
+                            static $fileCounter = 0;
+                            $fileCounter++;
                             $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_qris_statis_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            $orderId = $record->order_id;
+                            return 'foto_qris_statis_' . $orderId . '_' . $userName . '_' . $fileCounter . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary'),
@@ -276,10 +287,12 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_selfie_dengan_pemilik')
                         ->required()
                         ->image()
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                        ->getUploadedFileNameForStorageUsing(function ($file, $record) {
+                            static $fileCounter = 0;
+                            $fileCounter++;
                             $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_selfie_dengan_pemilik_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            $orderId = $record->order_id;
+                            return 'foto_selfie_dengan_pemilik_' . $orderId . '_' . $userName . '_' . $fileCounter . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary')
@@ -288,10 +301,12 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_produk')
                         ->required()
                         ->image()
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                        ->getUploadedFileNameForStorageUsing(function ($file, $record) {
+                            static $fileCounter = 0;
+                            $fileCounter++;
                             $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_produk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            $orderId = $record->order_id;
+                            return 'foto_produk_' . $orderId . '_' . $userName . '_' . $fileCounter . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary')
@@ -300,14 +315,17 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('screen_capture')
                         ->required()
                         ->image()
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                        ->getUploadedFileNameForStorageUsing(function ($file, $record) {
+                            static $fileCounter = 0;
+                            $fileCounter++;
                             $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'screen_capture_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            $orderId = $record->order_id;
+                            return 'screen_capture_' . $orderId . '_' . $userName . '_' . $fileCounter . '.' . $file->getClientOriginalExtension();
                         })
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                         ->hintColor('primary')
                         ->label('Screen Capture'),
+
                     Forms\Components\TextInput::make('nama_surveyor')
                         ->required()
                         ->maxLength(45)
