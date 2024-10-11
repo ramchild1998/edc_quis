@@ -4,6 +4,7 @@ namespace App\Filament\Teknisi\Resources\VisitResource\Pages;
 
 use App\Filament\Teknisi\Resources\VisitResource;
 use App\Models\Visit;
+use Carbon\Carbon;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
@@ -29,6 +30,8 @@ class CreateVisit extends CreateRecord
         $data['order_id'] = $tahun . $bulan . str_pad($nextOrderNumber, 6, '0', STR_PAD_LEFT);
         $data['created_by'] = auth()->id();
         $data['updated_by'] = auth()->id();
+        $data['tanggal_submit'] = Carbon::today();
+        $data['time_submit'] = Carbon::now()->format('H:i:s');
         $data['status'] = true;
         return $data;
     }

@@ -228,7 +228,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_struk_transaksi')
                         ->required()
                         ->image()
-                        ->maxSize(2 * 1024) // 2MB
+                        // ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             $userName = str_replace(' ', '_', Auth::user()->name); // Ganti spasi dengan underscore
                             return 'foto_struk_transaksi_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -240,7 +240,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_tampak_depan')
                         ->required()
                         ->image()
-                        ->maxSize(2 * 1024) // 2MB
+                        // ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             $userName = str_replace(' ', '_', Auth::user()->name);
                             return 'foto_tampak_depan_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -252,7 +252,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_meja_kasir')
                         ->required()
                         ->image()
-                        ->maxSize(2 * 1024) // 2MB
+                        // ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             $userName = str_replace(' ', '_', Auth::user()->name);
                             return 'foto_meja_kasir_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -264,7 +264,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_qris_statis')
                         ->required()
                         ->image()
-                        ->maxSize(2 * 1024) // 2MB
+                        // ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             $userName = str_replace(' ', '_', Auth::user()->name);
                             return 'foto_qris_statis_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -275,7 +275,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_selfie_dengan_pemilik')
                         ->required()
                         ->image()
-                        ->maxSize(2 * 1024) // 2MB
+                        // ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             $userName = str_replace(' ', '_', Auth::user()->name);
                             return 'foto_selfie_dengan_pemilik_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -287,7 +287,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('foto_produk')
                         ->required()
                         ->image()
-                        ->maxSize(2 * 1024) // 2MB
+                        // ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             $userName = str_replace(' ', '_', Auth::user()->name);
                             return 'foto_produk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -299,7 +299,7 @@ class VisitResource extends Resource
                     Forms\Components\FileUpload::make('screen_capture')
                         ->required()
                         ->image()
-                        ->maxSize(2 * 1024) // 2MB
+                        // ->maxSize(2 * 1024) // 2MB
                         ->getUploadedFileNameForStorageUsing(function ($file) {
                             $userName = str_replace(' ', '_', Auth::user()->name);
                             return 'screen_capture_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
