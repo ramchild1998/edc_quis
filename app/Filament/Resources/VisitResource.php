@@ -309,12 +309,12 @@ class VisitResource extends Resource
                         ->label('Screen Capture'),
                     Forms\Components\TextInput::make('nama_surveyor')
                         ->required()
-                        ->maxLength(45)
+                        ->default(auth()->user()->name)
+                        ->readOnly()
                         ->label('Nama Surveyor'),
                     Forms\Components\TextInput::make('username')
                         ->required()
-                        ->default(auth()->user()->name)
-                        ->readOnly()
+                        ->maxLength(45)
                         ->label('Username'),
                     Forms\Components\TextInput::make('upline1')
                         ->required()
