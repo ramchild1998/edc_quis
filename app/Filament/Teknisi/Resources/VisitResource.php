@@ -396,7 +396,8 @@ class VisitResource extends Resource
                             $set('maping_area_id', null);
                         })
                         ->label('Area')
-                        ->searchable(),
+                        ->searchable()
+                        ->preload(),
 
                     Forms\Components\Select::make('maping_area_id')
                         ->label('Maping Area')
