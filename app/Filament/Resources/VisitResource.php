@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Illuminate\Support\Facades\Auth;
 use App\Filament\Resources\VisitResource\Pages;
 use App\Filament\Resources\VisitResource\RelationManagers;
 use App\Models\MapingArea;
@@ -358,26 +359,119 @@ class VisitResource extends Resource
                             ->maxLength(255),
                     ])->columns(2),
 
-                    Forms\Components\Section::make('Informasi Merchant Potensial')
+                    Forms\Components\Section::make('Bukti Kunjungan')
                     ->schema([
-                        Forms\Components\TextInput::make('foto_struk')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('foto_tampak_depan')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('foto_meja_kasir')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('foto_qris_statis')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('foto_selfie')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('foto_produk')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('screen_capture')
-                            ->maxLength(255),
-                        Forms\Components\DatePicker::make('tanggal_submit')
-                            ->required(),
-                        Forms\Components\TextInput::make('waktu_submit')
-                            ->required(),
+
+                    Forms\Components\FileUpload::make('foto_struk')
+                        ->required()
+                        ->image()
+                        ->extraAttributes([
+                            'accept' => 'image/*', // Membatasi hanya file gambar
+                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                        ])
+                        // ->maxSize(2 * 1024) // 2MB
+                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                            $userName = str_replace(' ', '_', Auth::user()->name); // Ganti spasi dengan underscore
+                            return 'foto_struk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        })
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                        ->hintColor('primary')
+                        ->label('Struk Transaksi'),
+
+                    Forms\Components\FileUpload::make('foto_tampak_depan')
+                        ->required()
+                        ->image()
+                        ->extraAttributes([
+                            'accept' => 'image/*', // Membatasi hanya file gambar
+                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                        ])
+                        // ->maxSize(2 * 1024) // 2MB
+                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                            $userName = str_replace(' ', '_', Auth::user()->name);
+                            return 'foto_tampak_depan_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        })
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                        ->hintColor('primary')
+                        ->label('Tampak Depan'),
+
+                    Forms\Components\FileUpload::make('foto_meja_kasir')
+                        ->required()
+                        ->image()
+                        ->extraAttributes([
+                            'accept' => 'image/*', // Membatasi hanya file gambar
+                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                        ])
+                        // ->maxSize(2 * 1024) // 2MB
+                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                            $userName = str_replace(' ', '_', Auth::user()->name);
+                            return 'foto_meja_kasir_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        })
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                        ->hintColor('primary')
+                        ->label('Meja Kasir'),
+
+                    Forms\Components\FileUpload::make('foto_qris_statis')
+                        ->required()
+                        ->image()
+                        ->extraAttributes([
+                            'accept' => 'image/*', // Membatasi hanya file gambar
+                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                        ])
+                        // ->maxSize(2 * 1024) // 2MB
+                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                            $userName = str_replace(' ', '_', Auth::user()->name);
+                            return 'foto_qris_statis_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        })
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                        ->hintColor('primary')
+                        ->label('Foto QRIS Statis'),
+
+                    Forms\Components\FileUpload::make('foto_selfie')
+                        ->required()
+                        ->image()
+                        ->extraAttributes([
+                            'accept' => 'image/*', // Membatasi hanya file gambar
+                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                        ])
+                        // ->maxSize(2 * 1024) // 2MB
+                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                            $userName = str_replace(' ', '_', Auth::user()->name);
+                            return 'foto_selfie_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        })
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                        ->hintColor('primary')
+                        ->label('Foto Selfie Dengan Pemilik'),
+
+                    Forms\Components\FileUpload::make('foto_produk')
+                        ->required()
+                        ->image()
+                        ->extraAttributes([
+                            'accept' => 'image/*', // Membatasi hanya file gambar
+                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                        ])
+                        // ->maxSize(2 * 1024) // 2MB
+                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                            $userName = str_replace(' ', '_', Auth::user()->name);
+                            return 'foto_produk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        })
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                        ->hintColor('primary')
+                        ->label('Foto Produk'),
+
+                    Forms\Components\FileUpload::make('screen_capture')
+                        ->required()
+                        ->image()
+                        ->extraAttributes([
+                            'accept' => 'image/*', // Membatasi hanya file gambar
+                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                        ])
+                        ->getUploadedFileNameForStorageUsing(function ($file) {
+                            $userName = str_replace(' ', '_', Auth::user()->name);
+                            return 'screen_capture_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        })
+                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                        ->hintColor('primary')
+                        ->label('Screen Capture'),
                         Forms\Components\TextInput::make('nama_surveyor')
                             ->required()
                             ->default(auth()->user()->name)
@@ -386,8 +480,9 @@ class VisitResource extends Resource
                         Forms\Components\TextInput::make('upline1')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('sales_code')
-                            ->maxLength(15),
-                    ])->columns(2),
+                            ->maxLength(15)
+                            ->label('Sales Code'),
+                    ])->columns(1),
 
                     // Forms\Components\TextInput::make('lat')
                     //     ->numeric(),
