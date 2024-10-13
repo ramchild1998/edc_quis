@@ -95,6 +95,7 @@ class VisitResource extends Resource
                                 ->maxLength(100)
                                 ->label('Nama Lokasi'),
 
+
                             Forms\Components\Select::make('keterangan_lokasi')
                                 ->label('Keterangan Lokasi')
                                 ->options([
@@ -104,29 +105,21 @@ class VisitResource extends Resource
                                     'Lainnya' => 'Lainnya',
                                 ])
                                 ->reactive()
-                                ->afterStateUpdated(function (callable $set, $get, $state) {
-                                    // Jika "Lainnya" dipilih, kosongkan keterangan_lokasi_lainnya untuk input baru
-                                    if ($state === 'Lainnya') {
-                                        $set('keterangan_lokasi_lainnya', ''); // Reset field untuk opsi lainnya
-                                    } else {
-                                        $set('keterangan_lokasi_lainnya', null); // Atur field lainnya menjadi null jika opsi lain dipilih
+                                ->afterStateUpdated(function (callable $set, $state) {
+                                    if ($state !== 'Lainnya') {
+                                        $set('keterangan_lokasi_lainnya', null);
                                     }
                                 })
                                 ->searchable()
                                 ->preload()
                                 ->placeholder('Pilih opsi'),
 
-                            // Input untuk Opsi Lainnya
                             Forms\Components\TextInput::make('keterangan_lokasi_lainnya')
-                                ->label('Opsi Lainnya')
+                                ->label('Opsi Keterangan Lokasi Lainnya')
                                 ->placeholder('Masukkan opsi lainnya')
                                 ->maxLength(22)
-                                ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya') // Hanya tampil jika "Lainnya" dipilih
-                                ->reactive()
-                                ->afterStateUpdated(function (callable $set, $get, $state) {
-                                    // Simpan nilai 'keterangan_lokasi_lainnya' ke dalam 'keterangan_lokasi' saat diinput
-                                    $set('keterangan_lokasi', $state); // Set keterangan_lokasi dengan nilai dari input lainnya
-                                }),
+                                ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya')
+                                ->reactive(),
 
                             Forms\Components\Select::make('province_id')
                                 ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
