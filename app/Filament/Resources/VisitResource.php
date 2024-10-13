@@ -38,7 +38,11 @@ class VisitResource extends Resource
                         ->schema([
                             Forms\Components\Select::make('vendor_id')
                                 ->relationship('vendor', 'vendor_name', fn(Builder $query) => $query->orderBy('vendor_name'))
-                                ->required(),
+                                ->required()
+                                ->preload()
+                                ->label('Vendor')
+                                ->searchable()
+                                ->placeholder('Pilih opsi'),
                             // Forms\Components\Select::make('area_id')
                             //     ->relationship('area', 'id')
                             //     ->required(),
@@ -53,9 +57,13 @@ class VisitResource extends Resource
                                     // Reset pilihan Maping Area saat Area berubah
                                     $set('maping_area_id', null);
                                 })
-                                ->label('Area')
+                                ->label('Area ID')
                                 ->searchable()
-                                ->preload(),
+                                ->preload()
+                                ->placeholder('Pilih opsi')
+                                ->hint('Pilih area terlebih dahulu')
+                                ->hintColor('danger')
+                                ->hintIcon('heroicon-o-information-circle'),
 
                             Forms\Components\Select::make('maping_area_id')
                                 ->label('Maping Area')
@@ -81,23 +89,62 @@ class VisitResource extends Resource
                                 ->required()
                                 ->searchable()
                                 ->preload()
-                                ->label('Maping Area'),
+                                ->placeholder('Pilih opsi')
+                                ->label('Location ID'),
                             Forms\Components\TextInput::make('nama_lokasi')
-                                ->maxLength(100),
-                            Forms\Components\TextInput::make('keterangan_lokasi')
-                                ->maxLength(22),
+                                ->maxLength(100)
+                                ->label('Nama Lokasi'),
+
+                            Forms\Components\Select::make('keterangan_lokasi')
+                                ->label('Keterangan Lokasi')
+                                ->options([
+                                    'Pertokoan' => 'Pertokoan',
+                                    'Ruko' => 'Ruko',
+                                    'Pasar' => 'Pasar',
+                                    'Lainnya' => 'Lainnya',
+                                ])
+                                ->reactive()
+                                ->afterStateUpdated(function (callable $set, $get, $state) {
+                                    // Jika "Lainnya" dipilih, kosongkan keterangan_lokasi_lainnya untuk input baru
+                                    if ($state === 'Lainnya') {
+                                        $set('keterangan_lokasi_lainnya', ''); // Reset field untuk opsi lainnya
+                                    } else {
+                                        $set('keterangan_lokasi_lainnya', null); // Atur field lainnya menjadi null jika opsi lain dipilih
+                                    }
+                                })
+                                ->searchable()
+                                ->preload()
+                                ->placeholder('Pilih opsi'),
+
+                            // Input untuk Opsi Lainnya
+                            Forms\Components\TextInput::make('keterangan_lokasi_lainnya')
+                                ->label('Opsi Lainnya')
+                                ->placeholder('Masukkan opsi lainnya')
+                                ->maxLength(22)
+                                ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya') // Hanya tampil jika "Lainnya" dipilih
+                                ->reactive()
+                                ->afterStateUpdated(function (callable $set, $get, $state) {
+                                    // Simpan nilai 'keterangan_lokasi_lainnya' ke dalam 'keterangan_lokasi' saat diinput
+                                    $set('keterangan_lokasi', $state); // Set keterangan_lokasi dengan nilai dari input lainnya
+                                }),
 
                             Forms\Components\Select::make('province_id')
                                 ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
                                 ->preload()
                                 ->required()
+                                ->placeholder('Pilih opsi')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('city_id', null); // Reset city_id
                                     $set('district_id', null); // Reset district_id
                                     $set('subdistrict_id', null); // Reset subdistrict_id
                                     $set('poscode_id', null); // Reset poscode_id
-                                }),
+                                })
+                                ->searchable()
+                                ->label('Provinsi')
+                                ->hint('Pilih provinsi terlebih dahulu')
+                                ->hintColor('danger')
+                                ->hintIcon('heroicon-o-information-circle'),
                             Forms\Components\Select::make('city_id')
                                 ->relationship('city', 'city_name', function (Builder $query, $get) {
                                     $id = $get('province_id');
@@ -106,12 +153,15 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
+                                ->placeholder('Pilih opsi')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('district_id', null); // Reset district_id
                                     $set('subdistrict_id', null); // Reset subdistrict_id
                                     $set('poscode_id', null); // Reset poscode_id
-                                }),
+                                })
+                                ->searchable()
+                                ->label('Kota'),
                             Forms\Components\Select::make('district_id')
                                 ->relationship('district', 'district_name', function (Builder $query, $get) {
                                     $id = $get('city_id');
@@ -120,11 +170,14 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
+                                ->placeholder('Pilih opsi')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('subdistrict_id', null); // Reset subdistrict_id
                                     $set('poscode_id', null); // Reset poscode_id
-                                }),
+                                })
+                                ->searchable()
+                                ->label('Kecamatan'),
                             Forms\Components\Select::make('subdistrict_id')
                                 ->relationship('subdistrict', 'subdistrict_name', function(Builder $query, $get) {
                                     $id = $get('district_id');
@@ -133,10 +186,13 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
+                                ->placeholder('Pilih opsi')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('poscode_id', null); // Reset poscode_id
-                                }),
+                                })
+                                ->searchable()
+                                ->label('Kelurahan'),
                             Forms\Components\Select::make('poscode_id')
                                 ->relationship('poscode', 'poscode', function(Builder $query, $get) {
                                     $id = $get('subdistrict_id');
@@ -145,6 +201,9 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
+                                ->placeholder('Pilih opsi')
+                                ->searchable()
+                                ->label('Kode Pos'),
                         ])
                         ->columns(2),
 
@@ -249,7 +308,9 @@ class VisitResource extends Resource
                             ->required(),
                         Forms\Components\TextInput::make('nama_surveyor')
                             ->required()
-                            ->maxLength(255),
+                            ->default(auth()->user()->name)
+                            ->readOnly()
+                            ->label('Nama Surveyor'),
                         Forms\Components\TextInput::make('upline1')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('sales_code')

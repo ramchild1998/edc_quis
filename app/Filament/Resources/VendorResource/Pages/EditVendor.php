@@ -11,13 +11,6 @@ class EditVendor extends EditRecord
 {
     protected static string $resource = VendorResource::class;
 
-    // protected function getHeaderActions(): array
-    // {
-    //     return [
-    //         Actions\DeleteAction::make(),
-    //     ];
-    // }
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['updated_by'] = auth()->id();
@@ -30,6 +23,11 @@ class EditVendor extends EditRecord
             ->success()
             ->title('Vendor Edited')
             ->body('The vendor has been edited successfully.');
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 
 }

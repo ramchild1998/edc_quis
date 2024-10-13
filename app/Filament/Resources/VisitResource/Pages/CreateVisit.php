@@ -6,6 +6,7 @@ use App\Filament\Resources\VisitResource;
 use App\Models\Visit;
 use Carbon\Carbon;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateVisit extends CreateRecord
@@ -36,5 +37,18 @@ class CreateVisit extends CreateRecord
         $data['lat'] = 0;
         $data['long'] = 0;
         return $data;
+    }
+
+    protected function getCreatedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Visit added')
+            ->body('The visit has been created successfully.');
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }
