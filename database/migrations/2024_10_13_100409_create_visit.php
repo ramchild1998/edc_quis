@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('visit', function (Blueprint $table) {
             // Area Category
             $table->integerIncrements('id');
-            $table->char('visit_id', 10);
+            $table->char('id_visit', 10);
             $table->unsignedInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendor');
             $table->unsignedInteger('area_id');
             $table->unsignedInteger('location_id');
             $table->string('nama_lokasi', 100)->nullable();
@@ -23,10 +24,15 @@ return new class extends Migration
             $table->string('nama_usaha', 100);
             $table->string('alamat_usaha');
             $table->unsignedInteger('province_id');
+            $table->foreign('province_id')->references('id')->on('province');
             $table->unsignedInteger('city_id');
+            $table->foreign('city_id')->references('id')->on('city');
             $table->unsignedInteger('district_id');
+            $table->foreign('district_id')->references('id')->on('district');
             $table->unsignedInteger('subdistrict_id');
+            $table->foreign('subdistrict_id')->references('id')->on('subdistrict');
             $table->unsignedInteger('poscode_id');
+            $table->foreign('poscode_id')->references('id')->on('poscode');
 
             // Merchant Infromation Category
             $table->char('mid', 9)->nullable();
@@ -76,8 +82,10 @@ return new class extends Migration
             // Tambahan
             $table->decimal('lat', 10, 8)->nullable();
             $table->decimal('long', 11, 8)->nullable();
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->unsignedBigInteger('created_by');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->unsignedBigInteger('updated_by');
+            $table->foreign('updated_by')->references('id')->on('users');
             $table->timestamps();
         });
     }
