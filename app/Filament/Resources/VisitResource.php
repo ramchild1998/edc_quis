@@ -44,7 +44,7 @@ class VisitResource extends Resource
                                 ->preload()
                                 ->label('Vendor')
                                 ->searchable()
-                                ->placeholder('Pilih opsi'),
+                                ->placeholder('Pilih vendor'),
                             // Forms\Components\Select::make('area_id')
                             //     ->relationship('area', 'id')
                             //     ->required(),
@@ -59,10 +59,10 @@ class VisitResource extends Resource
                                     // Reset pilihan Maping Area saat Area berubah
                                     $set('maping_area_id', null);
                                 })
-                                ->label('Area ID')
+                                ->label('Area')
                                 ->searchable()
                                 ->preload()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih area')
                                 ->hint('Pilih area terlebih dahulu')
                                 ->hintColor('danger')
                                 ->hintIcon('heroicon-o-information-circle'),
@@ -91,8 +91,8 @@ class VisitResource extends Resource
                                 ->required()
                                 ->searchable()
                                 ->preload()
-                                ->placeholder('Pilih opsi')
-                                ->label('Location ID'),
+                                ->placeholder('Pilih location')
+                                ->label('Location'),
                             Forms\Components\TextInput::make('nama_lokasi')
                                 ->maxLength(100)
                                 ->label('Nama Lokasi'),
@@ -114,7 +114,7 @@ class VisitResource extends Resource
                                 })
                                 ->searchable()
                                 ->preload()
-                                ->placeholder('Pilih opsi'),
+                                ->placeholder('Pilih keterangan lokasi'),
 
                             Forms\Components\TextInput::make('keterangan_lokasi_lainnya')
                                 ->label('Opsi Keterangan Lokasi Lainnya')
@@ -127,7 +127,7 @@ class VisitResource extends Resource
                                 ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih provinsi')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('city_id', null); // Reset city_id
@@ -148,7 +148,7 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih kota')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('district_id', null); // Reset district_id
@@ -165,7 +165,7 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih kecamatan')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('subdistrict_id', null); // Reset subdistrict_id
@@ -181,7 +181,7 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih kelurahan')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('poscode_id', null); // Reset poscode_id
@@ -196,16 +196,17 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih kode pos')
                                 ->searchable()
                                 ->label('Kode Pos'),
                         ])
-                        ->columns(2),
+                        ->columns(1),
 
                     Forms\Components\Section::make('Informasi Merchant')
                     ->schema([
 
                         Forms\Components\TextInput::make('mid')
+                        ->label('MID')
                         ->maxLength(9)
                         ->label('MID')
                         ->hint('9 Digit')
@@ -340,24 +341,31 @@ class VisitResource extends Resource
                         Forms\Components\TextInput::make('id_lapor_halo')
                             ->label('ID Lapor Halo')
                             ->maxLength(8),
-                    ])->columns(2),
+                    ])->columns(1),
 
                     Forms\Components\Section::make('Informasi Merchant Potensial')
                     ->schema([
                         Forms\Components\TextInput::make('pengajuan_merchant')
-                            ->maxLength(15),
+                            ->maxLength(15)
+                            ->label('Pengajuan Merchant'),
                         Forms\Components\TextInput::make('aplikasi_pendaftaran')
+                            ->label('Aplikasi Pendaftaran')
                             ->maxLength(25),
                         Forms\Components\TextInput::make('fdm_id')
+                            ->label('FDM ID')
                             ->maxLength(7),
                         Forms\Components\TextInput::make('alasan_tidak_bersedia')
+                            ->label('Alasan Tidak Bersedia')
                             ->maxLength(50),
-                        Forms\Components\Toggle::make('mempunyai_edc'),
+                        Forms\Components\Toggle::make('mempunyai_edc')
+                            ->label('Mempunyai EDC'),
                         Forms\Components\TextInput::make('keterangan_lain')
+                            ->label('Keterangan Lain')
                             ->maxLength(50),
                         Forms\Components\TextInput::make('nomor_referensi')
+                            ->label('Nomor Referensi')
                             ->maxLength(255),
-                    ])->columns(2),
+                    ])->columns(1),
 
                     Forms\Components\Section::make('Bukti Kunjungan')
                     ->schema([
