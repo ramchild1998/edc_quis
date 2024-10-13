@@ -18,7 +18,10 @@ return new class extends Migration
             $table->unsignedInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('vendor');
             $table->unsignedInteger('area_id');
-            $table->unsignedInteger('location_id');
+            $table->foreign('area_id')->references('id')->on('area');
+            $table->unsignedInteger('maping_area_id');
+            $table->foreign('maping_area_id')->references('id')->on('maping_area');
+            // $table->unsignedInteger('location_id');
             $table->string('nama_lokasi', 100)->nullable();
             $table->string('keterangan_lokasi', 22)->nullable();
             $table->string('nama_usaha', 100);
