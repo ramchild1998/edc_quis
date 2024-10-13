@@ -6,6 +6,7 @@ use App\Filament\Resources\VisitResource\Pages;
 use App\Filament\Resources\VisitResource\RelationManagers;
 use App\Models\MapingArea;
 use App\Models\Visit;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
@@ -205,6 +206,8 @@ class VisitResource extends Resource
 
                         Forms\Components\TextInput::make('mid')
                         ->maxLength(9)
+                        ->label('MID')
+                        ->hint('9 Digit')
                         ->suffixAction(
                             Forms\Components\Actions\Action::make('check')
                                 ->label('Check')
@@ -227,38 +230,114 @@ class VisitResource extends Resource
                                     }
                                 })
                         ),
-                        Forms\Components\Textarea::make('tid')
-                            ->columnSpanFull(),
+
+                        Forms\Components\TagsInput::make('tid')
+                        ->label('TID')
+                        ->separator(',')
+                        ->splitKeys(['Tab', 'Enter', ','])
+                        ->placeholder('Masukkan TID dan tekan Enter atau Tab')
+                        ->columnSpanFull()
+                        ->helperText('Masukkan beberapa TID dipisahkan dengan koma. Setiap TID maksimal 8 digit. Contoh: C0141271, C0141272, C0141273')
+                        ->formatStateUsing(function ($state) {
+                            if (is_string($state)) {
+                                return explode(', ', $state);
+                            }
+                            return $state;
+                        })
+                        ->formatStateUsing(function ($state) {
+                            if (is_array($state)) {
+                                return implode(', ', $state);
+                            }
+                            return $state;
+                        })
+                        ->rules([
+                            function () {
+                                return function (string $attribute, $value, Closure $fail) {
+                                    $tids = explode(',', $value);
+                                    foreach ($tids as $tid) {
+                                        $tid = trim($tid);
+                                        if (strlen($tid) > 8) {
+                                            $fail("Setiap TID harus maksimal 8 digit. '$tid' melebihi batas.");
+                                        }
+                                    }
+                                };
+                            },
+                        ]),
+
+
                         Forms\Components\TextInput::make('nomor_sn')
+                            ->label('Nomor SN')
                             ->maxLength(24),
                         Forms\Components\TextInput::make('nama_pemilik')
+                            ->label('Nama Pemilik Usaha/Rekening')
                             ->maxLength(45),
                         Forms\Components\TextInput::make('no_kontak')
+                            ->label('No. Kontak Pemilik Usaha/PIC Toko')
                             ->maxLength(20),
-                        Forms\Components\Toggle::make('alamat_edc_sesuai'),
-                        Forms\Components\Toggle::make('ada_edc_bca'),
+                        Forms\Components\Select::make('alamat_edc_sesuai')
+                            ->label('Alamat Edc Sesuai ?')
+                            ->placeholder('Pilih opsi')
+                            ->options([
+                                1 => 'Yes',
+                                0 => 'No',
+                            ]),
+                        Forms\Components\Select::make('ada_edc_bca')
+                            ->label('Ada EDC BCA ?')
+                            ->placeholder('Pilih opsi')
+                            ->options([
+                                1 => 'Yes',
+                                0 => 'No',
+                            ]),
                         Forms\Components\TextInput::make('jumlah_edc')
+                            ->label('Jumlah EDC')
                             ->numeric(),
-                        Forms\Components\Toggle::make('edc_bank_lain'),
+                        Forms\Components\Select::make('edc_bank_lain')
+                            ->label('EDC Bank Lain ?')
+                            ->placeholder('Pilih opsi')
+                            ->options([
+                                1 => 'Yes',
+                                0 => 'No',
+                            ]),
                         Forms\Components\Textarea::make('list_edc_bank_lain')
+                            ->label('List EDC Bank Lain')
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('catatan_kunjungan_edc')
+                            ->label('Catatan Kunjungan - EDC utama yang digunakan')
                             ->maxLength(22),
-                        Forms\Components\Toggle::make('qris_bca'),
+                        Forms\Components\Select::make('qris_bca')
+                            ->label('Qris BCA ?')
+                            ->placeholder('Pilih opsi')
+                            ->options([
+                                1 => 'Yes',
+                                0 => 'No',
+                            ]),
                         Forms\Components\TextInput::make('nmid')
+                            ->label('NMID')
                             ->maxLength(15),
                         Forms\Components\Textarea::make('list_qris_bank_lain')
+                            ->label('List Qris Bank Lain')
                             ->columnSpanFull(),
-                        Forms\Components\Toggle::make('tes_transaksi'),
+                        Forms\Components\Select::make('tes_transaksi')
+                            ->label('Berhasil Tes Transaksi ?')
+                            ->placeholder('Pilih opsi')
+                            ->options([
+                                1 => 'Yes',
+                                0 => 'No',
+                            ]),
                         Forms\Components\TextInput::make('catatan_kunjungan_program')
+                            ->label('Catatan Kunjungan - Program bank lain')
                             ->maxLength(50),
                         Forms\Components\Textarea::make('kendala')
+                            ->label('Kendala')
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('request')
+                            ->label('Request')
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('jumlah_struk')
+                            ->label('Jumlah Struk Diberikan')
                             ->numeric(),
                         Forms\Components\TextInput::make('id_lapor_halo')
+                            ->label('ID Lapor Halo')
                             ->maxLength(8),
                     ])->columns(2),
 
