@@ -115,14 +115,20 @@ class VisitResource extends Resource
                                 ->searchable()
                                 ->preload()
                                 ->placeholder('Pilih keterangan lokasi'),
-
                             Forms\Components\TextInput::make('keterangan_lokasi_lainnya')
                                 ->label('Opsi Keterangan Lokasi Lainnya')
                                 ->placeholder('Masukkan opsi lainnya')
                                 ->maxLength(22)
                                 ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya')
                                 ->reactive(),
-
+                            Forms\Components\TextInput::make('nama_usaha')
+                                ->required()
+                                ->maxLength(100)
+                                ->label('Nama Usaha'),
+                            Forms\Components\TextInput::make('alamat_usaha')
+                                ->required()
+                                ->maxLength(255)
+                                ->label('Alamat Usaha'),
                             Forms\Components\Select::make('province_id')
                                 ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
                                 ->preload()
@@ -252,33 +258,19 @@ class VisitResource extends Resource
                         ->placeholder('Masukkan TID dan tekan Enter atau Tab')
                         ->columnSpanFull()
                         ->helperText('Masukkan beberapa TID dipisahkan dengan koma. Setiap TID maksimal 8 digit. Contoh: C0141271, C0141272, C0141273')
-                        ->formatStateUsing(function ($state) {
-                            if (is_string($state)) {
-                                return explode(', ', $state);
-                            }
-                            return $state;
-                        })
-                        ->formatStateUsing(function ($state) {
-                            if (is_array($state)) {
-                                return implode(', ', $state);
-                            }
-                            return $state;
-                        })
-                        ->rules([
-                            function () {
-                                return function (string $attribute, $value, Closure $fail) {
-                                    $tids = explode(',', $value);
-                                    foreach ($tids as $tid) {
-                                        $tid = trim($tid);
-                                        if (strlen($tid) > 8) {
-                                            $fail("Setiap TID harus maksimal 8 digit. '$tid' melebihi batas.");
-                                        }
-                                    }
-                                };
-                            },
-                        ]),
-
-
+                        // ->formatStateUsing(function ($state) {
+                        //     if (is_string($state)) {
+                        //         return explode(', ', $state);
+                        //     }
+                        //     return $state;
+                        // })
+                        // ->formatStateUsing(function ($state) {
+                        //     if (is_array($state)) {
+                        //         return implode(', ', $state);
+                        //     }
+                        //     return $state;
+                        // })
+                        ->rules(['max:8']),
                         Forms\Components\TextInput::make('nomor_sn')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
@@ -289,21 +281,27 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Nama Pemilik Usaha/Rekening')
                             ->maxLength(45),
                         Forms\Components\TextInput::make('no_kontak')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('No. Kontak Pemilik Usaha/PIC Toko')
                             ->maxLength(20),
                         Forms\Components\Select::make('alamat_edc_sesuai')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Apakah Alamat Edc Sesuai?')
                             ->placeholder('Pilih opsi')
                             ->options([
@@ -314,7 +312,9 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Apakah Ada EDC BCA?')
                             ->placeholder('Pilih opsi')
                             ->options([
@@ -325,14 +325,18 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Jumlah EDC')
                             ->numeric(),
                         Forms\Components\Select::make('edc_bank_lain')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Apakah Ada EDC Bank Lain?')
                             ->placeholder('Pilih opsi')
                             ->options([
@@ -343,14 +347,18 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('List EDC Bank Lain')
                             ->columnSpanFull(),
                         Forms\Components\Select::make('catatan_kunjungan_edc')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->reactive()
                             ->options([
                                 'Mandiri' => 'Mandiri',
@@ -370,7 +378,7 @@ class VisitResource extends Resource
                                 return $get('catatan_kunjungan_edc') === 'Lainnya';
                             })
                             ->required(function($get){
-                                return $get('catatan_kunjungan_edc') === 'Lainnya';
+                                return $get('catatan_kunjungan_edc') === 'Lainnya' && $get('is_merchant');
                             })
                             ->disabled(function($get){
                                 return $get('catatan_kunjungan_edc') !== 'Lainnya';
@@ -379,7 +387,9 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Qris BCA?')
                             ->placeholder('Pilih opsi')
                             ->options([
@@ -402,7 +412,9 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required()
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Apakah Berhasil Tes Transaksi?')
                             ->placeholder('Pilih opsi')
                             ->options([
@@ -439,7 +451,7 @@ class VisitResource extends Resource
                             })
                             ->label('ID Lapor Halo')
                             ->maxLength(8),
-                    ])->columns(1),
+                    ])->columns(1)->hidden(fn ($get) => !$get('is_merchant')),
 
                     Forms\Components\Section::make('Informasi Merchant Potensial')
                     ->schema([
@@ -447,7 +459,9 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return $get('is_merchant');
                             })
-                            ->required()
+                            ->required(function ($get){
+                                return !$get('is_merchant');
+                            })
                             ->reactive()
                             ->placeholder('Pilih opsi')
                             ->options([
@@ -458,7 +472,7 @@ class VisitResource extends Resource
                             ->label('Pengajuan Merchant'),
                         Forms\Components\Select::make('aplikasi_pendaftaran')
                             ->required(function ($get){
-                                return $get('pengajuan_merchant') === 'Yes';
+                                return $get('pengajuan_merchant') === 'Yes' && !$get('is_merchant');
                             })
                             ->disabled(function($get){
                                 return $get('is_merchant');
@@ -477,7 +491,7 @@ class VisitResource extends Resource
                             ->maxLength(7),
                         Forms\Components\Textarea::make('alasan_tidak_bersedia')
                             ->required(function ($get){
-                                return $get('pengajuan_merchant') === 'No';
+                                return $get('pengajuan_merchant') === 'No' && !$get('is_merchant');
                             })
                             ->disabled(function($get){
                                 return $get('is_merchant');
@@ -485,7 +499,9 @@ class VisitResource extends Resource
                             ->label('Alasan Tidak Bersedia')
                             ->maxLength(50),
                         Forms\Components\Select::make('mempunyai_edc')
-                            ->required()
+                            ->required(function ($get){
+                                return !$get('is_merchant');
+                            })
                             ->disabled(function($get){
                                 return $get('is_merchant');
                             })
@@ -507,7 +523,7 @@ class VisitResource extends Resource
                             })
                             ->label('Nomor Referensi')
                             ->maxLength(255),
-                    ])->columns(1),
+                    ])->columns(1)->hidden(fn ($get) => $get('is_merchant')),
 
                     Forms\Components\Section::make('Bukti Kunjungan')
                         ->schema([
@@ -666,7 +682,7 @@ class VisitResource extends Resource
                 Tables\Columns\TextColumn::make('area.area_name')
                     ->label('Area')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('maping_area.maping_area_name')
+                Tables\Columns\TextColumn::make('mapingArea.sub_area')
                     ->label('Maping Area')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_lokasi')
