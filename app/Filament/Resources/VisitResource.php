@@ -468,11 +468,26 @@ class VisitResource extends Resource
                                 return !$get('is_merchant');
                             })
                             ->label('NMID')
-                            ->maxLength(15),
-                        Forms\Components\Textarea::make('list_qris_bank_lain')
+                            ->maxLength(15)
+                            ->placeholder('ID1234567890123'),
+                        Forms\Components\CheckboxList::make('list_qris_bank_lain')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->reactive()
+                            ->options([
+                                'Mandiri' => 'Mandiri',
+                                'BRI' => 'BRI',
+                                'BNI' => 'BNI',
+                                'BTN' => 'BTN',
+                                'Shopee' => 'Shopee',
+                                'MTI' => 'MTI',
+                                'PVS' => 'PVS',
+                                'Lainnya' => 'Lainnya',
+                            ])
                             ->label('List Qris Bank Lain')
                             ->columnSpanFull(),
                         Forms\Components\Select::make('tes_transaksi')
@@ -744,9 +759,11 @@ class VisitResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id_visit')
+                    ->label('ID')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('vendor.vendor_name')
+                    ->label('Vendor')
                     ->searchable()
                     ->sortable(),
                 // Tables\Columns\TextColumn::make('area_id')
@@ -764,155 +781,220 @@ class VisitResource extends Resource
                     ->sortable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_lokasi')
+                    ->label('Nama Lokasi')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('keterangan_lokasi')
+                    ->label('Keterangan Lokasi')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nama_usaha')
+                    ->label('Nama Usaha')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('alamat_usaha')
+                    ->label('Alamat Usaha')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('province.province_name')
+                    ->label('Provinsi')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('city.city_name')
+                    ->label('Kota')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('district.district_name')
+                    ->label('Kecamatan')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subdistrict.subdistrict_name')
+                    ->label('Kelurahan')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('poscode.poscode')
+                    ->label('Kode Pos')
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('mid')
+                    ->label('MID')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tid')
+                    ->label('TID')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nomor_sn')
+                    ->label('Nomor SN')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_pemilik')
+                    ->label('Nama Pemilik Usaha/Rekening')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('no_kontak')
+                    ->label('Nomor Kontak Pemilik Usaha/PIC Toko')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('alamat_edc_sesuai')
+                    ->label('Alamat EDC Sesuai?')
                     ->formatStateUsing(function ($state) {
                         return $state == 1 ? 'Yes' : 'No';
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ada_edc_bca')
+                    ->label('Apakah ada EDC BCA atau Tidak?')
                     ->formatStateUsing(function ($state) {
                         return $state == 1 ? 'Yes' : 'No';
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('jumlah_edc')
+                    ->label('Jumlah EDC')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('edc_bank_lain')
+                    ->label('EDC Bank Lain')
                     ->formatStateUsing(function ($state) {
                         return $state == 1 ? 'Yes' : 'No';
                     })
                     ->sortable(),
+                Tables\Columns\TextColumn::make('list_edc_bank_lain')
+                    ->label('List EDC Bank Lain')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('catatan_kunjungan_edc')
+                    ->label('Catatan Kunjungan - EDC utama yang digunakan')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('qris_bca')
+                    ->label('QRIS BCA')
                     ->formatStateUsing(function ($state) {
                         return $state == 1 ? 'Yes' : 'No';
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nmid')
+                    ->label('NMID')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('list_qris_bank_lain')
+                    ->label('List QRIS Bank Lain')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tes_transaksi')
+                    ->label('Berhasil Tes Transaksi')
                     ->formatStateUsing(function ($state) {
                         return $state == 1 ? 'Yes' : 'No';
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('catatan_kunjungan_program')
+                    ->label('Catatan Kunjungan - Program bank lain')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('kendala')
+                    ->label('Kendala')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('request')
+                    ->label('Request')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('jumlah_struk')
+                    ->label('Jumlah Struk Diberikan')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('id_lapor_halo')
+                    ->label('IDLaporHalo')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('pengajuan_merchant')
+                    ->label('Pengajuan Merchant BCA')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('aplikasi_pendaftaran')
+                    ->label('Aplikasi Pendaftaran')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fdm_id')
+                    ->label('FDM ID')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('alasan_tidak_bersedia')
+                    ->label('Alasan Tidak Bersedia')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mempunyai_edc')
+                    ->label('Mempunyai EDC BCA Sebelumnya?')
                     ->formatStateUsing(function ($state) {
                         return $state == 1 ? 'Yes' : 'No';
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('keterangan_lain')
+                    ->label('Keterangan Lain')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nomor_referensi')
+                    ->label('Nomor Referensi Pengajuan Merchant Baru')
                     ->searchable()
                     ->sortable(),
 
                 // FOTO
                 Tables\Columns\ImageColumn::make('foto_struk')
+                    ->label('Foto Struk Transaksi')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('foto_tampak_depan')
+                    ->label('Foto Tampak Depan (Plang Nama')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('foto_meja_kasir')
+                    ->label('Foto Meja Kasir (Terilihat EDC/QRIS')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('foto_qris_statis')
+                    ->label('Foto QRIS Statis')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('foto_selfie')
+                    ->label('Foto Selfie Dengan Pemilik Usaha/PIC Toko')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('foto_produk')
+                    ->label('Foto Produk di Merchant')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('screen_capture')
+                    ->label('Screen Capture Laporan ke Halo BCA')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('tanggal_submit')
+                    ->label('Tanggal Submit')
+                    ->searchable()
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('waktu_submit')
+                    ->label('Waktu Submit')
+                    ->searchable()
                     ->time()
-                    ->searchable(),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('nama_surveyor')
+                    ->label('Nama Surveyor')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('upline1')
+                    ->label('Upline 1')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sales_code')
+                    ->label('Sales Code')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('lat')
+                    ->label('Latitude')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('long')
+                    ->label('Longitude')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('createdBy.name')
@@ -926,10 +1008,12 @@ class VisitResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
