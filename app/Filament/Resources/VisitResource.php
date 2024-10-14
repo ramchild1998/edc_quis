@@ -359,7 +359,18 @@ class VisitResource extends Resource
                                 1 => 'Yes',
                                 0 => 'No',
                             ]),
-                        Forms\Components\Textarea::make('list_edc_bank_lain')
+
+
+                        Forms\Components\CheckboxList::make('list_edc_bank_lain')
+                            ->options([
+                                'Mandiri' => 'Mandiri',
+                                'BRI' => 'BRI',
+                                'BTN' => 'BTN',
+                                'Shopee' => 'Shopee',
+                                'MTI' => 'MTI',
+                                'PVS' => 'PVS',
+                                'Lainnya' => 'Lainnya',
+                            ])
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
@@ -368,6 +379,20 @@ class VisitResource extends Resource
                             })
                             ->label('List EDC Bank Lain')
                             ->columnSpanFull(),
+                        Forms\Components\TextInput::make('list_edc_bank_lain_lainnya')
+                            ->label('EDC Bank Lain (Lainnya)')
+                            ->maxLength(255)
+                            ->visible(function($get){
+                                return in_array('Lainnya', $get('list_edc_bank_lain') ?? []);
+                            })
+                            ->required(function($get){
+                                return in_array('Lainnya', $get('list_edc_bank_lain') ?? []) && $get('is_merchant');
+                            })
+                            ->disabled(function($get){
+                                return !in_array('Lainnya', $get('list_edc_bank_lain') ?? []);
+                            }),
+
+
                         Forms\Components\Select::make('catatan_kunjungan_edc')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
@@ -486,6 +511,8 @@ class VisitResource extends Resource
                                 "Perlu Konfirmasi Owner" => 'Perlu Konfirmasi Owner',
                             ])
                             ->label('Pengajuan Merchant'),
+
+
                         Forms\Components\Select::make('aplikasi_pendaftaran')
                             ->required(function ($get){
                                 return $get('pengajuan_merchant') === 'Yes' && !$get('is_merchant');
@@ -498,13 +525,19 @@ class VisitResource extends Resource
                                 "FDM" => 'FDM',
                                 "Merchant App" => 'Merchant App',
                             ])
-                            ->label('Aplikasi Pendaftaran'),
+                            ->label('Aplikasi Pendaftaran')
+                            ->reactive(),
                         Forms\Components\TextInput::make('fdm_id')
                             ->disabled(function($get){
                                 return $get('is_merchant');
                             })
                             ->label('FDM ID')
-                            ->maxLength(7),
+                            ->maxLength(7)
+                            ->hidden(function($get){
+                                return $get('aplikasi_pendaftaran') === 'Merchant App';
+                            }),
+
+
                         Forms\Components\Textarea::make('alasan_tidak_bersedia')
                             ->required(function ($get){
                                 return $get('pengajuan_merchant') === 'No' && !$get('is_merchant');
