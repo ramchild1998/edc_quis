@@ -35,19 +35,28 @@ class CreateVisit extends CreateRecord
         $data['waktu_submit'] = Carbon::now()->format('H:i:s');
 
         // Data MID tidak boleh sama, dan dalam 1 bulan data 1 record MID hanya boleh 1 kali, jika sudah ada maka tidak bisa ditambahkan
-        $existingMID = Visit::where('mid', $data['mid'])
-            ->whereYear('tanggal_submit', Carbon::now()->year)
-            ->whereMonth('tanggal_submit', Carbon::now()->month)
-            ->exists();
+        // $existingMID = Visit::where('mid', $data['mid'])
+        //     ->whereYear('tanggal_submit', Carbon::now()->year)
+        //     ->whereMonth('tanggal_submit', Carbon::now()->month)
+        //     ->exists();
 
-        if ($existingMID) {
-            throw new \Exception('MID sudah ada dalam bulan ini. Tidak dapat menambahkan data baru.');
-        }
+        // if ($existingMID) {
+        //     throw new \Exception('MID sudah ada dalam bulan ini. Tidak dapat menambahkan data baru.');
+        // }
+
         if($data['keterangan_lokasi'] === 'Lainnya'){
             $data['keterangan_lokasi'] = $data['keterangan_lokasi_lainnya'];
         }
         if($data['catatan_kunjungan_edc'] === 'Lainnya'){
             $data['catatan_kunjungan_edc'] = $data['utama_lainnya'];
+        }
+
+        // Konversi array menjadi string untuk kolom yang menyimpan multiple values
+        if (isset($data['tid']) && is_array($data['tid'])) {
+            $data['tid'] = implode(',', $data['tid']);
+        }
+        if (isset($data['list_edc_bank_lain']) && is_array($data['list_edc_bank_lain'])) {
+            $data['list_edc_bank_lain'] = implode(',', $data['list_edc_bank_lain']);
         }
 
         // Temporary hardcode lat long to 0

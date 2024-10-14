@@ -438,7 +438,6 @@ class VisitResource extends Resource
                             ])
                             ->label('EDC utama yang digunakan'),
 
-
                         Forms\Components\TextInput::make('utama_lainnya')
                             ->label('EDC utama yang digunakan lainnya')
                             ->maxLength(22)
