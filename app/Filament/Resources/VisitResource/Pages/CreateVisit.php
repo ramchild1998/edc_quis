@@ -56,16 +56,36 @@ class CreateVisit extends CreateRecord
             $data['tid'] = implode(',', $data['tid']);
         }
         if (isset($data['list_edc_bank_lain']) && is_array($data['list_edc_bank_lain'])) {
-            $data['list_edc_bank_lain'] = implode(',', $data['list_edc_bank_lain']);
+            $tempArr = $data['list_edc_bank_lain'];
+            $key = array_search('Lainnya', $tempArr);
+            if($key !== false){
+                $tempArr[$key] = $data['list_edc_bank_lain_lainnya'];
+            }
+            $data['list_edc_bank_lain'] = implode(',', $tempArr);
         }
         if (isset($data['list_qris_bank_lain']) && is_array($data['list_qris_bank_lain'])) {
-            $data['list_qris_bank_lain'] = implode(',', $data['list_qris_bank_lain']);
+            $tempArr = $data['list_qris_bank_lain'];
+            $key = array_search('Lainnya', $tempArr);
+            if($key !== false){
+                $tempArr[$key] = $data['list_qris_bank_lain_lainnya'];
+            }
+            $data['list_qris_bank_lain'] = implode(',', $tempArr);
         }
         if (isset($data['kendala']) && is_array($data['kendala'])) {
-            $data['kendala'] = implode(',', $data['kendala']);
+            $tempArr = $data['kendala'];
+            $key = array_search('Lainnya', $tempArr);
+            if($key !== false){
+                $tempArr[$key] = $data['kendala_lainnya'];
+            }
+            $data['kendala'] = implode(',', $tempArr);
         }
         if (isset($data['request']) && is_array($data['request'])) {
-            $data['request'] = implode(',', $data['request']);
+            $tempArr = $data['request'];
+            $key = array_search('Lainnya', $tempArr);
+            if($key !== false){
+                $tempArr[$key] = $data['request_lainnya'];
+            }
+            $data['request'] = implode(',', $tempArr);
         }
 
         // Temporary hardcode lat long to 0

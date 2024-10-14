@@ -395,28 +395,13 @@ class VisitResource extends Resource
                             }),
                         Forms\Components\TextInput::make('list_edc_bank_lain_lainnya')
                             ->label('EDC Bank Lain (Lainnya)')
-                            ->maxLength(255)
+                            ->maxLength(50)
                             ->visible(function($get) {
-                                // Tampilkan TextInput hanya jika opsi "Lainnya" dicentang
-                                return $get('edc_bank_lain') == 1 && in_array('Lainnya', $get('list_edc_bank_lain') ?? []);
+                                return $get('edc_bank_lain') == 1 && in_array('Lainnya', $get('list_edc_bank_lain') ?? []) && $get('is_merchant');
                             })
                             ->required(function($get) {
                                 return $get('edc_bank_lain') == 1 && in_array('Lainnya', $get('list_edc_bank_lain') ?? []) && $get('is_merchant');
-                            })
-                            ->afterStateUpdated(function (callable $set, $get, $state) {
-                                // Ambil nilai 'list_edc_bank_lain' yang ada kecuali 'Lainnya'
-                                $edcBankLain = array_diff($get('list_edc_bank_lain') ?? [], ['Lainnya']);
-
-                                // Jika ada nilai yang diisi dalam TextInput "Lainnya"
-                                if ($state) {
-                                    // Tambahkan nilai input dari TextInput ke array opsi yang ada
-                                    $edcBankLain[] = $state;
-                                }
-
-                                // Set ulang nilai dari 'list_edc_bank_lain' tanpa menyertakan "Lainnya"
-                                $set('list_edc_bank_lain', $edcBankLain);
                             }),
-
 
                         Forms\Components\Select::make('catatan_kunjungan_edc')
                             ->disabled(function($get){
@@ -487,6 +472,18 @@ class VisitResource extends Resource
                             ])
                             ->label('List Qris Bank Lain')
                             ->columnSpanFull(),
+                        Forms\Components\TextInput::make('list_qris_bank_lain_lainnya')
+                            ->label('List Qris Bank Lain (Lainnya)')
+                            ->maxLength(50)
+                            ->visible(function($get) {
+                                return in_array('Lainnya', $get('list_qris_bank_lain') ?? []) && $get('is_merchant');
+                            })
+                            ->disabled(function($get) {
+                                return !in_array('Lainnya', $get('list_qris_bank_lain') ?? []) && !$get('is_merchant');
+                            })
+                            ->required(function($get) {
+                                return in_array('Lainnya', $get('list_qris_bank_lain') ?? []) && $get('is_merchant');
+                            }),
                         Forms\Components\Select::make('tes_transaksi')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
@@ -521,6 +518,18 @@ class VisitResource extends Resource
                             ])
                             ->label('Kendala')
                             ->columnSpanFull(),
+                        Forms\Components\TextInput::make('kendala_lainnya')
+                            ->label('Kendala (Lainnya)')
+                            ->maxLength(50)
+                            ->visible(function($get) {
+                                return in_array('Lainnya', $get('kendala') ?? []) && $get('is_merchant');
+                            })
+                            ->disabled(function($get) {
+                                return !in_array('Lainnya', $get('kendala') ?? []) && !$get('is_merchant');
+                            })
+                            ->required(function($get) {
+                                return in_array('Lainnya', $get('kendala') ?? []) && $get('is_merchant');
+                            }),
                         Forms\Components\CheckboxList::make('request')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
@@ -537,6 +546,18 @@ class VisitResource extends Resource
                             ])
                             ->label('Request')
                             ->columnSpanFull(),
+                        Forms\Components\TextInput::make('request_lainnya')
+                            ->label('Request (Lainnya)')
+                            ->maxLength(50)
+                            ->visible(function($get) {
+                                return in_array('Lainnya', $get('request') ?? []) && $get('is_merchant');
+                            })
+                            ->disabled(function($get) {
+                                return !in_array('Lainnya', $get('request') ?? []) && !$get('is_merchant');
+                            })
+                            ->required(function($get) {
+                                return in_array('Lainnya', $get('request') ?? []) && $get('is_merchant');
+                            }),
                         Forms\Components\TextInput::make('jumlah_struk')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
