@@ -61,6 +61,12 @@ class CreateVisit extends CreateRecord
         if (isset($data['list_qris_bank_lain']) && is_array($data['list_qris_bank_lain'])) {
             $data['list_qris_bank_lain'] = implode(',', $data['list_qris_bank_lain']);
         }
+        if (isset($data['kendala']) && is_array($data['kendala'])) {
+            $data['kendala'] = implode(',', $data['kendala']);
+        }
+        if (isset($data['request']) && is_array($data['request'])) {
+            $data['request'] = implode(',', $data['request']);
+        }
 
         // Temporary hardcode lat long to 0
         $data['lat'] = 0;

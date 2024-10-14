@@ -506,7 +506,7 @@ class VisitResource extends Resource
                             })
                             ->label('Catatan Kunjungan - Program bank lain')
                             ->maxLength(50),
-                        Forms\Components\Textarea::make('kendala')
+                        Forms\Components\CheckboxList::make('kendala')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
@@ -521,7 +521,7 @@ class VisitResource extends Resource
                             ])
                             ->label('Kendala')
                             ->columnSpanFull(),
-                        Forms\Components\Textarea::make('request')
+                        Forms\Components\CheckboxList::make('request')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
