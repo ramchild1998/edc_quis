@@ -13,6 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Validation\Rules\Unique;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Permission;
+use Filament\Facades\Filament;
 
 class PermissionResource extends Resource
 {
@@ -23,6 +24,11 @@ class PermissionResource extends Resource
     protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationGroup = 'Administrator Only';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+    	return Filament::auth()->user()->can('Permission View');
+    }
 
     public static function form(Form $form): Form
     {

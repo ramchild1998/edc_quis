@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\VendorResource\Pages;
 use App\Filament\Resources\VendorResource\RelationManagers;
 use App\Models\Vendor;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
@@ -19,6 +20,11 @@ class VendorResource extends Resource
     protected static ?string $model = Vendor::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-building-office-2';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+    	return Filament::auth()->user()->can('Office View');
+    }
 
     public static function form(Form $form): Form
     {

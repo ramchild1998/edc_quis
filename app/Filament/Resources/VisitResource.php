@@ -8,6 +8,7 @@ use App\Filament\Resources\VisitResource\RelationManagers;
 use App\Models\MapingArea;
 use App\Models\Visit;
 use Closure;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
@@ -25,6 +26,11 @@ class VisitResource extends Resource
     protected static ?string $model = Visit::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+    	return Filament::auth()->user()->can('Visit View');
+    }
 
     public static function form(Form $form): Form
     {

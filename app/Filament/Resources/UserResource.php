@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
@@ -28,6 +29,11 @@ class UserResource extends Resource
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationGroup = 'Administrator Only';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+    	return Filament::auth()->user()->can('User View');
+    }
 
     public static function form(Form $form): Form
     {

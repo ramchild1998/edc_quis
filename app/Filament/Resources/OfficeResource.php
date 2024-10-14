@@ -8,6 +8,7 @@ use App\Models\District;
 use App\Models\Office;
 use App\Models\Poscode;
 use App\Models\Subdistrict;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
@@ -23,6 +24,12 @@ class OfficeResource extends Resource
     protected static ?string $model = Office::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    
+    public static function shouldRegisterNavigation(): bool
+    {
+    	return Filament::auth()->user()->can('Office View');
+    }
+
 
     public static function form(Form $form): Form
     {

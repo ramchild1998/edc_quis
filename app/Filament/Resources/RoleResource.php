@@ -13,9 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Role;
-
-
-
+use Filament\Facades\Filament;
 
 class RoleResource extends Resource
 {
@@ -27,6 +25,10 @@ class RoleResource extends Resource
 
     protected static ?string $navigationGroup = 'Administrator Only';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+    	return Filament::auth()->user()->can('Role View');
+    }
 
     public static function form(Form $form): Form
     {

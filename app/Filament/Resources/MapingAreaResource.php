@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MapingAreaResource\Pages;
 use App\Models\MapingArea;
 use App\Models\Subdistrict;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
@@ -18,6 +19,11 @@ class MapingAreaResource extends Resource
     protected static ?string $model = MapingArea::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+    	return Filament::auth()->user()->can('MapingArea View');
+    }
 
     public static function form(Form $form): Form
     {

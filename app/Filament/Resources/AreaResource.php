@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AreaResource\Pages;
 use App\Filament\Resources\AreaResource\RelationManagers;
 use App\Models\Area;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
@@ -19,6 +20,11 @@ class AreaResource extends Resource
     protected static ?string $model = Area::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+    	return Filament::auth()->user()->can('Area View');
+    }
 
     public static function form(Form $form): Form
     {
