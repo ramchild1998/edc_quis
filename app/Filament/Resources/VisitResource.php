@@ -136,7 +136,6 @@ class VisitResource extends Resource
                                 ->placeholder('Masukkan opsi lainnya')
                                 ->maxLength(22)
                                 ->required(fn ($get) => $get('keterangan_lokasi') === 'Lainnya')
-                                ->disabled(fn ($get) => $get('keterangan_lokasi') !== 'Lainnya')
                                 ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya'),
                             Forms\Components\TextInput::make('nama_usaha')
                                 ->required()
@@ -239,6 +238,8 @@ class VisitResource extends Resource
                         ->maxLength(9)
                         ->label('MID')
                         ->hint('9 Digit')
+                        ->placeholder('Contoh : 000123456')
+                        ->helperText('Check MID terlebih dahulu!')
                         ->suffixAction(
                             Forms\Components\Actions\Action::make('check')
                                 ->disabled(function($get){
@@ -247,6 +248,15 @@ class VisitResource extends Resource
                                 ->label('Check')
                                 ->icon('heroicon-m-magnifying-glass')
                                 ->action(function ($state, $livewire) {
+                                    if (empty($state)) {
+                                        Notification::make()
+                                            ->title('MID belum diisi')
+                                            ->body('Silakan isi MID terlebih dahulu.')
+                                            ->warning()
+                                            ->send();
+                                        return;
+                                    }
+
                                     // Logika untuk memeriksa MID
                                     $existingVisit = Visit::where('mid', $state)->first();
                                     if ($existingVisit) {
@@ -266,32 +276,22 @@ class VisitResource extends Resource
                         ),
 
                         Forms\Components\TagsInput::make('tid')
-                        ->disabled(function($get){
-                            return !$get('is_merchant');
-                        })
-                        ->label('TID')
-                        ->separator(',')
-                        ->splitKeys(['Tab', 'Enter', ','])
-                        ->placeholder('Masukkan TID dan tekan Enter atau Tab')
-                        ->columnSpanFull()
-                        ->helperText('Masukkan beberapa TID dipisahkan dengan koma. Setiap TID maksimal 8 digit. Contoh: C0141271, C0141272, C0141273')
-                        // ->formatStateUsing(function ($state) {
-                        //     if (is_string($state)) {
-                        //         return explode(', ', $state);
-                        //     }
-                        //     return $state;
-                        // })
-                        // ->formatStateUsing(function ($state) {
-                        //     if (is_array($state)) {
-                        //         return implode(', ', $state);
-                        //     }
-                        //     return $state;
-                        // })
-                        ->rules(['max:8']),
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->label('TID')
+                            ->separator(',')
+                            ->splitKeys(['Tab', 'Enter', ','])
+                            ->placeholder('Masukkan TID dan tekan Enter atau Tab')
+                            ->columnSpanFull()
+                            ->helperText('Masukkan beberapa TID. Setiap TID maksimal 8 digit. Contoh: C0141271 (Enter/Tab untuk setiap TID)')
+                            ->rules(['max:8']),
+
                         Forms\Components\TextInput::make('nomor_sn')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
+                            ->placeholder('Contoh : 12A1B1C1234')
                             ->label('Nomor SN')
                             ->maxLength(24),
                         Forms\Components\TextInput::make('nama_pemilik')
@@ -311,7 +311,8 @@ class VisitResource extends Resource
                                 return $get('is_merchant');
                             })
                             ->label('No. Kontak Pemilik Usaha/PIC Toko')
-                            ->maxLength(20),
+                            ->maxLength(20)
+                            ->placeholder('Contoh : 081234567890'),
                         Forms\Components\Select::make('alamat_edc_sesuai')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
@@ -346,7 +347,10 @@ class VisitResource extends Resource
                                 return $get('is_merchant');
                             })
                             ->label('Jumlah EDC')
+                            ->placeholder('Contoh : 1')
                             ->numeric(),
+
+
                         Forms\Components\Select::make('edc_bank_lain')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
@@ -359,9 +363,8 @@ class VisitResource extends Resource
                             ->options([
                                 1 => 'Yes',
                                 0 => 'No',
-                            ]),
-
-
+                            ])
+                            ->reactive(),
                         Forms\Components\CheckboxList::make('list_edc_bank_lain')
                             ->options([
                                 'Mandiri' => 'Mandiri',
@@ -370,27 +373,48 @@ class VisitResource extends Resource
                                 'Shopee' => 'Shopee',
                                 'MTI' => 'MTI',
                                 'PVS' => 'PVS',
-                                'Lainnya' => 'Lainnya',
+                                'Lainnya' => 'Lainnya',  // Opsi Lainnya hanya untuk menampilkan TextInput
                             ])
                             ->disabled(function($get){
-                                return !$get('is_merchant');
+                                return !$get('is_merchant') || $get('edc_bank_lain') == 0;
                             })
                             ->required(function($get){
-                                return $get('is_merchant');
+                                return $get('is_merchant') && $get('edc_bank_lain') == 1;
                             })
                             ->label('List EDC Bank Lain')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->visible(function($get){
+                                return $get('edc_bank_lain') == 1;
+                            })
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $set, $get, $state) {
+                                // Jika "Lainnya" di-uncheck, kosongkan field 'list_edc_bank_lain_lainnya'
+                                if (!in_array('Lainnya', $state ?? [])) {
+                                    $set('list_edc_bank_lain_lainnya', null); // Reset 'list_edc_bank_lain_lainnya' jika "Lainnya" tidak dicentang
+                                }
+                            }),
                         Forms\Components\TextInput::make('list_edc_bank_lain_lainnya')
                             ->label('EDC Bank Lain (Lainnya)')
                             ->maxLength(255)
-                            ->visible(function($get){
-                                return in_array('Lainnya', $get('list_edc_bank_lain') ?? []);
+                            ->visible(function($get) {
+                                // Tampilkan TextInput hanya jika opsi "Lainnya" dicentang
+                                return $get('edc_bank_lain') == 1 && in_array('Lainnya', $get('list_edc_bank_lain') ?? []);
                             })
-                            ->required(function($get){
-                                return in_array('Lainnya', $get('list_edc_bank_lain') ?? []) && $get('is_merchant');
+                            ->required(function($get) {
+                                return $get('edc_bank_lain') == 1 && in_array('Lainnya', $get('list_edc_bank_lain') ?? []) && $get('is_merchant');
                             })
-                            ->disabled(function($get){
-                                return !in_array('Lainnya', $get('list_edc_bank_lain') ?? []);
+                            ->afterStateUpdated(function (callable $set, $get, $state) {
+                                // Ambil nilai 'list_edc_bank_lain' yang ada kecuali 'Lainnya'
+                                $edcBankLain = array_diff($get('list_edc_bank_lain') ?? [], ['Lainnya']);
+
+                                // Jika ada nilai yang diisi dalam TextInput "Lainnya"
+                                if ($state) {
+                                    // Tambahkan nilai input dari TextInput ke array opsi yang ada
+                                    $edcBankLain[] = $state;
+                                }
+
+                                // Set ulang nilai dari 'list_edc_bank_lain' tanpa menyertakan "Lainnya"
+                                $set('list_edc_bank_lain', $edcBankLain);
                             }),
 
 
@@ -413,6 +437,8 @@ class VisitResource extends Resource
                                 'Lainnya' => 'Lainnya',
                             ])
                             ->label('EDC utama yang digunakan'),
+
+
                         Forms\Components\TextInput::make('utama_lainnya')
                             ->label('EDC utama yang digunakan lainnya')
                             ->maxLength(22)
