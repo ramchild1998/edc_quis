@@ -46,6 +46,9 @@ class CreateVisit extends CreateRecord
         if($data['keterangan_lokasi'] === 'Lainnya'){
             $data['keterangan_lokasi'] = $data['keterangan_lokasi_lainnya'];
         }
+        if($data['catatan_kunjungan_edc'] === 'Lainnya'){
+            $data['catatan_kunjungan_edc'] = $data['utama_lainnya'];
+        }
 
         // Temporary hardcode lat long to 0
         $data['lat'] = 0;

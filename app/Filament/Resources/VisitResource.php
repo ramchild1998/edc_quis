@@ -136,6 +136,7 @@ class VisitResource extends Resource
                                 ->placeholder('Masukkan opsi lainnya')
                                 ->maxLength(22)
                                 ->required(fn ($get) => $get('keterangan_lokasi') === 'Lainnya')
+                                ->disabled(fn ($get) => $get('keterangan_lokasi') !== 'Lainnya')
                                 ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya'),
                             Forms\Components\TextInput::make('nama_usaha')
                                 ->required()
