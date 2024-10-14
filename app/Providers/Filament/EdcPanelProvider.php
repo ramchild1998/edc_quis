@@ -18,23 +18,25 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class TeknisiPanelProvider extends PanelProvider
+class EdcPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('teknisi')
-            ->path('teknisi')
+            ->default()
+            ->id('edc')
+            ->path('edc')
             ->login()
+            ->profile()
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Teknisi/Resources'), for: 'App\\Filament\\Teknisi\\Resources')
-            ->discoverPages(in: app_path('Filament/Teknisi/Pages'), for: 'App\\Filament\\Teknisi\\Pages')
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Teknisi/Widgets'), for: 'App\\Filament\\Teknisi\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
