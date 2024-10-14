@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Resources\VisitResource\Pages;
 use App\Filament\Resources\VisitResource\RelationManagers;
@@ -785,6 +786,8 @@ class VisitResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nomor_referensi')
                     ->searchable(),
+
+                // FOTO
                 Tables\Columns\ImageColumn::make('foto_struk')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('foto_tampak_depan')
@@ -797,8 +800,9 @@ class VisitResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('foto_produk')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('screen_capture')
+                Tables\Columns\ImageColumn::make('screen_capture')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('tanggal_submit')
                     ->date()
                     ->sortable(),
@@ -832,6 +836,7 @@ class VisitResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->recordUrl(null)
             ->filters([
                 //
             ])
