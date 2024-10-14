@@ -128,11 +128,6 @@ class VisitResource extends Resource
                                     'Lainnya' => 'Lainnya',
                                 ])
                                 ->reactive()
-                                ->afterStateUpdated(function (callable $set, $state) {
-                                    if ($state !== 'Lainnya') {
-                                        $set('keterangan_lokasi_lainnya', null);
-                                    }
-                                })
                                 ->searchable()
                                 ->preload()
                                 ->placeholder('Pilih keterangan lokasi'),
@@ -140,8 +135,8 @@ class VisitResource extends Resource
                                 ->label('Opsi Keterangan Lokasi Lainnya')
                                 ->placeholder('Masukkan opsi lainnya')
                                 ->maxLength(22)
-                                ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya')
-                                ->reactive(),
+                                ->required(fn ($get) => $get('keterangan_lokasi') === 'Lainnya')
+                                ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya'),
                             Forms\Components\TextInput::make('nama_usaha')
                                 ->required()
                                 ->maxLength(100)

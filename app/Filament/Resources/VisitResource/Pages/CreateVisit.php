@@ -43,6 +43,9 @@ class CreateVisit extends CreateRecord
         if ($existingMID) {
             throw new \Exception('MID sudah ada dalam bulan ini. Tidak dapat menambahkan data baru.');
         }
+        if($data['keterangan_lokasi'] === 'Lainnya'){
+            $data['keterangan_lokasi'] = $data['keterangan_lokasi_lainnya'];
+        }
 
         // Temporary hardcode lat long to 0
         $data['lat'] = 0;
