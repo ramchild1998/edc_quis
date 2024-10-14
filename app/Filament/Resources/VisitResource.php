@@ -474,9 +474,6 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->required(function($get){
-                                return $get('is_merchant');
-                            })
                             ->reactive()
                             ->options([
                                 'Mandiri' => 'Mandiri',
@@ -513,12 +510,31 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
+                            ->reactive()
+                            ->options([
+                                'Jaringan' => 'Jaringan',
+                                'Baterai' => 'Baterai',
+                                'Adaptor' => 'Adaptor',
+                                'Tombol' => 'Tombol',
+                                'Printer' => 'Printer',
+                                'Lainnya' => 'Lainnya',
+                            ])
                             ->label('Kendala')
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('request')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
+                            ->reactive()
+                            ->options([
+                                'Tambah Fasilitas' => 'Tambah Fasilitas',
+                                'Ganti APOS' => 'Ganti APOS',
+                                'Tambah Edisi' => 'Tambah Edisi',
+                                'Tambah Terminal' => 'Tambah Terminal',
+                                'Request Struk' => 'Request Struk',
+                                'Perubahan Data' => 'Perubahan Data',
+                                'Lainnya' => 'Lainnya',
+                            ])
                             ->label('Request')
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('jumlah_struk')
