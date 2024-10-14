@@ -49,21 +49,34 @@ class VisitResource extends Resource
                             // Forms\Components\Select::make('location_id')
                             //     ->relationship('location', 'id')
                             //     ->required(),
+
+                            // Forms\Components\Select::make('area_id')
+                            //     ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
+                            //     ->required()
+                            //     ->reactive()  // Tambahkan reactive agar bisa memicu perubahan di Maping Area
+                            //     ->afterStateUpdated(function (callable $set, $state) {
+                            //         // Reset pilihan Maping Area saat Area berubah
+                            //         $set('maping_area_id', null);
+                            //     })
+                            //     ->label('Area')
+                            //     ->searchable()
+                            //     ->preload()
+                            //     ->placeholder('Pilih area'),
+                            //     // ->hint('Pilih area terlebih dahulu')
+                            //     // ->hintColor('danger')
+                            //     // ->hintIcon('heroicon-o-information-circle'),
+
                             Forms\Components\Select::make('area_id')
-                                ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
+                                ->relationship('area', 'area_name', fn(Builder $query) => $query->where('status', true)->orderBy('area_name'))
                                 ->required()
-                                ->reactive()  // Tambahkan reactive agar bisa memicu perubahan di Maping Area
+                                ->reactive()
                                 ->afterStateUpdated(function (callable $set, $state) {
-                                    // Reset pilihan Maping Area saat Area berubah
                                     $set('maping_area_id', null);
                                 })
                                 ->label('Area')
                                 ->searchable()
                                 ->preload()
                                 ->placeholder('Pilih area'),
-                                // ->hint('Pilih area terlebih dahulu')
-                                // ->hintColor('danger')
-                                // ->hintIcon('heroicon-o-information-circle'),
 
                             Forms\Components\Select::make('maping_area_id')
                                 ->label('Maping Area')
