@@ -41,7 +41,7 @@ return new class extends Migration
             $table->char('mid', 9)->unique()->nullable();
             $table->text('tid')->nullable();
             $table->char('nomor_sn', 24)->nullable();
-            $table->string('nama_pemilik', 45)->nullable(); 
+            $table->string('nama_pemilik', 45)->nullable();
             $table->string('no_kontak', 20)->nullable();
             $table->boolean('alamat_edc_sesuai')->nullable();
             $table->boolean('ada_edc_bca')->nullable();
@@ -60,7 +60,7 @@ return new class extends Migration
             $table->string('id_lapor_halo', 8)->nullable();
 
             // Potential Merchant Category
-            $table->string('pengajuan_merchant', 15)->nullable();
+            $table->string('pengajuan_merchant', 25)->nullable();
             $table->string('aplikasi_pendaftaran', 25)->nullable();
             $table->string('fdm_id', 7)->nullable();
             $table->string('alasan_tidak_bersedia', 50)->nullable();
