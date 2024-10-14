@@ -15,7 +15,7 @@ class VendorSeeder extends Seeder
     {
          DB::table('vendor')->insert([
             [
-                'vendor_name' => 'PT. Abacus Teknika Solusindo',
+                'vendor_name' => 'DPI',
                 'pic_name' => 'Intan',
                 'email' => 'admin.edc@abacusts.id',
                 'phone' => '+62 853-3589-1053',
