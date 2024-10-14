@@ -493,13 +493,17 @@ class VisitResource extends Resource
                                 "FDM" => 'FDM',
                                 "Merchant App" => 'Merchant App',
                             ])
+                            ->reactive()
                             ->label('Aplikasi Pendaftaran'),
                         Forms\Components\TextInput::make('fdm_id')
                             ->disabled(function($get){
                                 return $get('is_merchant');
                             })
                             ->label('FDM ID')
-                            ->maxLength(7),
+                            ->maxLength(7)
+                            ->hidden(function($get){
+                                return $get('aplikasi_pendaftaran') === 'Merchant App';
+                            }),
                         Forms\Components\Textarea::make('alasan_tidak_bersedia')
                             ->required(function ($get){
                                 return $get('pengajuan_merchant') === 'No' && !$get('is_merchant');

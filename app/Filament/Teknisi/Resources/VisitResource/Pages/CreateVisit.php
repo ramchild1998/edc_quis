@@ -31,7 +31,7 @@ class CreateVisit extends CreateRecord
         $data['created_by'] = auth()->id();
         $data['updated_by'] = auth()->id();
         $data['tanggal_submit'] = Carbon::today();
-        $data['time_submit'] = Carbon::now()->format('H:i:s');
+        $data['waktu_submit'] = Carbon::now()->format('H:i:s');
 
         // Temporary hardcode lat long to 0
         $data['lat'] = 0;
