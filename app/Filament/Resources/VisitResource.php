@@ -44,7 +44,7 @@ class VisitResource extends Resource
                                 ->preload()
                                 ->label('Vendor')
                                 ->searchable()
-                                ->placeholder('Pilih opsi'),
+                                ->placeholder('Pilih vendor'),
                             // Forms\Components\Select::make('area_id')
                             //     ->relationship('area', 'id')
                             //     ->required(),
@@ -59,13 +59,13 @@ class VisitResource extends Resource
                                     // Reset pilihan Maping Area saat Area berubah
                                     $set('maping_area_id', null);
                                 })
-                                ->label('Area ID')
+                                ->label('Area')
                                 ->searchable()
                                 ->preload()
-                                ->placeholder('Pilih opsi')
-                                ->hint('Pilih area terlebih dahulu')
-                                ->hintColor('danger')
-                                ->hintIcon('heroicon-o-information-circle'),
+                                ->placeholder('Pilih area'),
+                                // ->hint('Pilih area terlebih dahulu')
+                                // ->hintColor('danger')
+                                // ->hintIcon('heroicon-o-information-circle'),
 
                             Forms\Components\Select::make('maping_area_id')
                                 ->label('Maping Area')
@@ -89,10 +89,10 @@ class VisitResource extends Resource
                                         });
                                 })
                                 ->required()
+                                // ->preload()
                                 ->searchable()
-                                ->preload()
-                                ->placeholder('Pilih opsi')
-                                ->label('Location ID'),
+                                ->placeholder('Pilih location')
+                                ->label('Location'),
                             Forms\Components\TextInput::make('nama_lokasi')
                                 ->maxLength(100)
                                 ->label('Nama Lokasi'),
@@ -114,20 +114,26 @@ class VisitResource extends Resource
                                 })
                                 ->searchable()
                                 ->preload()
-                                ->placeholder('Pilih opsi'),
-
+                                ->placeholder('Pilih keterangan lokasi'),
                             Forms\Components\TextInput::make('keterangan_lokasi_lainnya')
                                 ->label('Opsi Keterangan Lokasi Lainnya')
                                 ->placeholder('Masukkan opsi lainnya')
                                 ->maxLength(22)
                                 ->visible(fn ($get) => $get('keterangan_lokasi') === 'Lainnya')
                                 ->reactive(),
-
+                            Forms\Components\TextInput::make('nama_usaha')
+                                ->required()
+                                ->maxLength(100)
+                                ->label('Nama Usaha'),
+                            Forms\Components\TextInput::make('alamat_usaha')
+                                ->required()
+                                ->maxLength(255)
+                                ->label('Alamat Usaha'),
                             Forms\Components\Select::make('province_id')
                                 ->relationship('province', 'province_name', fn(Builder $query) => $query->orderBy('province_name'))
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih provinsi')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('city_id', null); // Reset city_id
@@ -136,10 +142,10 @@ class VisitResource extends Resource
                                     $set('poscode_id', null); // Reset poscode_id
                                 })
                                 ->searchable()
-                                ->label('Provinsi')
-                                ->hint('Pilih provinsi terlebih dahulu')
-                                ->hintColor('danger')
-                                ->hintIcon('heroicon-o-information-circle'),
+                                ->label('Provinsi'),
+                                // ->hint('Pilih provinsi terlebih dahulu')
+                                // ->hintColor('danger')
+                                // ->hintIcon('heroicon-o-information-circle'),
                             Forms\Components\Select::make('city_id')
                                 ->relationship('city', 'city_name', function (Builder $query, $get) {
                                     $id = $get('province_id');
@@ -148,7 +154,7 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih kota')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('district_id', null); // Reset district_id
@@ -165,7 +171,7 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih kecamatan')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('subdistrict_id', null); // Reset subdistrict_id
@@ -181,7 +187,7 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih kelurahan')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
                                     $set('poscode_id', null); // Reset poscode_id
@@ -196,21 +202,31 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->placeholder('Pilih opsi')
+                                ->placeholder('Pilih kode pos')
                                 ->searchable()
                                 ->label('Kode Pos'),
+                            Forms\Components\Toggle::make('is_merchant')
+                                ->label('Apakah Pemilik Terdaftar Sebagai Merchant BCA?')
+                                ->reactive(),
                         ])
-                        ->columns(2),
+                        ->columns(1),
 
                     Forms\Components\Section::make('Informasi Merchant')
                     ->schema([
 
                         Forms\Components\TextInput::make('mid')
+                        ->disabled(function($get){
+                            return !$get('is_merchant');
+                        })
+                        ->label('MID')
                         ->maxLength(9)
                         ->label('MID')
                         ->hint('9 Digit')
                         ->suffixAction(
                             Forms\Components\Actions\Action::make('check')
+                                ->disabled(function($get){
+                                    return !$get('is_merchant');
+                                })
                                 ->label('Check')
                                 ->icon('heroicon-m-magnifying-glass')
                                 ->action(function ($state, $livewire) {
@@ -233,255 +249,405 @@ class VisitResource extends Resource
                         ),
 
                         Forms\Components\TagsInput::make('tid')
+                        ->disabled(function($get){
+                            return !$get('is_merchant');
+                        })
                         ->label('TID')
                         ->separator(',')
                         ->splitKeys(['Tab', 'Enter', ','])
                         ->placeholder('Masukkan TID dan tekan Enter atau Tab')
                         ->columnSpanFull()
                         ->helperText('Masukkan beberapa TID dipisahkan dengan koma. Setiap TID maksimal 8 digit. Contoh: C0141271, C0141272, C0141273')
-                        ->formatStateUsing(function ($state) {
-                            if (is_string($state)) {
-                                return explode(', ', $state);
-                            }
-                            return $state;
-                        })
-                        ->formatStateUsing(function ($state) {
-                            if (is_array($state)) {
-                                return implode(', ', $state);
-                            }
-                            return $state;
-                        })
-                        ->rules([
-                            function () {
-                                return function (string $attribute, $value, Closure $fail) {
-                                    $tids = explode(',', $value);
-                                    foreach ($tids as $tid) {
-                                        $tid = trim($tid);
-                                        if (strlen($tid) > 8) {
-                                            $fail("Setiap TID harus maksimal 8 digit. '$tid' melebihi batas.");
-                                        }
-                                    }
-                                };
-                            },
-                        ]),
-
-
+                        // ->formatStateUsing(function ($state) {
+                        //     if (is_string($state)) {
+                        //         return explode(', ', $state);
+                        //     }
+                        //     return $state;
+                        // })
+                        // ->formatStateUsing(function ($state) {
+                        //     if (is_array($state)) {
+                        //         return implode(', ', $state);
+                        //     }
+                        //     return $state;
+                        // })
+                        ->rules(['max:8']),
                         Forms\Components\TextInput::make('nomor_sn')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
                             ->label('Nomor SN')
                             ->maxLength(24),
                         Forms\Components\TextInput::make('nama_pemilik')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Nama Pemilik Usaha/Rekening')
                             ->maxLength(45),
                         Forms\Components\TextInput::make('no_kontak')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('No. Kontak Pemilik Usaha/PIC Toko')
                             ->maxLength(20),
                         Forms\Components\Select::make('alamat_edc_sesuai')
-                            ->label('Alamat Edc Sesuai ?')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('Apakah Alamat Edc Sesuai?')
                             ->placeholder('Pilih opsi')
                             ->options([
                                 1 => 'Yes',
                                 0 => 'No',
                             ]),
                         Forms\Components\Select::make('ada_edc_bca')
-                            ->label('Ada EDC BCA ?')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('Apakah Ada EDC BCA?')
                             ->placeholder('Pilih opsi')
                             ->options([
                                 1 => 'Yes',
                                 0 => 'No',
                             ]),
                         Forms\Components\TextInput::make('jumlah_edc')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('Jumlah EDC')
                             ->numeric(),
                         Forms\Components\Select::make('edc_bank_lain')
-                            ->label('EDC Bank Lain ?')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('Apakah Ada EDC Bank Lain?')
                             ->placeholder('Pilih opsi')
                             ->options([
                                 1 => 'Yes',
                                 0 => 'No',
                             ]),
                         Forms\Components\Textarea::make('list_edc_bank_lain')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
                             ->label('List EDC Bank Lain')
                             ->columnSpanFull(),
-                        Forms\Components\TextInput::make('catatan_kunjungan_edc')
-                            ->label('Catatan Kunjungan - EDC utama yang digunakan')
-                            ->maxLength(22),
+                        Forms\Components\Select::make('catatan_kunjungan_edc')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->reactive()
+                            ->options([
+                                'Mandiri' => 'Mandiri',
+                                'BRI' => 'BRI',
+                                'BNI' => 'BNI',
+                                'BTN' => 'BTN',
+                                'Shopee' => 'Shopee',
+                                'MTI' => 'MTI',
+                                'PVS' => 'PVS',
+                                'Lainnya' => 'Lainnya',
+                            ])
+                            ->label('EDC utama yang digunakan'),
+                        Forms\Components\TextInput::make('utama_lainnya')
+                            ->label('EDC utama yang digunakan lainnya')
+                            ->maxLength(22)
+                            ->visible(function($get){
+                                return $get('catatan_kunjungan_edc') === 'Lainnya';
+                            })
+                            ->required(function($get){
+                                return $get('catatan_kunjungan_edc') === 'Lainnya' && $get('is_merchant');
+                            })
+                            ->disabled(function($get){
+                                return $get('catatan_kunjungan_edc') !== 'Lainnya';
+                            }),
                         Forms\Components\Select::make('qris_bca')
-                            ->label('Qris BCA ?')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('Qris BCA?')
                             ->placeholder('Pilih opsi')
                             ->options([
                                 1 => 'Yes',
                                 0 => 'No',
                             ]),
                         Forms\Components\TextInput::make('nmid')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
                             ->label('NMID')
                             ->maxLength(15),
                         Forms\Components\Textarea::make('list_qris_bank_lain')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
                             ->label('List Qris Bank Lain')
                             ->columnSpanFull(),
                         Forms\Components\Select::make('tes_transaksi')
-                            ->label('Berhasil Tes Transaksi ?')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
+                            ->required(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('Apakah Berhasil Tes Transaksi?')
                             ->placeholder('Pilih opsi')
                             ->options([
                                 1 => 'Yes',
                                 0 => 'No',
                             ]),
-                        Forms\Components\TextInput::make('catatan_kunjungan_program')
+                        Forms\Components\Textarea::make('catatan_kunjungan_program')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
                             ->label('Catatan Kunjungan - Program bank lain')
                             ->maxLength(50),
                         Forms\Components\Textarea::make('kendala')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
                             ->label('Kendala')
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('request')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
                             ->label('Request')
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('jumlah_struk')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
                             ->label('Jumlah Struk Diberikan')
                             ->numeric(),
                         Forms\Components\TextInput::make('id_lapor_halo')
+                            ->disabled(function($get){
+                                return !$get('is_merchant');
+                            })
                             ->label('ID Lapor Halo')
                             ->maxLength(8),
-                    ])->columns(2),
+                    ])->columns(1)->hidden(fn ($get) => !$get('is_merchant')),
 
                     Forms\Components\Section::make('Informasi Merchant Potensial')
                     ->schema([
-                        Forms\Components\TextInput::make('pengajuan_merchant')
-                            ->maxLength(15),
-                        Forms\Components\TextInput::make('aplikasi_pendaftaran')
-                            ->maxLength(25),
+                        Forms\Components\Select::make('pengajuan_merchant')
+                            ->disabled(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->required(function ($get){
+                                return !$get('is_merchant');
+                            })
+                            ->reactive()
+                            ->placeholder('Pilih opsi')
+                            ->options([
+                                "Yes" => 'Yes',
+                                "No" => 'No',
+                                "Perlu Konfirmasi Owner" => 'Perlu Konfirmasi Owner',
+                            ])
+                            ->label('Pengajuan Merchant'),
+                        Forms\Components\Select::make('aplikasi_pendaftaran')
+                            ->required(function ($get){
+                                return $get('pengajuan_merchant') === 'Yes' && !$get('is_merchant');
+                            })
+                            ->disabled(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->placeholder('Pilih aplikasi pendaftaran')
+                            ->options([
+                                "FDM" => 'FDM',
+                                "Merchant App" => 'Merchant App',
+                            ])
+                            ->label('Aplikasi Pendaftaran'),
                         Forms\Components\TextInput::make('fdm_id')
+                            ->disabled(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('FDM ID')
                             ->maxLength(7),
-                        Forms\Components\TextInput::make('alasan_tidak_bersedia')
+                        Forms\Components\Textarea::make('alasan_tidak_bersedia')
+                            ->required(function ($get){
+                                return $get('pengajuan_merchant') === 'No' && !$get('is_merchant');
+                            })
+                            ->disabled(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('Alasan Tidak Bersedia')
                             ->maxLength(50),
-                        Forms\Components\Toggle::make('mempunyai_edc'),
-                        Forms\Components\TextInput::make('keterangan_lain')
+                        Forms\Components\Select::make('mempunyai_edc')
+                            ->required(function ($get){
+                                return !$get('is_merchant');
+                            })
+                            ->disabled(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->placeholder('Pilih opsi')
+                            ->options([
+                                1 => 'Yes',
+                                0 => 'No',
+                            ])
+                            ->label('Mempunyai EDC BCA Sebelumnya'),
+                        Forms\Components\Textarea::make('keterangan_lain')
+                            ->disabled(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('Keterangan Lain')
                             ->maxLength(50),
                         Forms\Components\TextInput::make('nomor_referensi')
+                            ->disabled(function($get){
+                                return $get('is_merchant');
+                            })
+                            ->label('Nomor Referensi')
                             ->maxLength(255),
-                    ])->columns(2),
+                    ])->columns(1)->hidden(fn ($get) => $get('is_merchant')),
 
                     Forms\Components\Section::make('Bukti Kunjungan')
-                    ->schema([
+                        ->schema([
 
-                    Forms\Components\FileUpload::make('foto_struk')
-                        ->required()
-                        ->image()
-                        ->extraAttributes([
-                            'accept' => 'image/*', // Membatasi hanya file gambar
-                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
-                        ])
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            $userName = str_replace(' ', '_', Auth::user()->name); // Ganti spasi dengan underscore
-                            return 'foto_struk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        })
-                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary')
-                        ->label('Struk Transaksi'),
+                        Forms\Components\FileUpload::make('foto_struk')
+                            // ->required()
+                            ->image()
+                            ->extraAttributes([
+                                'accept' => 'image/*', // Membatasi hanya file gambar
+                                'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                            ])
+                            // ->maxSize(2 * 1024) // 2MB
+                            ->getUploadedFileNameForStorageUsing(function ($file) {
+                                $userName = str_replace(' ', '_', Auth::user()->name); // Ganti spasi dengan underscore
+                                return 'foto_struk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            })
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                            ->hintColor('primary')
+                            ->label('Foto Struk Transaksi'),
 
-                    Forms\Components\FileUpload::make('foto_tampak_depan')
-                        ->required()
-                        ->image()
-                        ->extraAttributes([
-                            'accept' => 'image/*', // Membatasi hanya file gambar
-                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
-                        ])
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_tampak_depan_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        })
-                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary')
-                        ->label('Tampak Depan'),
+                        Forms\Components\FileUpload::make('foto_tampak_depan')
+                            // ->required()
+                            ->image()
+                            ->extraAttributes([
+                                'accept' => 'image/*', // Membatasi hanya file gambar
+                                'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                            ])
+                            // ->maxSize(2 * 1024) // 2MB
+                            ->getUploadedFileNameForStorageUsing(function ($file) {
+                                $userName = str_replace(' ', '_', Auth::user()->name);
+                                return 'foto_tampak_depan_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            })
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                            ->hintColor('primary')
+                            ->label('Foto Tampak Depan'),
 
-                    Forms\Components\FileUpload::make('foto_meja_kasir')
-                        ->required()
-                        ->image()
-                        ->extraAttributes([
-                            'accept' => 'image/*', // Membatasi hanya file gambar
-                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
-                        ])
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_meja_kasir_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        })
-                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary')
-                        ->label('Meja Kasir'),
+                        Forms\Components\FileUpload::make('foto_meja_kasir')
+                            // ->required()
+                            ->image()
+                            ->extraAttributes([
+                                'accept' => 'image/*', // Membatasi hanya file gambar
+                                'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                            ])
+                            // ->maxSize(2 * 1024) // 2MB
+                            ->getUploadedFileNameForStorageUsing(function ($file) {
+                                $userName = str_replace(' ', '_', Auth::user()->name);
+                                return 'foto_meja_kasir_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            })
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                            ->hintColor('primary')
+                            ->label('Foto Meja Kasir (Terlihat EDC/QRIS)'),
 
-                    Forms\Components\FileUpload::make('foto_qris_statis')
-                        ->required()
-                        ->image()
-                        ->extraAttributes([
-                            'accept' => 'image/*', // Membatasi hanya file gambar
-                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
-                        ])
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_qris_statis_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        })
-                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary')
-                        ->label('Foto QRIS Statis'),
+                        Forms\Components\FileUpload::make('foto_qris_statis')
+                            // ->required()
+                            ->image()
+                            ->extraAttributes([
+                                'accept' => 'image/*', // Membatasi hanya file gambar
+                                'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                            ])
+                            // ->maxSize(2 * 1024) // 2MB
+                            ->getUploadedFileNameForStorageUsing(function ($file) {
+                                $userName = str_replace(' ', '_', Auth::user()->name);
+                                return 'foto_qris_statis_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            })
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                            ->hintColor('primary')
+                            ->label('Foto QRIS Statis'),
 
-                    Forms\Components\FileUpload::make('foto_selfie')
-                        ->required()
-                        ->image()
-                        ->extraAttributes([
-                            'accept' => 'image/*', // Membatasi hanya file gambar
-                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
-                        ])
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_selfie_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        })
-                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary')
-                        ->label('Foto Selfie Dengan Pemilik'),
+                        Forms\Components\FileUpload::make('foto_selfie')
+                            // ->required()
+                            ->image()
+                            ->extraAttributes([
+                                'accept' => 'image/*', // Membatasi hanya file gambar
+                                'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                            ])
+                            // ->maxSize(2 * 1024) // 2MB
+                            ->getUploadedFileNameForStorageUsing(function ($file) {
+                                $userName = str_replace(' ', '_', Auth::user()->name);
+                                return 'foto_selfie_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            })
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                            ->hintColor('primary')
+                            ->label('Foto Selfie Dengan Pemilik Usaha/PIC Toko'),
 
-                    Forms\Components\FileUpload::make('foto_produk')
-                        ->required()
-                        ->image()
-                        ->extraAttributes([
-                            'accept' => 'image/*', // Membatasi hanya file gambar
-                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
-                        ])
-                        // ->maxSize(2 * 1024) // 2MB
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'foto_produk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        })
-                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary')
-                        ->label('Foto Produk'),
+                        Forms\Components\FileUpload::make('foto_produk')
+                            // ->required()
+                            ->image()
+                            ->extraAttributes([
+                                'accept' => 'image/*', // Membatasi hanya file gambar
+                                'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                            ])
+                            // ->maxSize(2 * 1024) // 2MB
+                            ->getUploadedFileNameForStorageUsing(function ($file) {
+                                $userName = str_replace(' ', '_', Auth::user()->name);
+                                return 'foto_produk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            })
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                            ->hintColor('primary')
+                            ->label('Foto Produk di Merchant'),
 
-                    Forms\Components\FileUpload::make('screen_capture')
-                        ->required()
-                        ->image()
-                        ->extraAttributes([
-                            'accept' => 'image/*', // Membatasi hanya file gambar
-                            'capture' => 'camera', // Membatasi hanya menggunakan kamera
-                        ])
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            $userName = str_replace(' ', '_', Auth::user()->name);
-                            return 'screen_capture_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        })
-                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
-                        ->hintColor('primary')
-                        ->label('Screen Capture'),
-                        Forms\Components\TextInput::make('nama_surveyor')
-                            ->required()
-                            ->default(auth()->user()->name)
-                            ->readOnly()
-                            ->label('Nama Surveyor'),
-                        Forms\Components\TextInput::make('upline1')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('sales_code')
-                            ->maxLength(15)
-                            ->label('Sales Code'),
+                        Forms\Components\FileUpload::make('screen_capture')
+                            // ->required()
+                            ->image()
+                            ->extraAttributes([
+                                'accept' => 'image/*', // Membatasi hanya file gambar
+                                'capture' => 'camera', // Membatasi hanya menggunakan kamera
+                            ])
+                            ->getUploadedFileNameForStorageUsing(function ($file) {
+                                $userName = str_replace(' ', '_', Auth::user()->name);
+                                return 'screen_capture_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            })
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
+                            ->hintColor('primary')
+                            ->label('Screen Capture Laporan ke Halo BCA'),
+                            Forms\Components\TextInput::make('nama_surveyor')
+                                ->required()
+                                ->default(auth()->user()->name)
+                                ->readOnly()
+                                ->label('Nama Surveyor'),
+                            Forms\Components\TextInput::make('upline1')
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('sales_code')
+                                ->maxLength(15)
+                                ->label('Sales Code'),
                     ])->columns(1),
 
                     // Forms\Components\TextInput::make('lat')
@@ -516,7 +682,7 @@ class VisitResource extends Resource
                 Tables\Columns\TextColumn::make('area.area_name')
                     ->label('Area')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('maping_area.maping_area_name')
+                Tables\Columns\TextColumn::make('mapingArea.sub_area')
                     ->label('Maping Area')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_lokasi')
@@ -527,20 +693,19 @@ class VisitResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('alamat_usaha')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('province_id')
+                Tables\Columns\TextColumn::make('province.province_name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('city_id')
+                Tables\Columns\TextColumn::make('city.city_name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('district_id')
+                Tables\Columns\TextColumn::make('district.district_name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subdistrict_id')
+                Tables\Columns\TextColumn::make('subdistrict.subdistrict_name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('poscode_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('poscode.poscode')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mid')
                     ->searchable(),
@@ -550,23 +715,33 @@ class VisitResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('no_kontak')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('alamat_edc_sesuai')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('ada_edc_bca')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('alamat_edc_sesuai')
+                    ->formatStateUsing(function ($state) {
+                        return $state == 1 ? 'Yes' : 'No';
+                    }),
+                Tables\Columns\TextColumn::make('ada_edc_bca')
+                    ->formatStateUsing(function ($state) {
+                        return $state == 1 ? 'Yes' : 'No';
+                    }),
                 Tables\Columns\TextColumn::make('jumlah_edc')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('edc_bank_lain')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('edc_bank_lain')
+                    ->formatStateUsing(function ($state) {
+                        return $state == 1 ? 'Yes' : 'No';
+                    }),
                 Tables\Columns\TextColumn::make('catatan_kunjungan_edc')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('qris_bca')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('qris_bca')
+                    ->formatStateUsing(function ($state) {
+                        return $state == 1 ? 'Yes' : 'No';
+                    }),
                 Tables\Columns\TextColumn::make('nmid')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('tes_transaksi')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('tes_transaksi')
+                    ->formatStateUsing(function ($state) {
+                        return $state == 1 ? 'Yes' : 'No';
+                    }),
                 Tables\Columns\TextColumn::make('catatan_kunjungan_program')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('jumlah_struk')
@@ -582,23 +757,25 @@ class VisitResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('alasan_tidak_bersedia')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('mempunyai_edc')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('mempunyai_edc')
+                    ->formatStateUsing(function ($state) {
+                        return $state == 1 ? 'Yes' : 'No';
+                    }),
                 Tables\Columns\TextColumn::make('keterangan_lain')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nomor_referensi')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_struk')
+                Tables\Columns\ImageColumn::make('foto_struk')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_tampak_depan')
+                Tables\Columns\ImageColumn::make('foto_tampak_depan')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_meja_kasir')
+                Tables\Columns\ImageColumn::make('foto_meja_kasir')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_qris_statis')
+                Tables\Columns\ImageColumn::make('foto_qris_statis')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_selfie')
+                Tables\Columns\ImageColumn::make('foto_selfie')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_produk')
+                Tables\Columns\ImageColumn::make('foto_produk')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('screen_capture')
                     ->searchable(),
