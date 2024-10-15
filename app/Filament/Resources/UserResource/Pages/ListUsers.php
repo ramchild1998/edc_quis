@@ -16,17 +16,18 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
-            ExportAction::make()
-            ->exports([
-                ExcelExport::make()
-                    ->fromTable()
-                    ->withFilename(fn ($resource) => $resource::getModelLabel() . '-' . date('Y-m-d'))
-                    ->withWriterType(\Maatwebsite\Excel\Excel::XLSX)
-                    ->withColumns([
-                        Column::make('updated_at'),
-                    ])
-            ]),
+            Actions\CreateAction::make()
+            ->can(fn ($user) => $user->hasPermissionTo('User Create')),
+            // ExportAction::make()
+            // ->exports([
+            //     ExcelExport::make()
+            //         ->fromTable()
+            //         ->withFilename(fn ($resource) => $resource::getModelLabel() . '-' . date('Y-m-d'))
+            //         ->withWriterType(\Maatwebsite\Excel\Excel::XLSX)
+            //         ->withColumns([
+            //             Column::make('updated_at'),
+            //         ])
+            // ]),
         ];
     }
 }
