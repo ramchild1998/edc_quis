@@ -92,7 +92,9 @@ class VisitResource extends Resource
                                 ->preload()
                                 ->searchable()
                                 ->placeholder('Pilih location')
-                                ->label('Location')
+                                ->label('Location ID')
+                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Pilih Area ID terlebih dahulu!')
+                                ->hintColor('primary')
                                 ->reactive()
                                 ->afterStateUpdated(function (callable $set, $get) {
                                     $locationId = $get('location_id');
@@ -106,6 +108,8 @@ class VisitResource extends Resource
                             Forms\Components\TextInput::make('nama_lokasi')
                                 ->maxLength(100)
                                 ->label('Nama Lokasi')
+                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Otomatis diperoleh dari Lokasi ID.')
+                                ->hintColor('primary')
                                 ->readOnly(),
 
 
@@ -161,6 +165,8 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
+                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Pilih city terlebih dahulu!')
+                                ->hintColor('primary')
                                 ->placeholder('Pilih kota')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
@@ -178,6 +184,8 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
+                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Pilih kota terlebih dahulu!')
+                                ->hintColor('primary')
                                 ->placeholder('Pilih kecamatan')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
@@ -194,6 +202,8 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
+                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Pilih kecamatan terlebih dahulu!')
+                                ->hintColor('primary')
                                 ->placeholder('Pilih kelurahan')
                                 ->reactive() // Menambahkan reactive
                                 ->afterStateUpdated(function (callable $set, $state) {
@@ -211,6 +221,8 @@ class VisitResource extends Resource
                                 ->required()
                                 ->placeholder('Pilih kode pos')
                                 ->searchable()
+                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Pilih kelurahan terlebih dahulu!')
+                                ->hintColor('primary')
                                 ->label('Kode Pos'),
                             Forms\Components\Toggle::make('is_merchant')
                                 ->label('Apakah Pemilik Terdaftar Sebagai Merchant BCA?')
