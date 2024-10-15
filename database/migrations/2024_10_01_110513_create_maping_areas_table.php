@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maping_area', function (Blueprint $table) {
+        Schema::create('location', function (Blueprint $table) {
             $table->integerIncrements('id')->primary();
+            $table->string('lokasi');
+            $table->char('id_lokasi', 3);
+            $table->boolean('status');
             $table->unsignedInteger('area_id');
             $table->foreign('area_id')->references('id')->on('area');
-            $table->string('sub_area');
-            $table->boolean('status');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by');
@@ -30,6 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('location');
         Schema::dropIfExists('maping_area');
     }
 };

@@ -9,11 +9,12 @@ class MapingArea extends Model
 {
     use HasFactory;
 
-    protected $table = 'maping_area';
+    protected $table = 'location';
 
     protected $fillable = [
         'area_id',
-        'sub_area',
+        'lokasi',
+        'id_lokasi',
         'status',
         'created_by',
         'updated_by',
