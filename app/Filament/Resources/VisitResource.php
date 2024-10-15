@@ -337,13 +337,14 @@ class VisitResource extends Resource
                             ->afterStateUpdated(function (callable $set, $state) {
                                 if ($state == 0) {
                                     $set('jumlah_edc', 0);
-                                } else {
-                                    $set('jumlah_edc', 1);
-                                }
+                                };
                             }),
                         Forms\Components\TextInput::make('jumlah_edc')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
+                            })
+                            ->readOnly(function($get){
+                                return !$get('ada_edc_bca');
                             })
                             ->required(function($get){
                                 return $get('is_merchant');
@@ -354,9 +355,7 @@ class VisitResource extends Resource
                             ->minValue(function($get) {
                                 return $get('ada_edc_bca') == 1 ? 1 : 0;
                             })
-                            ->default(function($get) {
-                                return $get('ada_edc_bca') == 0 ? 0 : 1;
-                            })
+                            ->default(0)
                             ->rules([
                                 function($get) {
                                     return function($attribute, $value, $fail) use ($get) {

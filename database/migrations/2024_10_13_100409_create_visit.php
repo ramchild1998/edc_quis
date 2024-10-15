@@ -82,6 +82,7 @@ return new class extends Migration
             $table->string('sales_code', 15)->nullable();
 
             // Tambahan
+            $table->boolean('is_merchant');
             $table->decimal('lat', 10, 8)->nullable();
             $table->decimal('long', 11, 8)->nullable();
             $table->unsignedBigInteger('created_by');

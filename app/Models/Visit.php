@@ -65,6 +65,7 @@ class Visit extends Model
         'nama_surveyor',
         'upline1',
         'sales_code',
+        'is_merchant',
         'lat',
         'long',
         'created_by',
