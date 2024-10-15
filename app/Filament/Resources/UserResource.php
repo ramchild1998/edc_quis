@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
 
@@ -122,6 +123,27 @@ class UserResource extends Resource
         return [
             //
         ];
+    }
+
+    // SPATIE PERMISSIONS FUNCTIONS
+    public static function canCreate(): bool
+    {
+        return Auth::user()->can('User Create');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->can('User View');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return Auth::user()->can('User Edit');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return false;
     }
 
     public static function getPages(): array

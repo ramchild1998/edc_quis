@@ -17,7 +17,6 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->can(fn ($user) => $user->hasPermissionTo('User Create')),
             // ExportAction::make()
             // ->exports([
             //     ExcelExport::make()
