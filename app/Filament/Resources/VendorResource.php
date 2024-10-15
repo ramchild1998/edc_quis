@@ -36,20 +36,25 @@ class VendorResource extends Resource
                     ->label('#')
                     ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                     Forms\Components\TextInput::make('vendor_name')
+                        ->label('Vendor')
                         ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('pic_name')
+                        ->label('PIC')
                         ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('email')
+                        ->label('Email PIC')
                         ->email()
                         ->required()
                         ->maxLength(45),
                     Forms\Components\TextInput::make('phone')
+                        ->label('Phone PIC')
                         ->tel()
                         ->required()
                         ->maxLength(20),
                     Forms\Components\Toggle::make('status')
+                        ->label('Status')
                         ->default(true)
                         ->onColor('success')
                         ->offColor('danger')
