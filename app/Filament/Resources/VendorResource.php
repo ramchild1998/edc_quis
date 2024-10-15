@@ -69,12 +69,16 @@ class VendorResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('vendor_name')
+                    ->label('Vendor')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('pic_name')
+                    ->label('PIC')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Email PIC')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Phone PIC')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
