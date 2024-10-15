@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('area', function (Blueprint $table) {
             $table->integerIncrements('id')->primary();
             $table->string('area_name', 45);
+            $table->char('id_area', 3);
             $table->boolean('status');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
