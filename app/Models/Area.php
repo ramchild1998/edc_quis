@@ -31,8 +31,8 @@ class Area extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function mapingArea()
+    public function location()
     {
-        return $this->hasOne(MapingArea::class);
+        return $this->hasMany(Location::class);
     }
 }
