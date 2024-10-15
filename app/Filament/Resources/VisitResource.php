@@ -8,6 +8,7 @@ use App\Filament\Resources\VisitResource\Pages;
 use App\Filament\Resources\VisitResource\RelationManagers;
 use App\Models\Location;
 use App\Models\Visit;
+use Carbon\Carbon;
 use Closure;
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -828,12 +829,34 @@ class VisitResource extends Resource
                     ->label('Vendor')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('area.area_name')
+                // Tables\Columns\TextColumn::make('area_id')
+                //     ->numeric()
+                //     ->sortable(),
+                // Tables\Columns\TextColumn::make('location_id')
+                //     ->numeric()
+                //     ->sortable(),
+                Tables\Columns\TextColumn::make('area')
                     ->label('Area')
+                    ->formatStateUsing(function ($record){
+                        return "{$record->area->id_area} => {$record->area->area_name}";
+                    })
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('location.lokasi')
-                    ->label('Maping Area')
+                    ->label('Lokasi')
+                    ->formatStateUsing(function ($record){
+                        return "{$record->location->id_lokasi} => {$record->location->lokasi}";
+                    })
+                    ->sortable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('location')
+                    ->label('ID Lokasi')
+                    ->formatStateUsing(function ($record){
+                        $idLokasi = $record->location->id_lokasi;
+                        $idArea = $record->area->id_area;
+                        
+                        return "L".$idArea.$idLokasi;
+                    })
                     ->sortable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_lokasi')
@@ -1026,7 +1049,7 @@ class VisitResource extends Resource
                 Tables\Columns\TextColumn::make('tanggal_submit')
                     ->label('Tanggal Submit')
                     ->searchable()
-                    ->date()
+                    ->date('d/m/Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('waktu_submit')
                     ->label('Waktu Submit')
