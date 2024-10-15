@@ -46,13 +46,13 @@ class VisitResource extends Resource
 
                         Forms\Components\Section::make('AREA')
                         ->schema([
-                            Forms\Components\TextInput::make('vendor_id')
+                            Forms\Components\Select::make('vendor_id')
                                 ->required()
                                 ->label('Vendor')
-                                ->readOnly()
+                                ->options(\App\Models\Vendor::where('status', true)->pluck('vendor_name', 'id'))
                                 ->default(function () {
                                     $dpiVendor = \App\Models\Vendor::where('vendor_name', 'DPI')->first();
-                                    return $dpiVendor ? $dpiVendor->vendor_name : null;
+                                    return $dpiVendor ? $dpiVendor->id : 1;
                                 }),
 
                             Forms\Components\Select::make('area_id')
@@ -60,7 +60,8 @@ class VisitResource extends Resource
                                 ->required()
                                 ->reactive()
                                 ->afterStateUpdated(function (callable $set, $state) {
-                                    $set('maping_area_id', null);
+                                    $set('location_id', null);
+                                    $set('nama_lokasi', null);
                                 })
                                 ->label('Area ID')
                                 ->searchable()
@@ -228,7 +229,7 @@ class VisitResource extends Resource
                         ->maxLength(9)
                         ->label('MID')
                         ->hint('9 Digit')
-                        ->placeholder('Contoh : 000123456')
+                        ->placeholder('Contoh: 000123456')
                         ->helperText('Check MID terlebih dahulu!')
                         ->suffixAction(
                             Forms\Components\Actions\Action::make('check')
@@ -686,8 +687,8 @@ class VisitResource extends Resource
                             ])
                             // ->maxSize(2 * 1024) // 2MB
                             ->getUploadedFileNameForStorageUsing(function ($file) {
-                                $userName = str_replace(' ', '_', Auth::user()->name); // Ganti spasi dengan underscore
-                                return 'foto_struk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $userNip = str_replace(' ', '_', Auth::user()->nip); // Ganti spasi dengan underscore
+                                return 'foto_struk_' . $userNip . '_' . time() . '.' . $file->getClientOriginalExtension();
                             })
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                             ->hintColor('primary')
@@ -704,8 +705,8 @@ class VisitResource extends Resource
                             ])
                             // ->maxSize(2 * 1024) // 2MB
                             ->getUploadedFileNameForStorageUsing(function ($file) {
-                                $userName = str_replace(' ', '_', Auth::user()->name);
-                                return 'foto_tampak_depan_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $userNip = str_replace(' ', '_', Auth::user()->nip);
+                                return 'foto_tampak_depan_' . $userNip . '_' . time() . '.' . $file->getClientOriginalExtension();
                             })
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                             ->hintColor('primary')
@@ -722,8 +723,8 @@ class VisitResource extends Resource
                             ])
                             // ->maxSize(2 * 1024) // 2MB
                             ->getUploadedFileNameForStorageUsing(function ($file) {
-                                $userName = str_replace(' ', '_', Auth::user()->name);
-                                return 'foto_meja_kasir_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $userNip = str_replace(' ', '_', Auth::user()->nip);
+                                return 'foto_meja_kasir_' . $userNip . '_' . time() . '.' . $file->getClientOriginalExtension();
                             })
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                             ->hintColor('primary')
@@ -740,8 +741,8 @@ class VisitResource extends Resource
                             ])
                             // ->maxSize(2 * 1024) // 2MB
                             ->getUploadedFileNameForStorageUsing(function ($file) {
-                                $userName = str_replace(' ', '_', Auth::user()->name);
-                                return 'foto_qris_statis_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $userNip = str_replace(' ', '_', Auth::user()->nip);
+                                return 'foto_qris_statis_' . $userNip . '_' . time() . '.' . $file->getClientOriginalExtension();
                             })
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                             ->hintColor('primary')
@@ -758,8 +759,8 @@ class VisitResource extends Resource
                             ])
                             // ->maxSize(2 * 1024) // 2MB
                             ->getUploadedFileNameForStorageUsing(function ($file) {
-                                $userName = str_replace(' ', '_', Auth::user()->name);
-                                return 'foto_selfie_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $userNip = str_replace(' ', '_', Auth::user()->nip);
+                                return 'foto_selfie_' . $userNip . '_' . time() . '.' . $file->getClientOriginalExtension();
                             })
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                             ->hintColor('primary')
@@ -776,8 +777,8 @@ class VisitResource extends Resource
                             ])
                             // ->maxSize(2 * 1024) // 2MB
                             ->getUploadedFileNameForStorageUsing(function ($file) {
-                                $userName = str_replace(' ', '_', Auth::user()->name);
-                                return 'foto_produk_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $userNip = str_replace(' ', '_', Auth::user()->nip);
+                                return 'foto_produk_' . $userNip . '_' . time() . '.' . $file->getClientOriginalExtension();
                             })
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                             ->hintColor('primary')
@@ -793,8 +794,8 @@ class VisitResource extends Resource
                                 'capture' => 'camera', // Membatasi hanya menggunakan kamera
                             ])
                             ->getUploadedFileNameForStorageUsing(function ($file) {
-                                $userName = str_replace(' ', '_', Auth::user()->name);
-                                return 'screen_capture_' . $userName . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $userNip = str_replace(' ', '_', Auth::user()->nip);
+                                return 'screen_capture_' . $userNip . '_' . time() . '.' . $file->getClientOriginalExtension();
                             })
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                             ->hintColor('primary')
