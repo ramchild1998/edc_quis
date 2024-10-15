@@ -40,21 +40,32 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Card::make() ->schema([
+                    TextInput::make('nip')
+                        ->label('NIP')
+                        ->placeholder('Nomor Induk Pegawai')
+                        ->maxLength(10),
                     TextInput::make('name')
+                        ->label('Nama')
                         ->required()
                         ->maxLength(255),
                     TextInput::make('email')
+                        ->label('Email')
+                        ->placeholder('ex@mail.com')
                         ->email()
                         ->required()
                         ->maxLength(255),
                     TextInput::make('password')
+                        ->label('Password')
                         ->password()
                         ->revealable()
                         ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                         ->dehydrated(fn (?string $state): bool => filled($state))
                         ->required(fn (string $operation): bool => $operation === 'create')
                         ->maxLength(255),
+                    TextInput::make('phone')
+                        ->label('Nomor HP'),
                     Select::make('roles')
+                        ->label('Roles')
                         ->multiple()
                         ->relationship('roles', 'name')->preload(),
                 ])
@@ -68,12 +79,20 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('index')
                 ->label('#')
                 ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
+                Tables\Columns\TextColumn::make('nip')
+                    ->label('NIP')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nama')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->label('Nomor HP')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')
-                    ->label('Role')
+                    ->label('Roles')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

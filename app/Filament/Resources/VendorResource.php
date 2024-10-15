@@ -67,7 +67,12 @@ class VendorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('index')
+                ->label('#')
+                ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->hidden(),
                 Tables\Columns\TextColumn::make('vendor_name')
                     ->label('Vendor')
                     ->searchable(),
