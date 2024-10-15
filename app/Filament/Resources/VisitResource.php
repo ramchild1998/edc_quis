@@ -45,13 +45,14 @@ class VisitResource extends Resource
 
                         Forms\Components\Section::make('AREA')
                         ->schema([
-                            Forms\Components\Select::make('vendor_id')
-                                ->relationship('vendor', 'vendor_name', fn(Builder $query) => $query->orderBy('vendor_name'))
+                            Forms\Components\TextInput::make('vendor_id')
                                 ->required()
-                                ->preload()
                                 ->label('Vendor')
-                                ->searchable()
-                                ->placeholder('Pilih vendor'),
+                                ->readOnly()
+                                ->default(function () {
+                                    $dpiVendor = \App\Models\Vendor::where('vendor_name', 'DPI')->first();
+                                    return $dpiVendor ? $dpiVendor->vendor_name : null;
+                                }),
 
                             Forms\Components\Select::make('area_id')
                                 ->relationship('area', 'area_name', fn(Builder $query) => $query->where('status', true)->orderBy('area_name'))
@@ -676,6 +677,8 @@ class VisitResource extends Resource
                         Forms\Components\FileUpload::make('foto_struk')
                             // ->required()
                             ->image()
+                            ->optimize('jpg')
+                            ->resize(50)
                             ->extraAttributes([
                                 'accept' => 'image/*', // Membatasi hanya file gambar
                                 'capture' => 'camera', // Membatasi hanya menggunakan kamera
@@ -692,6 +695,8 @@ class VisitResource extends Resource
                         Forms\Components\FileUpload::make('foto_tampak_depan')
                             // ->required()
                             ->image()
+                            ->optimize('jpg')
+                            ->resize(50)
                             ->extraAttributes([
                                 'accept' => 'image/*', // Membatasi hanya file gambar
                                 'capture' => 'camera', // Membatasi hanya menggunakan kamera
@@ -708,6 +713,8 @@ class VisitResource extends Resource
                         Forms\Components\FileUpload::make('foto_meja_kasir')
                             // ->required()
                             ->image()
+                            ->optimize('jpg')
+                            ->resize(50)
                             ->extraAttributes([
                                 'accept' => 'image/*', // Membatasi hanya file gambar
                                 'capture' => 'camera', // Membatasi hanya menggunakan kamera
@@ -724,6 +731,8 @@ class VisitResource extends Resource
                         Forms\Components\FileUpload::make('foto_qris_statis')
                             // ->required()
                             ->image()
+                            ->optimize('jpg')
+                            ->resize(50)
                             ->extraAttributes([
                                 'accept' => 'image/*', // Membatasi hanya file gambar
                                 'capture' => 'camera', // Membatasi hanya menggunakan kamera
@@ -740,6 +749,8 @@ class VisitResource extends Resource
                         Forms\Components\FileUpload::make('foto_selfie')
                             // ->required()
                             ->image()
+                            ->optimize('jpg')
+                            ->resize(50)
                             ->extraAttributes([
                                 'accept' => 'image/*', // Membatasi hanya file gambar
                                 'capture' => 'camera', // Membatasi hanya menggunakan kamera
@@ -756,6 +767,8 @@ class VisitResource extends Resource
                         Forms\Components\FileUpload::make('foto_produk')
                             // ->required()
                             ->image()
+                            ->optimize('jpg')
+                            ->resize(50)
                             ->extraAttributes([
                                 'accept' => 'image/*', // Membatasi hanya file gambar
                                 'capture' => 'camera', // Membatasi hanya menggunakan kamera
@@ -772,6 +785,8 @@ class VisitResource extends Resource
                         Forms\Components\FileUpload::make('screen_capture')
                             // ->required()
                             ->image()
+                            ->optimize('jpg')
+                            ->resize(50)
                             ->extraAttributes([
                                 'accept' => 'image/*', // Membatasi hanya file gambar
                                 'capture' => 'camera', // Membatasi hanya menggunakan kamera
@@ -783,6 +798,8 @@ class VisitResource extends Resource
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Max 2MB')
                             ->hintColor('primary')
                             ->label('Screen Capture Laporan ke Halo BCA'),
+
+
                             Forms\Components\TextInput::make('nama_surveyor')
                                 ->required()
                                 ->default(auth()->user()->name)
@@ -795,16 +812,6 @@ class VisitResource extends Resource
                                 ->label('Sales Code'),
                     ])->columns(1),
 
-                    // Forms\Components\TextInput::make('lat')
-                    //     ->numeric(),
-                    // Forms\Components\TextInput::make('long')
-                    //     ->numeric(),
-                    // Forms\Components\TextInput::make('created_by')
-                    //     ->required()
-                    //     ->numeric(),
-                    // Forms\Components\TextInput::make('updated_by')
-                    //     ->required()
-                    //     ->numeric(),
                 ])
             ]);
     }
@@ -821,12 +828,6 @@ class VisitResource extends Resource
                     ->label('Vendor')
                     ->searchable()
                     ->sortable(),
-                // Tables\Columns\TextColumn::make('area_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('location_id')
-                //     ->numeric()
-                //     ->sortable(),
                 Tables\Columns\TextColumn::make('area.area_name')
                     ->label('Area')
                     ->sortable()
