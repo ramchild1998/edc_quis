@@ -31,7 +31,12 @@ class AreaResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
+                    Forms\Components\TextInput::make('area_id')
+                        ->label('AREA ID')
+                        ->required()
+                        ->maxLength(10),
                     Forms\Components\TextInput::make('area_name')
+                        ->label('AREA')
                         ->required()
                         ->maxLength(45),
                     Forms\Components\Toggle::make('status')
@@ -50,8 +55,8 @@ class AreaResource extends Resource
                 Tables\Columns\TextColumn::make('index')
                     ->label('#')
                     ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
-                Tables\Columns\TextColumn::make('id_area')
-                    ->label('ID AREA'),
+                Tables\Columns\TextColumn::make('area_id')
+                    ->label('AREA ID'),
                 Tables\Columns\TextColumn::make('area_name')
                     ->label('AREA')
                     ->searchable(),
