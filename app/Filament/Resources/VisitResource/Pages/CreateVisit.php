@@ -44,10 +44,10 @@ class CreateVisit extends CreateRecord
         //     throw new \Exception('MID sudah ada dalam bulan ini. Tidak dapat menambahkan data baru.');
         // }
 
-        if($data['keterangan_lokasi'] === 'Lainnya'){
+        if(isset($data['keterangan_lokasi']) && $data['keterangan_lokasi'] === 'Lainnya'){
             $data['keterangan_lokasi'] = $data['keterangan_lokasi_lainnya'];
         }
-        if($data['catatan_kunjungan_edc'] === 'Lainnya'){
+        if(isset($data['catatan_kunjungan_edc']) && $data['catatan_kunjungan_edc'] === 'Lainnya'){
             $data['catatan_kunjungan_edc'] = $data['utama_lainnya'];
         }
 
