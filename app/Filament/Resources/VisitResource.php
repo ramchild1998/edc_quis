@@ -165,7 +165,7 @@ class VisitResource extends Resource
                                 })
                                 ->preload()
                                 ->required()
-                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Pilih city terlebih dahulu!')
+                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Pilih provinsi terlebih dahulu!')
                                 ->hintColor('primary')
                                 ->placeholder('Pilih kota')
                                 ->reactive() // Menambahkan reactive
