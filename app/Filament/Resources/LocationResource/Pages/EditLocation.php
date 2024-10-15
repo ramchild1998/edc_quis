@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\MapingAreaResource\Pages;
+namespace App\Filament\Resources\LocationResource\Pages;
 
-use App\Filament\Resources\MapingAreaResource;
+use App\Filament\Resources\LocationResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
-class EditMapingArea extends EditRecord
+class EditLocation extends EditRecord
 {
-    protected static string $resource = MapingAreaResource::class;
+    protected static string $resource = LocationResource::class;
 
     // protected function getHeaderActions(): array
     // {

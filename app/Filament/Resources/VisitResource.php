@@ -6,7 +6,7 @@ use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Resources\VisitResource\Pages;
 use App\Filament\Resources\VisitResource\RelationManagers;
-use App\Models\MapingArea;
+use App\Models\Location;
 use App\Models\Visit;
 use Closure;
 use Filament\Facades\Filament;
@@ -88,8 +88,7 @@ class VisitResource extends Resource
                                 ->preload()
                                 ->placeholder('Pilih area'),
 
-                            Forms\Components\Select::make('maping_area_id')
-                                ->label('Maping Area')
+                            Forms\Components\Select::make('location_id')
                                 ->options(function (callable $get) {
                                     // Ambil ID Area yang dipilih
                                     $areaId = $get('area_id');
@@ -100,17 +99,17 @@ class VisitResource extends Resource
                                     }
 
                                     // Ambil data maping area yang sesuai dengan area_id
-                                    return MapingArea::where('area_id', $areaId)  // Filter berdasarkan area_id yang dipilih
+                                    return Location::where('area_id', $areaId)  // Filter berdasarkan area_id yang dipilih
                                         ->get()
-                                        ->mapWithKeys(function ($mapingArea) {
+                                        ->mapWithKeys(function ($location) {
                                             // Gabungkan area_name dengan sub_area sebagai label
                                             return [
-                                                $mapingArea->id => "{$mapingArea->area->area_name} -> {$mapingArea->sub_area}",
+                                                $location->id => "{$location->area->area_name} -> {$location->lokasi}",
                                             ];
                                         });
                                 })
                                 ->required()
-                                // ->preload()
+                                ->preload()
                                 ->searchable()
                                 ->placeholder('Pilih location')
                                 ->label('Location'),
@@ -828,7 +827,7 @@ class VisitResource extends Resource
                     ->label('Area')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('mapingArea.sub_area')
+                Tables\Columns\TextColumn::make('location.lokasi')
                     ->label('Maping Area')
                     ->sortable()
                     ->sortable(),

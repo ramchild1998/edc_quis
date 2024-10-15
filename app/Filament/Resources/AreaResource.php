@@ -55,11 +55,11 @@ class AreaResource extends Resource
                 Tables\Columns\TextColumn::make('index')
                     ->label('#')
                     ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
-                Tables\Columns\TextColumn::make('area_id')
-                    ->label('AREA ID'),
                 Tables\Columns\TextColumn::make('area_name')
-                    ->label('AREA')
+                    ->label('Area')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('id_area')
+                    ->label('ID Area'),
                 Tables\Columns\TextColumn::make('createdBy.name') // Menampilkan nama user yang membuat data
                     ->label('Created By')
                     ->toggleable(isToggledHiddenByDefault: true)

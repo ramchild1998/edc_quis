@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\MapingAreaResource\Pages;
-use App\Models\MapingArea;
+use App\Filament\Resources\LocationResource\Pages;
+use App\Models\Location;
 use App\Models\Subdistrict;
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -14,15 +14,15 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class MapingAreaResource extends Resource
+class LocationResource extends Resource
 {
-    protected static ?string $model = MapingArea::class;
+    protected static ?string $model = Location::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map';
 
     public static function shouldRegisterNavigation(): bool
     {
-    	return Filament::auth()->user()->can('MappingArea View');
+    	return Filament::auth()->user()->can('Location View');
     }
 
     public static function form(Form $form): Form
@@ -124,7 +124,10 @@ class MapingAreaResource extends Resource
                 Tables\Columns\TextColumn::make('area.area_name')
                     ->label('Area')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('sub_area')
+                Tables\Columns\TextColumn::make('lokasi')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('id_lokasi')
+                    ->label('ID Lokasi')
                     ->sortable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
@@ -143,9 +146,9 @@ class MapingAreaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMapingAreas::route('/'),
-            'create' => Pages\CreateMapingArea::route('/create'),
-            'edit' => Pages\EditMapingArea::route('/{record}/edit'),
+            'index' => Pages\ListLocations::route('/'),
+            'create' => Pages\CreateLocation::route('/create'),
+            'edit' => Pages\EditLocation::route('/{record}/edit'),
         ];
     }
 }

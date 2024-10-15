@@ -84,9 +84,9 @@ class Visit extends Model
         return $this->belongsTo(Area::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
     }
 
-    public function mapingArea()
+    public function location()
     {
-        return $this->belongsTo(MapingArea::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
+        return $this->belongsTo(Location::class); // Pastikan ini sesuai dengan relasi yang Anda inginkan
     }
 
     public function province()

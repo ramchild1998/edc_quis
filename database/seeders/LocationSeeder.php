@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Area;
-use App\Models\MapingArea;
+use App\Models\Location;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -33,7 +33,7 @@ class LocationSeeder extends Seeder
         $pondokCabe = Area::where('area_name', 'Pondok Cabe')->value('id');
         $depok = Area::where('area_name', 'Depok')->value('id');
         $cimanggis = Area::where('area_name', 'Cimanggis')->value('id');
-         MapingArea::insert([
+         Location::insert([
 
              //Area Thamrin
              ['lokasi' => 'Chillax Sudirman', 'id_lokasi' => '001', 'area_id' => $thamrin, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\MapingAreaResource\Pages;
+namespace App\Filament\Resources\LocationResource\Pages;
 
-use App\Filament\Resources\MapingAreaResource;
+use App\Filament\Resources\LocationResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateMapingArea extends CreateRecord
+class CreateLocation extends CreateRecord
 {
-    protected static string $resource = MapingAreaResource::class;
+    protected static string $resource = LocationResource::class;
 
 
     protected function getCreatedNotification(): ?Notification
