@@ -326,6 +326,7 @@ class VisitResource extends Resource
                                 1 => 'Yes',
                                 0 => 'No',
                             ]),
+
                         Forms\Components\Select::make('ada_edc_bca')
                             ->disabled(function($get){
                                 return !$get('is_merchant');
@@ -333,22 +334,36 @@ class VisitResource extends Resource
                             ->required(function($get){
                                 return $get('is_merchant');
                             })
-                            ->label('Apakah Ada EDC BCA?')
+                            ->label('Apakah Ada EDC BCA atau Tidak?')
                             ->placeholder('Pilih opsi')
                             ->options([
                                 1 => 'Yes',
                                 0 => 'No',
-                            ]),
+                            ])
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                if ($state == 0) {
+                                    $set('jumlah_edc', 0);
+                                } else {
+                                    $set('jumlah_edc', null);
+                                }
+                            }),
                         Forms\Components\TextInput::make('jumlah_edc')
                             ->disabled(function($get){
-                                return !$get('is_merchant');
+                                return !$get('is_merchant') || $get('ada_edc_bca') == 0;
                             })
                             ->required(function($get){
-                                return $get('is_merchant');
+                                return $get('is_merchant') && $get('ada_edc_bca') == 1;
                             })
                             ->label('Jumlah EDC')
                             ->placeholder('Contoh: 1')
-                            ->numeric(),
+                            ->numeric()
+                            ->minValue(1)
+                            ->default(function($get) {
+                                return $get('ada_edc_bca') == 0 ? 0 : null;
+                            })
+                            ->rules(['min:1'])
+                            ->reactive(),
 
 
                         Forms\Components\Select::make('edc_bank_lain')
