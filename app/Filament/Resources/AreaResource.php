@@ -47,8 +47,13 @@ class AreaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('index')
+                    ->label('#')
+                    ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
+                Tables\Columns\TextColumn::make('id_area')
+                    ->label('ID AREA'),
                 Tables\Columns\TextColumn::make('area_name')
+                    ->label('AREA')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('createdBy.name') // Menampilkan nama user yang membuat data
                     ->label('Created By')

@@ -49,8 +49,15 @@ class PermissionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('index')
+                ->label('#')
+                ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
+                TextColumn::make('id')
+                ->label('ID'),
                 TextColumn::make('name')
+                ->searchable()
+                ->sortable()
+                ->label('Name'),
                 //
             ])
             ->recordUrl(null)

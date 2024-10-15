@@ -32,6 +32,9 @@ class VendorResource extends Resource
             ->schema([
                 Card::make()->schema([
 
+                    Tables\Columns\TextColumn::make('index')
+                    ->label('#')
+                    ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                     Forms\Components\TextInput::make('vendor_name')
                         ->required()
                         ->maxLength(45),

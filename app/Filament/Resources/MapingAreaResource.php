@@ -22,7 +22,7 @@ class MapingAreaResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-    	return Filament::auth()->user()->can('MapingArea View');
+    	return Filament::auth()->user()->can('MappingArea View');
     }
 
     public static function form(Form $form): Form

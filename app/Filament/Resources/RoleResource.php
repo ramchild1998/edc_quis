@@ -51,6 +51,9 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('index')
+                ->label('#')
+                ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                 TextColumn::make('id'),
                 TextColumn::make('name')
                 //
