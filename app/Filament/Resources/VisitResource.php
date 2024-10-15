@@ -855,7 +855,7 @@ class VisitResource extends Resource
                     ->formatStateUsing(function ($record){
                         $idLokasi = $record->location->id_lokasi;
                         $idArea = $record->area->id_area;
-                        
+
                         return "L".$idArea.$idLokasi;
                     })
                     ->sortable()
@@ -907,7 +907,10 @@ class VisitResource extends Resource
                 Tables\Columns\TextColumn::make('nomor_sn')
                     ->label('Nomor SN')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return strtoupper($state);
+                    }),
                 Tables\Columns\TextColumn::make('nama_pemilik')
                     ->label('Nama Pemilik Usaha/Rekening')
                     ->searchable()
