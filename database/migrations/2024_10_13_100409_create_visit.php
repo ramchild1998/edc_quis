@@ -37,7 +37,7 @@ return new class extends Migration
             $table->foreign('poscode_id')->references('id')->on('poscode');
 
             // Merchant Infromation Category
-            $table->char('mid', 9)->unique()->nullable();
+            $table->char('mid', 9)->nullable();
             $table->text('tid')->nullable();
             $table->char('nomor_sn', 24)->nullable();
             $table->string('nama_pemilik', 45)->nullable();
