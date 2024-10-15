@@ -52,29 +52,6 @@ class VisitResource extends Resource
                                 ->label('Vendor')
                                 ->searchable()
                                 ->placeholder('Pilih vendor'),
-                            // Forms\Components\Select::make('area_id')
-                            //     ->relationship('area', 'id')
-                            //     ->required(),
-                            // Forms\Components\Select::make('location_id')
-                            //     ->relationship('location', 'id')
-                            //     ->required(),
-
-
-                            // Forms\Components\Select::make('area_id')
-                            //     ->relationship('area', 'area_name', fn(Builder $query) => $query->orderBy('area_name'))
-                            //     ->required()
-                            //     ->reactive()  // Tambahkan reactive agar bisa memicu perubahan di Maping Area
-                            //     ->afterStateUpdated(function (callable $set, $state) {
-                            //         // Reset pilihan Maping Area saat Area berubah
-                            //         $set('maping_area_id', null);
-                            //     })
-                            //     ->label('Area ID')
-                            //     ->searchable()
-                            //     ->preload()
-                            //     ->placeholder('Pilih area'),
-                            //     // ->hint('Pilih area terlebih dahulu')
-                            //     // ->hintColor('danger')
-                            //     // ->hintIcon('heroicon-o-information-circle'),
 
                             Forms\Components\Select::make('area_id')
                                 ->relationship('area', 'area_name', fn(Builder $query) => $query->where('status', true)->orderBy('area_name'))
@@ -112,10 +89,21 @@ class VisitResource extends Resource
                                 ->preload()
                                 ->searchable()
                                 ->placeholder('Pilih location')
-                                ->label('Location'),
+                                ->label('Location')
+                                ->reactive()
+                                ->afterStateUpdated(function (callable $set, $get) {
+                                    $locationId = $get('location_id');
+                                    if ($locationId) {
+                                        $location = Location::find($locationId);
+                                        if ($location) {
+                                            $set('nama_lokasi', $location->lokasi);
+                                        }
+                                    }
+                                }),
                             Forms\Components\TextInput::make('nama_lokasi')
                                 ->maxLength(100)
-                                ->label('Nama Lokasi'),
+                                ->label('Nama Lokasi')
+                                ->readOnly(),
 
 
                             Forms\Components\Select::make('keterangan_lokasi')
@@ -124,6 +112,7 @@ class VisitResource extends Resource
                                     'Pertokoan' => 'Pertokoan',
                                     'Ruko' => 'Ruko',
                                     'Pasar' => 'Pasar',
+                                    'Stand Alone' => 'Stand Alone',
                                     'Lainnya' => 'Lainnya',
                                 ])
                                 ->reactive()
@@ -284,7 +273,9 @@ class VisitResource extends Resource
                             ->placeholder('Masukkan TID dan tekan Enter atau Tab')
                             ->columnSpanFull()
                             ->helperText('Masukkan beberapa TID. Setiap TID maksimal 8 digit. Contoh: C0141271 (Enter/Tab untuk setiap TID)')
-                            ->rules(['max:8']),
+                            ->rules(['max:8'])
+                            ->formatStateUsing(fn ($state) => collect($state)->map(fn ($item) => strtoupper($item))->toArray())
+                            ->formatStateUsing(fn ($state) => is_array($state) ? array_map('strtoupper', $state) : $state),
 
                         Forms\Components\TextInput::make('nomor_sn')
                             ->disabled(function($get){
@@ -344,24 +335,37 @@ class VisitResource extends Resource
                                 if ($state == 0) {
                                     $set('jumlah_edc', 0);
                                 } else {
-                                    $set('jumlah_edc', null);
+                                    $set('jumlah_edc', 1);
                                 }
                             }),
                         Forms\Components\TextInput::make('jumlah_edc')
                             ->disabled(function($get){
-                                return !$get('is_merchant') || $get('ada_edc_bca') == 0;
+                                return !$get('is_merchant');
                             })
                             ->required(function($get){
-                                return $get('is_merchant') && $get('ada_edc_bca') == 1;
+                                return $get('is_merchant');
                             })
                             ->label('Jumlah EDC')
                             ->placeholder('Contoh: 1')
                             ->numeric()
-                            ->minValue(1)
-                            ->default(function($get) {
-                                return $get('ada_edc_bca') == 0 ? 0 : null;
+                            ->minValue(function($get) {
+                                return $get('ada_edc_bca') == 1 ? 1 : 0;
                             })
-                            ->rules(['min:1'])
+                            ->default(function($get) {
+                                return $get('ada_edc_bca') == 0 ? 0 : 1;
+                            })
+                            ->rules([
+                                function($get) {
+                                    return function($attribute, $value, $fail) use ($get) {
+                                        if ($get('ada_edc_bca') == 1 && $value < 1) {
+                                            $fail("Jumlah EDC harus lebih dari 0 jika ada EDC BCA.");
+                                        }
+                                        if ($get('ada_edc_bca') == 0 && $value != 0) {
+                                            $fail("Jumlah EDC harus 0 jika tidak ada EDC BCA.");
+                                        }
+                                    };
+                                },
+                            ])
                             ->reactive(),
 
 
