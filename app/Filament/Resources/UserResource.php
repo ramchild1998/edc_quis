@@ -82,12 +82,15 @@ class UserResource extends Resource
                 ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                 Tables\Columns\TextColumn::make('nip')
                     ->label('NIP')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Nomor HP')
