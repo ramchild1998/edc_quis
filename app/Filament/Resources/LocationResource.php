@@ -129,6 +129,15 @@ class LocationResource extends Resource
                 Tables\Columns\TextColumn::make('id_lokasi')
                     ->label('ID Lokasi')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('area')
+                    ->label('Hasil ID')
+                    ->formatStateUsing(function ($record){
+                        $idLokasi = $record->id_lokasi;
+                        $idArea = $record->area->id_area;
+
+                        return "L".$idArea.$idLokasi;
+                    })
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
             ])

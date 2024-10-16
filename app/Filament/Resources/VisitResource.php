@@ -869,7 +869,6 @@ class VisitResource extends Resource
 
                         return "L".$idArea.$idLokasi;
                     })
-                    ->sortable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_lokasi')
                     ->label('Nama Lokasi')
