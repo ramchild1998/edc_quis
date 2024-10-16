@@ -25,7 +25,6 @@ class LocationSeeder extends Seeder
         $gandaria = Area::where('area_name', 'Gandaria')->value('id');
         $pejaten = Area::where('area_name', 'Pejaten')->value('id');
         $kemang = Area::where('area_name', 'Kemang')->value('id');
-        $kalibataDpi = Area::where('area_name', 'Kalibata DPI')->value('id');
         $fatmawati = Area::where('area_name', 'Fatmawati')->value('id');
         $bintaro = Area::where('area_name', 'Bintaro')->value('id');
         $ciledug = Area::where('area_name', 'Ciledug')->value('id');
@@ -39,15 +38,12 @@ class LocationSeeder extends Seeder
              ['lokasi' => 'Chillax Sudirman', 'id_lokasi' => '001', 'area_id' => $thamrin, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
              ['lokasi' => 'Jl.Timor', 'id_lokasi' => '002', 'area_id' => $thamrin, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
              ['lokasi' => 'Jl.Lombok', 'id_lokasi' => '003', 'area_id' => $thamrin, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Cideng Timur', 'id_lokasi' => '004', 'area_id' => $thamrin, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
 
              //Area Menteng DPI
-             ['lokasi' => 'Ruko Auri tn.Abang', 'id_lokasi' => '001', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Pusat Grosir tn.Abang', 'id_lokasi' => '002', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Menteng Atas', 'id_lokasi' => '003', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Menteng Atas Barat', 'id_lokasi' => '004', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Mulia Raya', 'id_lokasi' => '005', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Makmur', 'id_lokasi' => '006', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['lokasi' => 'Jl.Menteng Atas', 'id_lokasi' => '001', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['lokasi' => 'Jl.Menteng Atas Barat', 'id_lokasi' => '002', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['lokasi' => 'Jl.Mulia Raya', 'id_lokasi' => '003', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['lokasi' => 'Jl.Makmur', 'id_lokasi' => '004', 'area_id' => $mentengDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
 
              //Area Kuningan
              ['lokasi' => 'Pasar Festival', 'id_lokasi' => '001', 'area_id' => $kuningan, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
@@ -65,10 +61,9 @@ class LocationSeeder extends Seeder
 
              //Area Senopati
              ['lokasi' => 'Pasar Santa', 'id_lokasi' => '001', 'area_id' => $senopati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Ruko Permata Senayan', 'id_lokasi' => '002', 'area_id' => $senopati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Senopati Raya', 'id_lokasi' => '003', 'area_id' => $senopati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Bakti 1', 'id_lokasi' => '004', 'area_id' => $senopati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Suryo', 'id_lokasi' => '005', 'area_id' => $senopati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['lokasi' => 'Jl.Senopati Raya', 'id_lokasi' => '002', 'area_id' => $senopati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['lokasi' => 'Jl.Bakti 1', 'id_lokasi' => '003', 'area_id' => $senopati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['lokasi' => 'Jl.Suryo', 'id_lokasi' => '004', 'area_id' => $senopati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
 
              //Area Senayan
              ['lokasi' => 'Ruko Permata Senayan', 'id_lokasi' => '001', 'area_id' => $senayan, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
@@ -109,16 +104,6 @@ class LocationSeeder extends Seeder
              ['lokasi' => 'Jl.Wr Buncit', 'id_lokasi' => '003', 'area_id' => $kemang, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
              ['lokasi' => 'Ruko Kemang Raya', 'id_lokasi' => '004', 'area_id' => $kemang, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
 
-             //Area Kalibata DPI
-             ['lokasi' => 'Jl.Raya Pasar Minggu', 'id_lokasi' => '001', 'area_id' => $kalibataDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Ruko Tebet', 'id_lokasi' => '002', 'area_id' => $kalibataDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Ruko crown Place', 'id_lokasi' => '003', 'area_id' => $kalibataDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Tebet Raya', 'id_lokasi' => '004', 'area_id' => $kalibataDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Ruko ampera', 'id_lokasi' => '005', 'area_id' => $kalibataDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Ruko jati padang', 'id_lokasi' => '006', 'area_id' => $kalibataDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Jl.Raya Ragunan', 'id_lokasi' => '007', 'area_id' => $kalibataDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Ruko Selmi Stasiun Tebet', 'id_lokasi' => '008', 'area_id' => $kalibataDpi, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-
              //Area Fatmawati
              ['lokasi' => 'Jl.Terogong', 'id_lokasi' => '001', 'area_id' => $fatmawati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
              ['lokasi' => 'Jl.Antasari', 'id_lokasi' => '002', 'area_id' => $fatmawati, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
@@ -127,7 +112,7 @@ class LocationSeeder extends Seeder
 
              //Area Bintaro
              ['lokasi' => 'Pasar Modern Bintaro', 'id_lokasi' => '001', 'area_id' => $bintaro, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
-             ['lokasi' => 'Bintaro Sekto 1-9', 'id_lokasi' => '002', 'area_id' => $bintaro, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+             ['lokasi' => 'Bintaro Sektor 1-9', 'id_lokasi' => '002', 'area_id' => $bintaro, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
              ['lokasi' => 'Ruko Emerald', 'id_lokasi' => '003', 'area_id' => $bintaro, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
              ['lokasi' => 'Ruko Bintaro Trade Center', 'id_lokasi' => '004', 'area_id' => $bintaro, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
              ['lokasi' => 'Ruko Kebayoran Arcade', 'id_lokasi' => '005', 'area_id' => $bintaro, 'status' => 1, 'created_by' => 1, 'updated_by' => 1, 'created_at' => now(), 'updated_at' => now()],
