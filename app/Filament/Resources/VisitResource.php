@@ -1063,12 +1063,16 @@ class VisitResource extends Resource
                 Tables\Columns\TextColumn::make('tanggal_submit')
                     ->label('Tanggal Submit')
                     ->searchable()
-                    ->date('d/m/Y')
+                    ->formatStateUsing(function($state){
+                        return Carbon::parse($state)->setTimezone('Asia/Jakarta')->format('d/m/Y');
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('waktu_submit')
                     ->label('Waktu Submit')
                     ->searchable()
-                    ->time()
+                    ->formatStateUsing(function($state){
+                        return Carbon::parse($state)->setTimezone('Asia/Jakarta')->format('H:i:s');
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_surveyor')
                     ->label('Nama Surveyor')
@@ -1102,12 +1106,16 @@ class VisitResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
-                    ->dateTime()
+                    ->formatStateUsing(function($state){
+                        return Carbon::parse($state)->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s');
+                    })
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated At')
-                    ->dateTime()
+                    ->formatStateUsing(function($state){
+                        return Carbon::parse($state)->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s');
+                    })
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
