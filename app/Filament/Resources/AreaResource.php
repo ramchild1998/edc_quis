@@ -31,8 +31,8 @@ class AreaResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('id_area')
-                        ->label('ID Area')
+                    Forms\Components\TextInput::make('area_id')
+                        ->label('Area ID')
                         ->required()
                         ->maxLength(10),
                     Forms\Components\TextInput::make('area_name')
