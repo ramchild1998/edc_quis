@@ -72,7 +72,7 @@ class LocationResource extends Resource
                     //             $set('poscode', null);
                     //         }
                     //     }),
-                    Forms\Components\TextInput::make('sub_area')
+                    Forms\Components\TextInput::make('lokasi')
                         ->required()
                         ->maxLength(255),
 
