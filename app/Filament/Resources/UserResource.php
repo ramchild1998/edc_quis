@@ -17,9 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
-
-
-
+use Illuminate\Validation\Rule;
 
 class UserResource extends Resource
 {
@@ -43,7 +41,14 @@ class UserResource extends Resource
                 Card::make() ->schema([
                     TextInput::make('nip')
                         ->label('NIP')
+                        ->required()
                         ->placeholder('Nomor Induk Pegawai')
+                        ->rules(function(callable $get, $livewire){
+                            $recordId = $livewire->getRecord()?->id;
+                            return [
+                                Rule::unique('users', 'nip')->ignore($recordId)
+                            ];
+                        })
                         ->maxLength(10),
                     TextInput::make('name')
                         ->label('Nama')
@@ -54,6 +59,13 @@ class UserResource extends Resource
                         ->placeholder('ex@mail.com')
                         ->email()
                         ->required()
+                        ->rules(function(callable $get, $livewire){
+                            $recordId = $livewire->getRecord()?->id;
+                            return [
+                                'email',
+                                Rule::unique('users', 'email')->ignore($recordId)
+                            ];
+                        })
                         ->maxLength(255),
                     TextInput::make('password')
                         ->label('Password')
@@ -64,6 +76,8 @@ class UserResource extends Resource
                         ->required(fn (string $operation): bool => $operation === 'create')
                         ->maxLength(255),
                     TextInput::make('phone')
+                        ->required()
+                        ->maxLength(20)
                         ->label('Nomor HP'),
                     Select::make('roles')
                         ->label('Roles')
