@@ -101,7 +101,7 @@ class VisitResource extends Resource
                                     if ($locationId) {
                                         $location = Location::find($locationId);
                                         if ($location) {
-                                            $set('nama_lokasi', $location->lokasi);
+                                            $set('nama_lokasi', $location->area->area_name . " " . $location->lokasi . " DPI");
                                         }
                                     }
                                 }),
