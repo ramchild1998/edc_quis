@@ -847,7 +847,7 @@ class VisitResource extends Resource
                 // Tables\Columns\TextColumn::make('location_id')
                 //     ->numeric()
                 //     ->sortable(),
-                Tables\Columns\TextColumn::make('area')
+                Tables\Columns\TextColumn::make('area.area_name')
                     ->label('Area')
                     ->formatStateUsing(function ($record){
                         return "{$record->area->id_area} => {$record->area->area_name}";
