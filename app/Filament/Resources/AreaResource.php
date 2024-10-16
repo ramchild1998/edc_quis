@@ -31,12 +31,12 @@ class AreaResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('area_id')
-                        ->label('AREA ID')
+                    Forms\Components\TextInput::make('id_area')
+                        ->label('ID Area')
                         ->required()
                         ->maxLength(10),
                     Forms\Components\TextInput::make('area_name')
-                        ->label('AREA')
+                        ->label('Area Name')
                         ->required()
                         ->maxLength(45),
                     Forms\Components\Toggle::make('status')
