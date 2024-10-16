@@ -122,15 +122,15 @@ class LocationResource extends Resource
                     ->label('#')
                     ->getStateUsing(fn ($rowLoop, $record) => $rowLoop->iteration),
                 Tables\Columns\TextColumn::make('area.area_name')
-                    ->label('Area')
+                    ->label('AREA')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('lokasi')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('id_lokasi')
-                    ->label('ID Lokasi')
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('id_lokasi')
+                //     ->label('ID Lokasi')
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('area')
-                    ->label('Hasil ID')
+                    ->label('LOKASI ID')
                     ->formatStateUsing(function ($record){
                         $idLokasi = $record->id_lokasi;
                         $idArea = $record->area->id_area;
@@ -139,6 +139,7 @@ class LocationResource extends Resource
                     })
                     ->sortable(),
                 Tables\Columns\IconColumn::make('status')
+                    ->label('STATUS')
                     ->boolean(),
             ])
             ->recordUrl(null)
