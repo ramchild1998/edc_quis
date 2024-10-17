@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Form;
@@ -79,10 +80,22 @@ class UserResource extends Resource
                         ->required()
                         ->maxLength(20)
                         ->label('Nomor HP'),
-                    Select::make('roles')
+                    CheckboxList::make('roles')
                         ->label('Roles')
-                        ->multiple()
-                        ->relationship('roles', 'name')->preload(),
+                        ->relationship('roles', 'name')
+                        ->columns(2)
+                        ->options(function () {
+                            if (auth()->user()->hasRole('ADMATS')) {
+                                return \App\Models\Role::where('name', 'TEKNISI')->pluck('name', 'id');
+                            }
+                            return \App\Models\Role::pluck('name', 'id');
+                        })
+                        ->default(function () {
+                            if (auth()->user()->hasRole('ADMATS')) {
+                                return \App\Models\Role::where('name', 'TEKNISI')->pluck('id')->toArray();
+                            }
+                            return [];
+                        })
                 ])
             ]);
     }
