@@ -168,6 +168,13 @@ class UserResource extends Resource
 
     public static function canEdit($record): bool
     {
+        $userRoles = Auth::user()->roles->pluck('name')->toArray();
+        if (in_array('ADMATS', $userRoles) &&
+            (in_array('SUPERADMIN', $record->roles->pluck('name')->toArray()) ||
+            in_array('ADMATS', $record->roles->pluck('name')->toArray()) ||
+            in_array('ADMBANK', $record->roles->pluck('name')->toArray()))) {
+            return false;
+        }
         return Auth::user()->can('User Edit');
     }
 
