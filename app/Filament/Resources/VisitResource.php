@@ -1050,7 +1050,9 @@ class VisitResource extends Resource
                     ->formatStateUsing(function($state){
                         return Carbon::parse($state)->setTimezone('Asia/Jakarta')->format('d/m/Y');
                     })
-                    ->searchable(isIndividual: true)
+                    ->searchable(isIndividual: true, query: function($query, $search) {
+                        $query->whereRaw("DATE_FORMAT(CONVERT_TZ(tanggal_submit, '+00:00', '+07:00'), '%d/%m/%Y') LIKE ?", ["%{$search}%"]);
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('waktu_submit')
                     ->label('Waktu Submit')
