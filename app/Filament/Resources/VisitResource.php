@@ -1047,17 +1047,17 @@ class VisitResource extends Resource
                     ->label('Screen Capture Laporan ke Halo BCA'),
                 Tables\Columns\TextColumn::make('tanggal_submit')
                     ->label('Tanggal Submit')
-                    ->searchable()
                     ->formatStateUsing(function($state){
                         return Carbon::parse($state)->setTimezone('Asia/Jakarta')->format('d/m/Y');
                     })
+                    ->searchable(isIndividual: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('waktu_submit')
                     ->label('Waktu Submit')
-                    ->searchable()
                     ->formatStateUsing(function($state){
                         return Carbon::parse($state)->setTimezone('Asia/Jakarta')->format('H:i:s');
                     })
+                    ->searchable(isIndividual: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_surveyor')
                     ->label('Nama Surveyor')
