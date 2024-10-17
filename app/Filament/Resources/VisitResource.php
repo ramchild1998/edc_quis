@@ -853,14 +853,14 @@ class VisitResource extends Resource
                         return "{$record->area->id_area} => {$record->area->area_name}";
                     })
                     ->sortable()
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
                 Tables\Columns\TextColumn::make('location.lokasi')
                     ->label('Lokasi')
                     ->formatStateUsing(function ($record){
                         return "{$record->location->id_lokasi} => {$record->location->lokasi}";
                     })
                     ->sortable()
-                    ->sortable(),
+                    ->searchable(isIndividual: true),
                 Tables\Columns\TextColumn::make('location')
                     ->label('ID Lokasi')
                     ->formatStateUsing(function ($record){
@@ -908,7 +908,7 @@ class VisitResource extends Resource
 
                 Tables\Columns\TextColumn::make('mid')
                     ->label('MID')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tid')
                     ->label('TID')
@@ -1057,11 +1057,10 @@ class VisitResource extends Resource
                     ->formatStateUsing(function($state){
                         return Carbon::parse($state)->setTimezone('Asia/Jakarta')->format('H:i:s');
                     })
-                    ->searchable(isIndividual: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_surveyor')
                     ->label('Nama Surveyor')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('upline1')
                     ->label('Upline 1')
