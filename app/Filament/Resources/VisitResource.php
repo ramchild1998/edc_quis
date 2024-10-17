@@ -1032,34 +1032,19 @@ class VisitResource extends Resource
 
                 // FOTO
                 Tables\Columns\ImageColumn::make('foto_struk')
-                    ->label('Foto Struk Transaksi')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Foto Struk Transaksi'),
                 Tables\Columns\ImageColumn::make('foto_tampak_depan')
-                    ->label('Foto Tampak Depan (Plang Nama')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Foto Tampak Depan (Plang Nama'),
                 Tables\Columns\ImageColumn::make('foto_meja_kasir')
-                    ->label('Foto Meja Kasir (Terilihat EDC/QRIS')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Foto Meja Kasir (Terilihat EDC/QRIS'),
                 Tables\Columns\ImageColumn::make('foto_qris_statis')
-                    ->label('Foto QRIS Statis')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Foto QRIS Statis'),
                 Tables\Columns\ImageColumn::make('foto_selfie')
-                    ->label('Foto Selfie Dengan Pemilik Usaha/PIC Toko')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Foto Selfie Dengan Pemilik Usaha/PIC Toko'),
                 Tables\Columns\ImageColumn::make('foto_produk')
-                    ->label('Foto Produk di Merchant')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Foto Produk di Merchant'),
                 Tables\Columns\ImageColumn::make('screen_capture')
-                    ->label('Screen Capture Laporan ke Halo BCA')
-                    ->searchable()
-                    ->sortable(),
-
+                    ->label('Screen Capture Laporan ke Halo BCA'),
                 Tables\Columns\TextColumn::make('tanggal_submit')
                     ->label('Tanggal Submit')
                     ->searchable()
