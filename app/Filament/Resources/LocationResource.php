@@ -129,7 +129,7 @@ class LocationResource extends Resource
                 // Tables\Columns\TextColumn::make('id_lokasi')
                 //     ->label('ID Lokasi')
                 //     ->sortable(),
-                Tables\Columns\TextColumn::make('area')
+                Tables\Columns\TextColumn::make('area.id_area')
                     ->label('LOKASI ID')
                     ->formatStateUsing(function ($record){
                         $idLokasi = $record->id_lokasi;
