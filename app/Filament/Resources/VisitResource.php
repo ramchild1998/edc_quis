@@ -861,8 +861,8 @@ class VisitResource extends Resource
                     })
                     ->sortable()
                     ->searchable(isIndividual: true),
-                Tables\Columns\TextColumn::make('location')
-                    ->label('ID Lokasi')
+                Tables\Columns\TextColumn::make('area.id_area')
+                    ->label('Lokasi ID')
                     ->formatStateUsing(function ($record){
                         $idLokasi = $record->location->id_lokasi;
                         $idArea = $record->area->id_area;
