@@ -1113,6 +1113,7 @@ class VisitResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->visible(fn () => auth()->user()->hasRole('SUPERADMIN')),
             ])
+            ->paginated([5, 10, 25, 50, 100])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     // Tables\Actions\DeleteBulkAction::make(),
