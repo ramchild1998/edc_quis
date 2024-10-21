@@ -16,7 +16,8 @@ class ListVisits extends ListRecords
         return [
             Actions\CreateAction::make(),
 
-            ExportAction::make(),
+            ExportAction::make()
+                ->visible(fn () => auth()->user()->hasRole('SUPERADMIN') || auth()->user()->hasRole('ADMATS') || auth()->user()->hasRole('ADMBANK')),
         ];
     }
 }
