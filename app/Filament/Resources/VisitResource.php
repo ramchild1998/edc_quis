@@ -21,6 +21,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rule;
 
 
 class VisitResource extends Resource
@@ -238,6 +239,12 @@ class VisitResource extends Resource
                             return !$get('is_merchant');
                         })
                         ->label('MID')
+                        ->rules(function(callable $get, $livewire){
+                            $recordId = $livewire->getRecord()?->id;
+                            return [
+                                Rule::unique('visit', 'mid')->ignore($recordId)
+                            ];
+                        })
                         ->maxLength(9)
                         ->label('MID')
                         ->hint('9 Digit')
