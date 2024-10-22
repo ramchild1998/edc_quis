@@ -63,13 +63,20 @@ class ListVisits extends ListRecords
                             Column::make("keterangan_lain")->heading("Keterangan Lain"),
                             Column::make("nomor_referensi")->heading("Nomor Referensi Pengajuan Merchant Baru"),
 
-                            Column::make("foto_struk")->heading("Foto Struk Transaksi"),
-                            Column::make("foto_tampak_depan")->heading("Foto Tampak Depan"),
-                            Column::make("foto_meja_kasir")->heading("Foto Meja Kasir"),
-                            Column::make("foto_qris_statis")->heading("Foto QRIS Statis"),
-                            Column::make("foto_selfie")->heading("Foto Selfie Dengan Pemilik Usaha/PIC Toko"),
-                            Column::make("foto_produk")->heading("Foto Produk di Merchant"),
-                            Column::make("screen_capture")->heading("Screen Capture Laporan ke Halo BCA"),
+                            Column::make("foto_struk")->heading("Foto Struk Transaksi")
+                                ->formatStateUsing(fn ($record) => "http://147.79.74.76/storage" . $record->foto_struk),
+                            Column::make("foto_tampak_depan")->heading("Foto Tampak Depan")
+                                ->formatStateUsing(fn ($record) => "http://147.79.74.76/storage" . $record->foto_tampak_depan),
+                            Column::make("foto_meja_kasir")->heading("Foto Meja Kasir")
+                                ->formatStateUsing(fn ($record) => "http://147.79.74.76/storage" . $record->foto_meja_kasir),
+                            Column::make("foto_qris_statis")->heading("Foto QRIS Statis")
+                                ->formatStateUsing(fn ($record) => "http://147.79.74.76/storage" . $record->foto_qris_statis),
+                            Column::make("foto_selfie")->heading("Foto Selfie Dengan Pemilik Usaha/PIC Toko")
+                                ->formatStateUsing(fn ($record) => "http://147.79.74.76/storage" . $record->foto_selfie),
+                            Column::make("foto_produk")->heading("Foto Produk di Merchant")
+                                ->formatStateUsing(fn ($record) => "http://147.79.74.76/storage" . $record->foto_produk),
+                            Column::make("screen_capture")->heading("Screen Capture Laporan ke Halo BCA")
+                                ->formatStateUsing(fn ($record) => "http://147.79.74.76/storage" . $record->screen_capture),
                             Column::make("tanggal_submit")->heading("Tanggal Submit"),
                             Column::make("waktu_submit")->heading("Waktu Submit"),
                             Column::make("nama_surveyor")->heading("Nama Surveyor"),
