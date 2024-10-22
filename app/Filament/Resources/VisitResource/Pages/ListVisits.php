@@ -39,16 +39,21 @@ class ListVisits extends ListRecords
                             Column::make("nomor_sn")->heading("Nomor SN"),
                             Column::make("nama_pemilik")->heading("Nama Pemilik Usaha/Rekening"),
                             Column::make("no_kontak")->heading("Nomor Kontak Pemilik Usaha/PIC Toko"),
-                            Column::make("alamat_edc_sesuai")->heading("Alamat EDC Sesuai?"),
-                            Column::make("ada_edc_bca")->heading("Apakah Ada EDC BCA Atau Tidak?"),
+                            Column::make("alamat_edc_sesuai")->heading("Alamat EDC Sesuai?")
+                                ->formatStateUsing(fn ($state) => $state == 1 ? 'Yes' : 'No'),
+                            Column::make("ada_edc_bca")->heading("Apakah Ada EDC BCA Atau Tidak?")
+                                ->formatStateUsing(fn ($state) => $state == 1 ? 'Yes' : 'No'),
                             Column::make("jumlah_edc")->heading("Jumlah EDC"),
-                            Column::make("edc_bank_lain")->heading("EDC Bank Lain"),
+                            Column::make("edc_bank_lain")->heading("EDC Bank Lain")
+                                ->formatStateUsing(fn ($state) => $state == 1 ? 'Yes' : 'No'),
                             Column::make("list_edc_bank_lain")->heading("List EDC Bank Lain"),
                             Column::make("catatan_kunjungan_edc")->heading("Catatan Kunjungan - EDC Utama Yang Digunakan"),
-                            Column::make("qris_bca")->heading("QRIS BCA"),
+                            Column::make("qris_bca")->heading("QRIS BCA")
+                                ->formatStateUsing(fn ($state) => $state == 1 ? 'Yes' : 'No'),
                             Column::make("nmid")->heading("NMID"),
                             Column::make("list_qris_bank_lain")->heading("List QRIS Bank Lain"),
-                            Column::make("tes_transaksi")->heading("Berhasil Tes Transaksi"),
+                            Column::make("tes_transaksi")->heading("Berhasil Tes Transaksi")
+                                ->formatStateUsing(fn ($state) => $state == 1 ? 'Yes' : 'No'),
                             Column::make("catatan_kunjungan_program")->heading("Catatan Kunjungan - Program Bank Lain"),
                             Column::make("kendala")->heading("Kendala"),
                             Column::make("request")->heading("Request"),
@@ -59,7 +64,8 @@ class ListVisits extends ListRecords
                             Column::make("aplikasi_pendaftaran")->heading("Aplikasi Pendaftaran"),
                             Column::make("fdm_id")->heading("FDM ID"),
                             Column::make("alasan_tidak_bersedia")->heading("Alasan Tidak Bersedia"),
-                            Column::make("mempunyai_edc")->heading("Mempunyai EDC BCA Sebelumnya"),
+                            Column::make("mempunyai_edc")->heading("Mempunyai EDC BCA Sebelumnya")
+                                ->formatStateUsing(fn ($state) => $state == 1 ? 'Yes' : 'No'),
                             Column::make("keterangan_lain")->heading("Keterangan Lain"),
                             Column::make("nomor_referensi")->heading("Nomor Referensi Pengajuan Merchant Baru"),
 
