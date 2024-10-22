@@ -241,13 +241,18 @@ class VisitResource extends Resource
                             return !$get('is_merchant');
                         })
                         ->label('MID')
-                        ->rules([
-                            Rule::unique('visit', 'mid')
-                                ->where(function ($query) {
-                                    $query->whereYear('id_visit', now()->year)
-                                          ->whereMonth('id_visit', now()->month);
-                                })
-                        ])
+                        ->rules(function ($get, $livewire) {
+                            $recordId = optional($livewire->getRecord())->id; // Mendapatkan ID record yang sedang diedit atau null
+
+                            return [
+                                Rule::unique('visit', 'mid')
+                                    ->where(function ($query) {
+                                        $query->whereYear('id_visit', now()->year)
+                                              ->whereMonth('id_visit', now()->month);
+                                    })
+                                    ->ignore($recordId), // Abaikan record yang sedang diedit
+                            ];
+                        })
                         ->maxLength(9)
                         ->label('MID')
                         ->hint('9 Digit')
