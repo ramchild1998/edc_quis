@@ -34,15 +34,6 @@ class CreateVisit extends CreateRecord
         // $data['tanggal_submit'] = Carbon::now()->addMonth()->startOfMonth();
         $data['waktu_submit'] = Carbon::now()->format('H:i:s');
 
-        // Data MID tidak boleh sama, dan dalam 1 bulan data 1 record MID hanya boleh 1 kali, jika sudah ada maka tidak bisa ditambahkan
-        // $existingMID = Visit::where('mid', $data['mid'])
-        //     ->whereYear('tanggal_submit', Carbon::now()->year)
-        //     ->whereMonth('tanggal_submit', Carbon::now()->month)
-        //     ->exists();
-
-        // if ($existingMID) {
-        //     throw new \Exception('MID sudah ada dalam bulan ini. Tidak dapat menambahkan data baru.');
-        // }
 
         if(isset($data['keterangan_lokasi']) && $data['keterangan_lokasi'] === 'Lainnya'){
             $data['keterangan_lokasi'] = $data['keterangan_lokasi_lainnya'];

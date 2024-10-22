@@ -12,6 +12,10 @@ class Visit extends Model
 
     protected $table = 'visit';
 
+    protected $casts = [
+        'tags' => 'array',
+    ];
+
     protected $fillable = [
         'id_visit',
         'vendor_id',
