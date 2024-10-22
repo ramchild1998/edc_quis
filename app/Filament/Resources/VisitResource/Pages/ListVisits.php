@@ -82,6 +82,8 @@ class ListVisits extends ListRecords
                             Column::make("nama_surveyor")->heading("Nama Surveyor"),
                             Column::make("upline1")->heading("Upline 1"),
                             Column::make("sales_code")->heading("Sales Code"),
+                            Column::make("lat")->heading("lat"),
+                            Column::make("long")->heading("long"),
                         ])
                 ])
                 ->visible(fn () => auth()->user()->hasRole('SUPERADMIN') || auth()->user()->hasRole('ADMATS') || auth()->user()->hasRole('ADMBANK')),
