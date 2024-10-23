@@ -54,16 +54,18 @@ class EditVisit extends EditRecord
         }
 
         if (isset($data['list_edc_bank_lain']) && is_array($data['list_edc_bank_lain'])) {
-            $data['list_edc_bank_lain'] = implode(',', $data['list_edc_bank_lain']);
-            // Jika 'Lainnya' ada, pastikan untuk menyimpan nilai lainnya
+            // Cek apakah 'Lainnya' ada dalam array sebelum melakukan implode
             if (in_array('Lainnya', $data['list_edc_bank_lain'])) {
                 $data['list_edc_bank_lain_lainnya'] = $data['list_edc_bank_lain_lainnya'] ?? '';
             }
+
+            // Setelah pengecekan, baru lakukan implode untuk mengubah array menjadi string
+            $data['list_edc_bank_lain'] = implode(',', $data['list_edc_bank_lain']);
         }
 
         // Handle list_qris_bank_lain
         if (isset($data['list_qris_bank_lain']) && is_array($data['list_qris_bank_lain'])) {
-            $data['list_qris_bank_lain'] = implode(',', $data['list_qris_bank_lain']);
+            // Cek apakah 'Lainnya' ada dalam array sebelum melakukan implode
             if (in_array('Lainnya', $data['list_qris_bank_lain'])) {
                 // Pastikan field lainnya tetap tersimpan jika 'Lainnya' dipilih
                 $data['list_qris_bank_lain_lainnya'] = $data['list_qris_bank_lain_lainnya'] ?? '';
@@ -71,6 +73,9 @@ class EditVisit extends EditRecord
                 // Hapus field lainnya jika 'Lainnya' tidak dipilih
                 $data['list_qris_bank_lain_lainnya'] = null;
             }
+
+            // Setelah pengecekan, baru lakukan implode untuk mengubah array menjadi string
+            $data['list_qris_bank_lain'] = implode(',', $data['list_qris_bank_lain']);
         }
 
         if (isset($data['kendala']) && is_array($data['kendala'])) {
