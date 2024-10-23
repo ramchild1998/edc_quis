@@ -19,11 +19,20 @@ class EditVisit extends EditRecord
         }
 
         if (isset($data['list_edc_bank_lain']) && is_string($data['list_edc_bank_lain'])) {
-            $data['list_edc_bank_lain'] = explode(',', $data['list_edc_bank_lain']); // Konversi string menjadi array
+            $data['list_edc_bank_lain'] = explode(',', $data['list_edc_bank_lain']);
+            // Cek apakah 'Lainnya' ada dalam list_edc_bank_lain
+            if (in_array('Lainnya', $data['list_edc_bank_lain'])) {
+                $data['list_edc_bank_lain_lainnya'] = $data['list_edc_bank_lain_lainnya'] ?? '';
+            }
         }
 
+        // Handle list_qris_bank_lain
         if (isset($data['list_qris_bank_lain']) && is_string($data['list_qris_bank_lain'])) {
-            $data['list_qris_bank_lain'] = explode(',', $data['list_qris_bank_lain']); // Konversi string menjadi array
+            $data['list_qris_bank_lain'] = explode(',', $data['list_qris_bank_lain']);
+            if (in_array('Lainnya', $data['list_qris_bank_lain'])) {
+                // Jika 'Lainnya' dipilih, pastikan field lainnya diisi sesuai value dari database
+                $data['list_qris_bank_lain_lainnya'] = $data['list_qris_bank_lain_lainnya'] ?? '';
+            }
         }
 
         if (isset($data['kendala']) && is_string($data['kendala'])) {
@@ -45,11 +54,23 @@ class EditVisit extends EditRecord
         }
 
         if (isset($data['list_edc_bank_lain']) && is_array($data['list_edc_bank_lain'])) {
-            $data['list_edc_bank_lain'] = implode(',', $data['list_edc_bank_lain']); // Konversi array menjadi string
+            $data['list_edc_bank_lain'] = implode(',', $data['list_edc_bank_lain']);
+            // Jika 'Lainnya' ada, pastikan untuk menyimpan nilai lainnya
+            if (in_array('Lainnya', $data['list_edc_bank_lain'])) {
+                $data['list_edc_bank_lain_lainnya'] = $data['list_edc_bank_lain_lainnya'] ?? '';
+            }
         }
 
+        // Handle list_qris_bank_lain
         if (isset($data['list_qris_bank_lain']) && is_array($data['list_qris_bank_lain'])) {
-            $data['list_qris_bank_lain'] = implode(',', $data['list_qris_bank_lain']); // Konversi array menjadi string
+            $data['list_qris_bank_lain'] = implode(',', $data['list_qris_bank_lain']);
+            if (in_array('Lainnya', $data['list_qris_bank_lain'])) {
+                // Pastikan field lainnya tetap tersimpan jika 'Lainnya' dipilih
+                $data['list_qris_bank_lain_lainnya'] = $data['list_qris_bank_lain_lainnya'] ?? '';
+            } else {
+                // Hapus field lainnya jika 'Lainnya' tidak dipilih
+                $data['list_qris_bank_lain_lainnya'] = null;
+            }
         }
 
         if (isset($data['kendala']) && is_array($data['kendala'])) {

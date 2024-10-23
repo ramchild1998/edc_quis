@@ -506,7 +506,6 @@ class VisitResource extends Resource
                             ->disabled(function($get){
                                 return !$get('is_merchant');
                             })
-                            ->reactive()
                             ->options([
                                 'Mandiri' => 'Mandiri',
                                 'BRI' => 'BRI',
@@ -518,7 +517,13 @@ class VisitResource extends Resource
                                 'Lainnya' => 'Lainnya',
                             ])
                             ->label('List Qris Bank Lain')
-                            ->columnSpanFull(),
+                            ->reactive()
+                            ->columnSpanFull()
+                            ->afterStateUpdated(function (callable $set, $get, $state) {
+                                if (!in_array('Lainnya', $state ?? [])) {
+                                    $set('list_qris_bank_lain_lainnya', null);
+                                }
+                            }),
                         Forms\Components\TextInput::make('list_qris_bank_lain_lainnya')
                             ->label('List Qris Bank Lain (Lainnya)')
                             ->maxLength(50)
