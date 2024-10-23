@@ -13,6 +13,7 @@
         "psr/simple-cache": "^3.0",
         "pxlrbt/filament-excel": "^2.3",
         "rmsramos/activitylog": "^1.0",
+        "rupadana/filament-api-service": "^3.3",
         "spatie/laravel-permission": "^6.9",
         "stephenjude/filament-debugger": "^3.1"
     },
