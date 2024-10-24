@@ -27,17 +27,27 @@ class EditVisit extends EditRecord
             $data['keterangan_lokasi'] = implode(',', array_unique($tempArr));
         }
 
+        if (isset($data['keterangan_lokasi']) && is_string($data['keterangan_lokasi'])) {
+            $tempArr = explode(',', $data['keterangan_lokasi']);
+            $knownlocations = ['Pertokoan', 'Ruko', 'Pasar', 'Stand Alone'];
+            $otherValues = array_diff($tempArr, $knownlocations);
+
+            if (!empty($otherValues)) {
+                $data['keterangan_lokasi_lainnya'] = implode(', ', $otherValues);
+                $data['keterangan_lokasi'] = 'Lainnya';
+            }
+        }
+
         if (isset($data['catatan_kunjungan_edc']) && is_string($data['catatan_kunjungan_edc'])) {
             $tempArr = explode(',', $data['catatan_kunjungan_edc']);
             $knownBanks = ['Mandiri', 'BRI', 'BNI', 'BTN', 'Shopee', 'MTI', 'PVS'];
             $otherValues = array_diff($tempArr, $knownBanks);
 
             if (!empty($otherValues)) {
-                $data['utama_lainnya'] = implode(', ', $otherValues); // Isi utama_lainnya dengan nilai yang tidak termasuk dalam opsi
+                $data['utama_lainnya'] = implode(', ', $otherValues);
                 $data['catatan_kunjungan_edc'] = 'Lainnya';
             }
         }
-        // dd($data);
 
         $knownBanks = ['Mandiri', 'BRI', 'BNI', 'BTN', 'Shopee', 'MTI', 'PVS'];
         if (isset($data['list_edc_bank_lain']) && is_string($data['list_edc_bank_lain'])) {
