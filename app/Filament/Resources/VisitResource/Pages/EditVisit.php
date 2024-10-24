@@ -18,6 +18,27 @@ class EditVisit extends EditRecord
             $data['tid'] = explode(',', $data['tid']); // Konversi string menjadi array dengan pemisah koma
         }
 
+        if (isset($data['keterangan_lokasi']) && is_string($data['keterangan_lokasi'])) {
+            $tempArr = explode(',', $data['keterangan_lokasi']);
+            $key = array_search('Lainnya', $tempArr);
+            if ($key !== false) {
+                $tempArr[$key] = $data['keterangan_lokasi_lainnya'];
+            }
+            $data['keterangan_lokasi'] = implode(',', array_unique($tempArr));
+        }
+
+        if (isset($data['catatan_kunjungan_edc']) && is_string($data['catatan_kunjungan_edc'])) {
+            $tempArr = explode(',', $data['catatan_kunjungan_edc']);
+            $knownBanks = ['Mandiri', 'BRI', 'BNI', 'BTN', 'Shopee', 'MTI', 'PVS'];
+            $otherValues = array_diff($tempArr, $knownBanks);
+
+            if (!empty($otherValues)) {
+                $data['utama_lainnya'] = implode(', ', $otherValues); // Isi utama_lainnya dengan nilai yang tidak termasuk dalam opsi
+                $data['catatan_kunjungan_edc'] = 'Lainnya';
+            }
+        }
+        // dd($data);
+
         $knownBanks = ['Mandiri', 'BRI', 'BNI', 'BTN', 'Shopee', 'MTI', 'PVS'];
         if (isset($data['list_edc_bank_lain']) && is_string($data['list_edc_bank_lain'])) {
             $data['list_edc_bank_lain'] = explode(',', $data['list_edc_bank_lain']);
@@ -82,6 +103,14 @@ class EditVisit extends EditRecord
     {
         if (isset($data['tid']) && is_array($data['tid'])) {
             $data['tid'] = implode(',', $data['tid']);
+        }
+
+        if(isset($data['keterangan_lokasi']) && $data['keterangan_lokasi'] === 'Lainnya'){
+            $data['keterangan_lokasi'] = $data['keterangan_lokasi_lainnya'];
+        }
+
+        if(isset($data['catatan_kunjungan_edc']) && $data['catatan_kunjungan_edc'] === 'Lainnya'){
+            $data['catatan_kunjungan_edc'] = $data['utama_lainnya'];
         }
 
         if (isset($data['list_edc_bank_lain']) && is_array($data['list_edc_bank_lain'])) {
